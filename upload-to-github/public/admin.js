@@ -51,6 +51,8 @@ function renderLobby() {
   for (let i = S.players.length; i < Math.max(4, Math.min(8, S.players.length + 1)); i++) slots.push(`<div class="empty-slot">waiting for a friend…</div>`);
   $('#lobbyPlayers').innerHTML = slots.join('');
   $('#jackpot').checked = S.settings.jackpot;
+  $('#themePick').innerHTML = Object.values(window.BOARD.THEMES).map((t) => `<button data-theme="${t.id}" class="${t.id === S.settings.theme ? 'sel' : ''}">
+      <span class="ti">${t.icon}</span><span><b>${t.title}</b><small>${esc(t.tagline)}</small></span></button>`).join('');
   $('#startBtn').disabled = S.players.length < 2;
   $('#startHint').textContent = S.players.length < 2 ? 'Waiting for at least 2 players…' : `${S.players.length} players ready — let's go!`;
 }
@@ -58,10 +60,14 @@ $('#lobbyPlayers').addEventListener('click', (e) => {
   const id = e.target.dataset.kick;
   if (id) adminDo('kick', { playerId: id });
 });
-$('#jackpot').onchange = (e) => adminDo('settings', { settings: { jackpot: e.target.checked } });
-$('#startBtn').onclick = () => { sfx([523, 659, 784, 1046], 0.12); adminDo('start', { settings: { jackpot: $('#jackpot').checked } }); };
-$('#newBtn').onclick = () => { if (confirm('Start a brand new game? Everyone will need to scan again.')) { localStorage.removeItem('gk_admin'); createGame(); } };
-$('#againBtn').onclick = () => { localStorage.removeItem('gk_admin'); $('#over').classList.add('hidden'); createGame(); };
+$('#themePick').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-theme]');
+  if (b) { sfx([660, 990], 0.08); adminDo('settings', { settings: { jackpot: $('#jackpot').checked, theme: b.dataset.theme } }); }
+});
+$('#jackpot').onchange = (e) => adminDo('settings', { settings: { jackpot: e.target.checked, theme: S.settings.theme } });
+$('#startBtn').onclick = () => { sfx([523, 659, 784, 1046], 0.12); adminDo('start', { settings: { jackpot: $('#jackpot').checked, theme: S.settings.theme } }); };
+$('#newBtn').onclick = () => askConfirm('Start a brand new game with a new code? Everyone will need to scan again.', 'Yes, new game', () => { localStorage.removeItem('gk_admin'); createGame(); });
+$('#againBtn').onclick = () => { $('#over').classList.add('hidden'); adminDo('reset'); };
 
 // ---------- board ----------
 function cellOf(i) {
@@ -74,6 +80,7 @@ function sideOf(i) { return i < 10 ? 'b' : i < 20 ? 'l' : i < 30 ? 't' : 'r'; }
 
 function buildBoard() {
   const board = $('#board');
+  board.querySelectorAll('.tile').forEach((t) => t.remove());
   SPACES.forEach((sp, i) => {
     const t = document.createElement('div');
     const [r, c] = cellOf(i);
@@ -89,6 +96,17 @@ function buildBoard() {
   });
 }
 buildBoard();
+
+// Dress the screen in the chosen theme (names, flags, wording, decorations).
+function applyTheme() {
+  if (!useTheme(S.settings.theme) && document.title.startsWith(TH.title)) return;
+  buildBoard();
+  document.title = `${TH.title} — Big Screen`;
+  $('#lobbyLogo').textContent = TH.title; $('#lobbyTag').textContent = TH.tagline;
+  $('#boardLogo').textContent = TH.title; $('#boardTag').textContent = TH.boardTag;
+  document.querySelectorAll('[data-d]').forEach((el) => { el.textContent = TH.deco[el.dataset.d]; });
+  $('#jackpotLabel').innerHTML = `${TH.parkingIco} <b>${TH.parkingName} jackpot</b> <span class="muted">(house rule — taxes & fines go to ${TH.parkingName}; land there to win them!)</span>`;
+}
 
 function tokenXY(pos, idx, count, inJail) {
   const t = $('#t' + pos);
@@ -173,7 +191,7 @@ $('#popup').onclick = () => $('#popup').classList.add('hidden');
 function stepText(cur) {
   const name = `${esc(cur.name)}`;
   switch (S.step) {
-    case 'roll': return cur.inJail ? `${name} is in the Minotaur's Maze 🐂 — pay ${eur(50)}, use a card, or try for doubles!` : `Roll the dice on your phone! 🎲`;
+    case 'roll': return cur.inJail ? `${name} is stuck in ${esc(TH.jail)} ${TH.jailIco} — pay ${eur(50)}, use a card, or try for doubles!` : `Roll the dice on your phone! 🎲`;
     case 'buy': { const sp = SPACES[S.pendingBuy]; return `Buy <b>${esc(sp.name)}</b> for ${eur(sp.price)}? 🤔`; }
     case 'auction': return 'Auction! Everyone bids on their phone 🔨';
     case 'debt': { const d = S.debts[0]; const p = S.players.find((x) => x.id === d.from); return `${p.emoji} ${esc(p.name)} needs ${eur(d.amount)} — sell houses or mortgage places! 😟`; }
@@ -202,7 +220,7 @@ function renderPlayers() {
     const debt = S.debts.find((d) => d.from === p.id);
     return `<div class="pl ${i === S.turn && S.phase === 'playing' ? 'cur' : ''} ${p.bankrupt ? 'out' : ''}">
       <div class="e" style="border-color:${p.color}">${p.emoji}</div>
-      <div class="grow" style="min-width:0"><div class="n">${esc(p.name)} ${p.inJail ? '🔒' : ''} ${p.jailCards.length ? '🧵'.repeat(p.jailCards.length) : ''} ${p.connected ? '' : '📵'}</div>
+      <div class="grow" style="min-width:0"><div class="n">${esc(p.name)} ${p.inJail ? '🔒' : ''} ${TH.escapeIco.repeat(p.jailCards.length)} ${p.connected ? '' : '📵'}</div>
         <div class="sw">${props.map((pos) => `<span title="${esc(SPACES[pos].name)}" style="background:${spaceColor(pos)};${S.mortgaged[pos] ? 'opacity:.35' : ''}"></span>`).join('')}</div></div>
       <div class="cash money">${p.bankrupt ? 'out' : eur(p.cash)}${debt ? `<div style="color:var(--red);font-size:.85rem">owes ${eur(debt.amount)}</div>` : ''}</div></div>`;
   }).join('');
@@ -230,7 +248,15 @@ function render(state) {
   if (!state || state.code !== code) return;
   const prev = S;
   S = state;
-  if (S.phase === 'lobby') return renderLobby();
+  applyTheme();
+  if (S.phase === 'lobby') {
+    // Fresh start (also after "Home screen"): forget the old game's animations.
+    for (const k of Object.keys(shown.pos)) delete shown.pos[k];
+    shown.owners = {}; shown.over = false; shown.cardSeq = S.card ? S.card.seq : 0;
+    $('#over').classList.add('hidden');
+    $('#tokens').innerHTML = '';
+    return renderLobby();
+  }
   $('#lobby').classList.add('hidden');
   $('#game').classList.remove('hidden');
   $('#qrSmall').src = qrSrc();
@@ -251,7 +277,7 @@ function render(state) {
   $('#log').innerHTML = S.log.slice().reverse().map((l) => `<div>${esc(l)}</div>`).join('');
   $('#bank').textContent = `Bank: 🏠 ${S.housesLeft} houses · 🏨 ${S.hotelsLeft} hotels`;
   $('#potBox').classList.toggle('hidden', !S.settings.jackpot);
-  $('#potBox').textContent = `🏖️ Beach Day jackpot: ${eur(S.pot)}`;
+  $('#potBox').textContent = `${TH.parkingIco} ${TH.parkingName} jackpot: ${eur(S.pot)}`;
   $('#endAuctionBtn').classList.toggle('hidden', !S.auction);
 
   // New card drawn
@@ -284,5 +310,5 @@ function render(state) {
 window.addEventListener('resize', () => S && S.phase !== 'lobby' && placeTokens());
 $('#fsBtn').onclick = () => (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen());
 $('#soundBtn').onclick = (e) => { soundOn = !soundOn; e.target.textContent = soundOn ? '🔊 Sound on' : '🔇 Sound off'; };
-$('#endAuctionBtn').onclick = () => confirm('Close the auction now? The top bidder wins (or the bank keeps it if nobody bid).') && adminDo('endAuction');
-$('#endGameBtn').onclick = () => confirm('Finish the game now? The richest player (money + places + houses) wins!') && adminDo('endGame');
+$('#endAuctionBtn').onclick = () => askConfirm('Close the auction now? The top bidder wins (or the bank keeps it if nobody bid).', 'Close auction', () => adminDo('endAuction'));
+$('#endGameBtn').onclick = () => askConfirm('Finish the game now? The richest player (money + places + houses) wins!', '🏁 Finish game', () => adminDo('endGame'));

@@ -43,7 +43,15 @@ function show(id) {
   for (const s of ['joinScreen', 'waitScreen', 'gameScreen']) $('#' + s).classList.toggle('hidden', s !== id);
 }
 
+function themeUI() {
+  if (S) useTheme(S.settings.theme);
+  document.title = `${TH.title} — Player`;
+  document.querySelectorAll('h1.logo').forEach((h) => { h.textContent = TH.title; });
+  $('#joinTag').textContent = TH.tagline;
+}
+
 function showJoin() {
+  themeUI();
   show('joinScreen');
   $('#codeBox').classList.toggle('hidden', !!code && !!S);
   if (code) $('#codeIn').value = code;
@@ -75,7 +83,10 @@ $('#codeIn').addEventListener('change', () => {
 
 // ---------- main render ----------
 function render(state) {
+  const prevPhase = S && S.phase;
   S = state;
+  themeUI();
+  if (S.phase === 'lobby' && prevPhase && prevPhase !== 'lobby') { draft = freshDraft(); setTab('Play'); $('#modal').classList.add('hidden'); }
   const m = meP();
   if (!m) { store.set('gk_p_' + code, ''); me = null; S = state; showJoin(); return; }
   if (S.phase === 'lobby') {
@@ -130,7 +141,7 @@ function offerHTML(t) {
   const list = (props, cash, cards) => {
     const items = props.map((pos) => `<li>${SPACES[pos].emoji} ${esc(SPACES[pos].name)}${S.mortgaged[pos] ? ' 💤' : ''}</li>`);
     if (cash) items.push(`<li class="money">${eur(cash)}</li>`);
-    if (cards) items.push(`<li>🧵 ${cards} escape card${cards > 1 ? 's' : ''}</li>`);
+    if (cards) items.push(`<li>${TH.escapeIco} ${cards} ${TH.escapeName}${cards > 1 ? 's' : ''}</li>`);
     return items.length ? `<ul>${items.join('')}</ul>` : '<div class="muted">nothing</div>';
   };
   const mine = t.to === me;
@@ -212,12 +223,12 @@ function waitingHTML(emoji, text) {
 function myTurnHTML(m) {
   if (S.step === 'roll') {
     if (m.inJail) {
-      return `<div class="panel stack center"><div style="font-size:3rem">🐂</div>
-        <div style="font-size:1.25rem;font-weight:600">You're lost in the Minotaur's Maze!</div>
+      return `<div class="panel stack center"><div style="font-size:3rem">${TH.jailIco}</div>
+        <div style="font-size:1.25rem;font-weight:600">You're stuck in ${esc(TH.jail)}!</div>
         <div class="muted">Try ${m.jailTurns + 1} of 3. Roll doubles to escape for free!</div>
         <button class="btn-pink huge" data-act="roll">🎲 Try for doubles!</button>
-        <button class="btn-gold big" data-act="payJail" ${m.cash < 50 ? 'disabled' : ''}>Pay €50 to get out</button>
-        ${m.jailCards.length ? `<button class="btn-purple big" data-act="useCard">🧵 Use my escape card</button>` : ''}</div>`;
+        <button class="btn-gold big" data-act="payJail" ${m.cash < 50 ? 'disabled' : ''}>Pay ${eur(50)} to get out</button>
+        ${m.jailCards.length ? `<button class="btn-purple big" data-act="useCard">${TH.escapeIco} Use my ${TH.escapeName}</button>` : ''}</div>`;
     }
     return `<div class="stack"><button class="btn-pink huge" data-act="roll" style="padding:38px 20px;font-size:2.4rem">🎲 Roll the dice!</button>
       ${S.canRollAgain ? '<div class="center" style="font-weight:600">You rolled doubles — roll again! 🎉</div>' : ''}</div>`;
@@ -259,20 +270,20 @@ function renderMine() {
   if (!mine.length) {
     el.innerHTML = `<div class="panel center"><div style="font-size:3rem">🏝️</div><h3>No places yet!</h3>
       <p class="muted">Land on a place nobody owns and buy it. Own <b>all</b> places of one colour to build houses! 🏠</p>
-      ${m.jailCards.length ? `<p>🧵 You have ${m.jailCards.length} escape card(s).</p>` : ''}</div>`;
+      ${m.jailCards.length ? `<p>${TH.escapeIco} You have ${m.jailCards.length} ${TH.escapeName}(s).</p>` : ''}</div>`;
     return;
   }
   const order = [...Object.keys(GROUPS), 'rail', 'util'];
   const groups = {};
   for (const pos of mine) { const k = SPACES[pos].group || SPACES[pos].type; (groups[k] = groups[k] || []).push(pos); }
   let html = `<div class="hint" style="margin-bottom:10px">💡 Own every place of one colour to build houses. 🏠 Build evenly!</div>`;
-  if (m.jailCards.length) html += `<div class="panel" style="margin-bottom:12px">🧵 You have <b>${m.jailCards.length}</b> Maze escape card${m.jailCards.length > 1 ? 's' : ''}.</div>`;
+  if (m.jailCards.length) html += `<div class="panel" style="margin-bottom:12px">${TH.escapeIco} You have <b>${m.jailCards.length}</b> ${TH.escapeName}${m.jailCards.length > 1 ? 's' : ''}.</div>`;
   for (const k of order) {
     if (!groups[k]) continue;
     const isGroup = !!GROUPS[k];
     const total = isGroup ? groupOf(k).length : k === 'rail' ? 4 : 2;
     const full = isGroup && groupOf(k).every((i) => S.owners[i] === me);
-    const title = isGroup ? GROUPS[k].name : k === 'rail' ? 'Ferries' : 'Magic Powers';
+    const title = isGroup ? GROUPS[k].name : k === 'rail' ? TH.rails : TH.utils;
     const color = isGroup ? GROUPS[k].color : spaceColor(groups[k][0]);
     html += `<div class="grp"><div class="grp-h"><i style="background:${color}"></i>${title} <span class="muted">(${groups[k].length}/${total})</span>${full ? ' <span class="chip">⭐ full set!</span>' : ''}</div>`;
     for (const pos of groups[k]) html += propHTML(pos, m, full);
@@ -347,10 +358,10 @@ function renderTrade() {
   if (them) {
     html += `<div><div class="label">🎁 I give</div><div class="tchips">${chips(myProps(), 'giveProps')}</div>
         <div style="margin-top:8px">${stepper('giveCash')}</div>
-        ${m.jailCards.length ? `<label style="display:block;margin-top:6px"><input type="checkbox" data-card="giveCards" ${draft.giveCards ? 'checked' : ''}> 🧵 my escape card</label>` : ''}</div>
+        ${m.jailCards.length ? `<label style="display:block;margin-top:6px"><input type="checkbox" data-card="giveCards" ${draft.giveCards ? 'checked' : ''}> ${TH.escapeIco} my ${TH.escapeName}</label>` : ''}</div>
       <div><div class="label">💝 I get from ${them.emoji} ${esc(them.name)}</div><div class="tchips">${chips(myProps(them.id), 'getProps')}</div>
         <div style="margin-top:8px">${stepper('getCash')}</div>
-        ${them.jailCards.length ? `<label style="display:block;margin-top:6px"><input type="checkbox" data-card="getCards" ${draft.getCards ? 'checked' : ''}> 🧵 their escape card</label>` : ''}</div>
+        ${them.jailCards.length ? `<label style="display:block;margin-top:6px"><input type="checkbox" data-card="getCards" ${draft.getCards ? 'checked' : ''}> ${TH.escapeIco} their ${TH.escapeName}</label>` : ''}</div>
       <div class="hint">Places with houses can't be traded — sell the houses first. Getting a 💤 mortgaged place costs 10% interest.</div>
       <button class="btn-pink huge" data-send>Send offer 💌</button>`;
   }

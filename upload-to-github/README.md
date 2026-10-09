@@ -1,6 +1,6 @@
-# Greekopoly 🏛️🌊
+# Greekopoly & Worldopoly 🏛️🌍
 
-A Monopoly-style board game set in Greece. One big screen shows the board; each player uses their phone or tablet as a controller (scan the QR code).
+A Monopoly-style board game with two themes: Greece (Greekopoly) and countries of the world (Worldopoly). Pick the theme in the lobby. One big screen shows the board; each player uses their phone or tablet as a controller (scan the QR code).
 
 ## Play
 1. Open the site on the big screen (TV / laptop). A game is created with a QR code.

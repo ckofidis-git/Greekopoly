@@ -24,6 +24,12 @@
   .lp .n { font-size: 1.35rem; font-weight: 600; }
   .lp .x { position: absolute; top: 6px; right: 6px; padding: 2px 9px; font-size: .9rem; box-shadow: none; background: #ffe1e7; color: #c0163a; }
   .empty-slot { border: 3px dashed #cfc4f5; border-radius: var(--radius); display: grid; place-items: center; color: var(--ink-soft); min-height: 150px; font-size: 1.1rem; }
+  .themes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .themes button { display: flex; align-items: center; gap: 12px; text-align: left; padding: 14px; border: 4px solid transparent; border-radius: 20px; }
+  .themes button.sel { border-color: var(--pink); background: #fff0f7; }
+  .themes .ti { font-size: 2.6rem; }
+  .themes b { font-size: 1.35rem; display: block; }
+  .themes small { color: var(--ink-soft); font-size: .9rem; }
   .toggle { display: flex; gap: 12px; align-items: center; font-size: 1.1rem; cursor: pointer; }
   .toggle input { width: 26px; height: 26px; accent-color: var(--pink); }
 
@@ -118,11 +124,13 @@
     <div class="url muted" id="url"></div>
   </div>
   <div>
-    <div class="logo">Greekopoly</div>
-    <div style="font-size:1.5rem;margin-top:6px">A sunny Monopoly adventure around Greece 🇬🇷 🌊 🏛️</div>
+    <div class="logo" id="lobbyLogo">Greekopoly</div>
+    <div style="font-size:1.5rem;margin-top:6px" id="lobbyTag"></div>
     <div class="lobby-players" id="lobbyPlayers"></div>
     <div class="panel" style="display:flex;flex-direction:column;gap:14px">
-      <label class="toggle"><input type="checkbox" id="jackpot"> <span>🏖️ <b>Beach Day jackpot</b> <span class="muted">(house rule — taxes & fines go to Beach Day; land there to win them!)</span></span></label>
+      <div style="font-weight:700;font-size:1.2rem">🎨 Choose a theme</div>
+      <div class="themes" id="themePick"></div>
+      <label class="toggle"><input type="checkbox" id="jackpot"> <span id="jackpotLabel"></span></label>
       <div class="row wrap">
         <button class="btn-pink huge" id="startBtn" style="width:auto;flex:1">✨ Start the game!</button>
         <button class="btn-soft" id="newBtn">🔄 New game</button>
@@ -135,15 +143,15 @@
 <div id="game" class="hidden">
   <div id="boardWrap"><div id="board">
     <div id="center">
-      <div class="sun">☀️</div><div class="boat">⛵</div>
-      <div class="deco" style="left:6%;bottom:9%;font-size:6cqw">🏝️</div>
-      <div class="deco jump" style="left:30%;bottom:20%">🐬</div>
-      <div class="deco jump" style="right:24%;bottom:12%;animation-delay:1.3s">🐬</div>
-      <div class="deco" style="right:6%;bottom:6%;font-size:6.5cqw">🏛️</div>
-      <div class="deco" style="left:7%;top:5%;font-size:4cqw;animation:float 6s ease-in-out infinite">☁️</div>
+      <div class="sun">☀️</div><div class="boat" data-d="0">⛵</div>
+      <div class="deco" data-d="1" style="left:6%;bottom:9%;font-size:6cqw">🏝️</div>
+      <div class="deco jump" data-d="2" style="left:30%;bottom:20%">🐬</div>
+      <div class="deco jump" data-d="3" style="right:24%;bottom:12%;animation-delay:1.3s">🐬</div>
+      <div class="deco" data-d="4" style="right:6%;bottom:6%;font-size:6.5cqw">🏛️</div>
+      <div class="deco" data-d="5" style="left:7%;top:5%;font-size:4cqw;animation:float 6s ease-in-out infinite">☁️</div>
       <div id="bank" class="chip" style="position:absolute;left:2cqw;bottom:2cqw;font-size:1.5cqw;background:rgba(255,255,255,.85)"></div>
-      <div class="logo">Greekopoly</div>
-      <div class="tag">🌸 Buy islands, build little white houses, become Queen of Greece! 🌸</div>
+      <div class="logo" id="boardLogo">Greekopoly</div>
+      <div class="tag" id="boardTag"></div>
       <div class="dice-row" id="dice"></div>
       <div id="turnBox"><div class="who" id="who"></div><div class="what" id="what"></div><div class="last" id="last"></div></div>
       <div id="auctionBox" class="auction hidden"></div>
@@ -172,7 +180,8 @@
 <div id="over" class="overlay hidden"><div class="panel">
   <div style="font-size:4rem">👑</div><div class="logo" style="font-size:2.6rem">Game over!</div>
   <div id="ranking"></div>
-  <button class="btn-pink big" id="againBtn">🌸 Play again</button>
+  <div class="muted" style="margin:6px 0 12px">Everyone stays joined — pick a theme and play again!</div>
+  <button class="btn-pink big" id="againBtn">🏠 Home screen</button>
 </div></div>
 
 <script src="/socket.io/socket.io.js"></script>

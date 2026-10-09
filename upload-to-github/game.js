@@ -1,6 +1,6 @@
 // Game rules engine. All state lives here; clients only send intents.
 const B = require('./shared/board');
-const { SPACES, CHANCE, CHEST, TOKENS, GROUPS } = B;
+const { SPACES, CHANCE, CHEST, TOKENS } = B;
 
 const shuffle = (arr, rng) => {
   const a = arr.slice();
@@ -41,7 +41,8 @@ class Game {
     this.card = null;
     this.cardSeq = 0;
     this.pot = 0;
-    this.settings = { jackpot: false };
+    this.settings = { jackpot: false, theme: 'greece' };
+    this.setTheme('greece');
     this.log = [];
     this.ranking = null;
     this.decks = { chance: shuffle([...CHANCE.keys()], rng), chest: shuffle([...CHEST.keys()], rng) };
@@ -57,6 +58,13 @@ class Game {
   ownsGroup(pid, g) { return groupOf(g).every((i) => this.owners[i] === pid); }
   groupHasBuildings(g) { return groupOf(g).some((i) => (this.houses[i] || 0) > 0); }
   rand6() { return 1 + Math.floor(this.rng() * 6); }
+
+  setTheme(id) {
+    if (this.phase !== 'lobby' || !B.THEMES[id]) return;
+    const t = B.themed(id);
+    this.settings.theme = id;
+    this.T = t.T; this.S = t.SPACES; this.G = t.GROUPS; this.CH = t.CHANCE; this.CC = t.CHEST;
+  }
 
   // ---------- lobby ----------
   join(id, name, tokenId) {
@@ -79,6 +87,7 @@ class Game {
     if (this.phase !== 'lobby') return 'Already started.';
     if (this.players.length < 2) return 'You need at least 2 players.';
     this.settings.jackpot = !!settings.jackpot;
+    if (settings.theme) this.setTheme(settings.theme);
     this.players = shuffle(this.players, this.rng);
     this.phase = 'playing';
     this.turn = 0;
@@ -143,24 +152,24 @@ class Game {
     if (p.inJail) {
       if (dbl) {
         p.inJail = false; p.jailTurns = 0; this.canRollAgain = false;
-        this.say(`🧵 ${this.nm(p)} rolled doubles and escaped the Maze!`);
+        this.say(`${this.T.escapeIco} ${this.nm(p)} rolled doubles and escaped ${this.T.jailShort}!`);
         this.move(p, sum);
       } else {
         p.jailTurns++;
         if (p.jailTurns >= 3) {
-          this.say(`🐂 Third try in the Maze — ${this.nm(p)} pays €${B.JAIL_FINE} and walks out.`);
+          this.say(`${this.T.jailIco} Third try in ${this.T.jailShort} — ${this.nm(p)} pays ${this.T.cur}${B.JAIL_FINE} and walks out.`);
           p.inJail = false; p.jailTurns = 0; this.canRollAgain = false;
-          this.pay(p, null, B.JAIL_FINE, 'the Maze fine');
+          this.pay(p, null, B.JAIL_FINE, 'the jail fine');
           this.move(p, sum);
         } else {
-          this.say(`🐂 Still lost in the Maze (try ${p.jailTurns} of 3).`);
+          this.say(`${this.T.jailIco} Still stuck in ${this.T.jailShort} (try ${p.jailTurns} of 3).`);
           this.canRollAgain = false;
         }
       }
     } else if (dbl) {
       this.doublesCount++;
       if (this.doublesCount >= 3) {
-        this.say(`😵 Three doubles in a row! ${this.nm(p)} goes into the Maze.`);
+        this.say(`😵 Three doubles in a row! ${this.nm(p)} goes to ${this.T.jailShort}.`);
         this.sendToJail(p);
       } else {
         this.canRollAgain = true;
@@ -183,7 +192,7 @@ class Game {
   // ---------- movement ----------
   passGo(p) {
     p.cash += B.GO_SALARY;
-    this.say(`🌞 ${this.nm(p)} passed GO and collected €${B.GO_SALARY}!`);
+    this.say(`${this.T.goIco} ${this.nm(p)} passed GO and collected ${this.T.cur}${B.GO_SALARY}!`);
   }
 
   move(p, steps) {
@@ -207,12 +216,12 @@ class Game {
   }
 
   landOn(p, diceSum, mods) {
-    const sp = SPACES[p.pos];
+    const sp = this.S[p.pos];
     if (isProperty(p.pos)) {
       const ownerId = this.owners[p.pos];
       if (!ownerId) {
         this.pendingBuy = p.pos;
-        this.say(`📍 ${this.nm(p)} landed on ${sp.name} (€${sp.price}). Buy it?`);
+        this.say(`📍 ${this.nm(p)} landed on ${sp.name} (${this.T.cur}${sp.price}). Buy it?`);
       } else if (ownerId === p.id) {
         this.say(`🏡 ${this.nm(p)} is visiting their own ${sp.name}.`);
       } else if (this.mortgaged[p.pos]) {
@@ -220,35 +229,35 @@ class Game {
       } else {
         const owner = this.P(ownerId);
         const rent = this.rentFor(p.pos, diceSum, mods);
-        this.say(`💸 ${this.nm(p)} pays €${rent} rent to ${this.nm(owner)} for ${sp.name}.`);
+        this.say(`💸 ${this.nm(p)} pays ${this.T.cur}${rent} rent to ${this.nm(owner)} for ${sp.name}.`);
         this.pay(p, owner, rent, `rent for ${sp.name}`);
       }
       return;
     }
     switch (sp.type) {
       case 'tax':
-        this.say(`${sp.emoji} ${this.nm(p)} pays €${sp.amount} ${sp.name}.`);
+        this.say(`${sp.emoji} ${this.nm(p)} pays ${this.T.cur}${sp.amount} ${sp.name}.`);
         this.pay(p, null, sp.amount, sp.name);
         break;
       case 'chance': this.drawCard(p, 'chance', diceSum); break;
       case 'chest': this.drawCard(p, 'chest', diceSum); break;
       case 'gotojail':
-        this.say(`🌀 ${this.nm(p)} goes into the Minotaur's Maze!`);
+        this.say(`${this.T.gotoIco} ${this.nm(p)} goes to ${this.T.jail}!`);
         this.sendToJail(p);
         break;
       case 'parking':
         if (this.settings.jackpot && this.pot > 0) {
-          this.say(`🏖️ Beach Day jackpot! ${this.nm(p)} collects €${this.pot}!`);
+          this.say(`${this.T.parkingIco} ${this.T.parkingName} jackpot! ${this.nm(p)} collects ${this.T.cur}${this.pot}!`);
           p.cash += this.pot; this.pot = 0;
-        } else this.say(`🏖️ ${this.nm(p)} relaxes on the beach.`);
+        } else this.say(`${this.T.parkingIco} ${this.nm(p)} ${this.T.parkingMsg}.`);
         break;
-      case 'jail': this.say(`👀 ${this.nm(p)} is just visiting the Maze.`); break;
+      case 'jail': this.say(`👀 ${this.nm(p)} is just visiting ${this.T.jailShort}.`); break;
       default: break;
     }
   }
 
   rentFor(pos, diceSum, mods = {}) {
-    const sp = SPACES[pos], ownerId = this.owners[pos];
+    const sp = this.S[pos], ownerId = this.owners[pos];
     if (sp.type === 'street') {
       const h = this.houses[pos] || 0;
       if (h > 0) return sp.rent[h];
@@ -261,7 +270,7 @@ class Game {
     if (mods.util10) {
       const d1 = this.rand6(), d2 = this.rand6();
       this.dice = [d1, d2]; this.diceSeq++;
-      this.say(`🎲 Rolled ${d1} + ${d2} for the Oracle: 10 × ${d1 + d2}.`);
+      this.say(`🎲 Rolled ${d1} + ${d2} for ${this.T.chanceShort}: 10 × ${d1 + d2}.`);
       return 10 * (d1 + d2);
     }
     const n = [12, 28].filter((i) => this.owners[i] === ownerId).length;
@@ -276,7 +285,7 @@ class Game {
       this.receive(to, amount);
     } else {
       this.debts.push({ from: from.id, to: to ? to.id : null, amount, reason });
-      this.say(`😟 ${this.nm(from)} needs €${amount} for ${reason} — time to sell or mortgage something!`);
+      this.say(`😟 ${this.nm(from)} needs ${this.T.cur}${amount} for ${reason} — time to sell or mortgage something!`);
     }
   }
 
@@ -288,11 +297,11 @@ class Game {
   payDebt(p) {
     const d = this.debts[0];
     if (!d || d.from !== p.id) return "You don't owe anything right now.";
-    if (p.cash < d.amount) return `You need €${d.amount - p.cash} more. Sell houses or mortgage places first.`;
+    if (p.cash < d.amount) return `You need ${this.T.cur}${d.amount - p.cash} more. Sell houses or mortgage places first.`;
     p.cash -= d.amount;
     this.receive(d.to ? this.P(d.to) : null, d.amount);
     this.debts.shift();
-    this.say(`✅ ${this.nm(p)} paid €${d.amount}.`);
+    this.say(`✅ ${this.nm(p)} paid ${this.T.cur}${d.amount}.`);
     this.settle();
     return null;
   }
@@ -311,7 +320,7 @@ class Game {
     for (const pos of this.owns(p.id)) {
       const h = this.houses[pos] || 0;
       if (!h) continue;
-      const hc = SPACES[pos].house;
+      const hc = this.S[pos].house;
       if (h === 5) { this.hotelsLeft++; p.cash += (5 * hc) / 2; } else { this.housesLeft += h; p.cash += (h * hc) / 2; }
       this.houses[pos] = 0;
     }
@@ -341,10 +350,10 @@ class Game {
   drawCard(p, deckName, diceSum) {
     const deck = this.decks[deckName];
     const idx = deck.shift();
-    const card = (deckName === 'chance' ? CHANCE : CHEST)[idx];
+    const card = (deckName === 'chance' ? this.CH : this.CC)[idx];
     if (card.act !== 'jailcard') deck.push(idx);
     this.card = { deck: deckName, text: card.text, playerId: p.id, seq: ++this.cardSeq };
-    this.say(`${deckName === 'chance' ? '🔮' : '🏺'} ${this.nm(p)}: "${card.text}"`);
+    this.say(`${deckName === 'chance' ? this.T.chanceIco : this.T.chestIco} ${this.nm(p)}: "${card.text}"`);
     switch (card.act) {
       case 'move': this.moveTo(p, card.to); break;
       case 'nearest': {
@@ -355,7 +364,7 @@ class Game {
       }
       case 'money':
         if (card.amount > 0) p.cash += card.amount;
-        else this.pay(p, null, -card.amount, 'an Oracle card');
+        else this.pay(p, null, -card.amount, 'a ' + this.T.chanceName + ' card');
         break;
       case 'jailcard': p.jailCards.push(deckName); break;
       case 'back3': p.pos = (p.pos + 37) % 40; this.landOn(p, diceSum, {}); break;
@@ -373,8 +382,8 @@ class Game {
       case 'each':
         for (const o of this.active()) {
           if (o === p) continue;
-          if (card.amount < 0) this.pay(p, o, -card.amount, 'the party');
-          else this.pay(o, p, card.amount, 'a Name Day present');
+          if (card.amount < 0) this.pay(p, o, -card.amount, this.T.payEach);
+          else this.pay(o, p, card.amount, this.T.collectEach);
         }
         break;
       default: break;
@@ -384,33 +393,33 @@ class Game {
   // ---------- jail ----------
   payJail(p) {
     if (p !== this.current || this.step !== 'roll' || !p.inJail) return 'Not now.';
-    if (p.cash < B.JAIL_FINE) return `You need €${B.JAIL_FINE}.`;
+    if (p.cash < B.JAIL_FINE) return `You need ${this.T.cur}${B.JAIL_FINE}.`;
     p.cash -= B.JAIL_FINE;
     this.receive(null, B.JAIL_FINE);
     p.inJail = false; p.jailTurns = 0;
-    this.say(`🔓 ${this.nm(p)} paid €${B.JAIL_FINE} to leave the Maze.`);
+    this.say(`🔓 ${this.nm(p)} paid ${this.T.cur}${B.JAIL_FINE} to leave ${this.T.jailShort}.`);
     return null;
   }
 
   useJailCard(p) {
     if (p !== this.current || this.step !== 'roll' || !p.inJail) return 'Not now.';
     const deck = p.jailCards.pop();
-    if (!deck) return "You don't have an escape card.";
+    if (!deck) return `You don't have a ${this.T.escapeName}.`;
     this.decks[deck].push(deck === 'chance' ? 8 : 4);
     p.inJail = false; p.jailTurns = 0;
-    this.say(`🧵 ${this.nm(p)} used an escape card!`);
+    this.say(`${this.T.escapeIco} ${this.nm(p)} used a ${this.T.escapeName}!`);
     return null;
   }
 
   // ---------- buying & auctions ----------
   buy(p) {
     if (p !== this.current || this.step !== 'buy') return 'Not now.';
-    const pos = this.pendingBuy, price = SPACES[pos].price;
+    const pos = this.pendingBuy, price = this.S[pos].price;
     if (p.cash < price) return "You don't have enough money — try the auction!";
     p.cash -= price;
     this.owners[pos] = p.id;
     this.pendingBuy = null;
-    this.say(`🎀 ${this.nm(p)} bought ${SPACES[pos].name}!`);
+    this.say(`🎀 ${this.nm(p)} bought ${this.S[pos].name}!`);
     this.settle();
     return null;
   }
@@ -420,7 +429,7 @@ class Game {
     const pos = this.pendingBuy;
     this.pendingBuy = null;
     this.auction = { pos, bid: 0, bidder: null, inIds: this.active().map((x) => x.id) };
-    this.say(`🔨 Auction time for ${SPACES[pos].name}! Everyone can bid.`);
+    this.say(`🔨 Auction time for ${this.S[pos].name}! Everyone can bid.`);
     this.settle();
     return null;
   }
@@ -430,9 +439,9 @@ class Game {
     if (!a || !a.inIds.includes(p.id)) return 'You are not in this auction.';
     inc = Math.max(1, Math.floor(Number(inc) || 0));
     const amount = a.bid + inc;
-    if (p.cash < amount) return `You only have €${p.cash}.`;
+    if (p.cash < amount) return `You only have ${this.T.cur}${p.cash}.`;
     a.bid = amount; a.bidder = p.id;
-    this.say(`🙋 ${this.nm(p)} bids €${amount}!`);
+    this.say(`🙋 ${this.nm(p)} bids ${this.T.cur}${amount}!`);
     this.checkAuctionEnd();
     return null;
   }
@@ -456,9 +465,9 @@ class Game {
       const w = this.P(a.bidder);
       w.cash -= a.bid;
       this.owners[a.pos] = w.id;
-      this.say(`🎉 ${this.nm(w)} won ${SPACES[a.pos].name} for €${a.bid}!`);
+      this.say(`🎉 ${this.nm(w)} won ${this.S[a.pos].name} for ${this.T.cur}${a.bid}!`);
     } else {
-      this.say(`Nobody bid — ${SPACES[a.pos].name} stays with the bank.`);
+      this.say(`Nobody bid — ${this.S[a.pos].name} stays with the bank.`);
     }
     this.auction = null;
     this.settle();
@@ -466,15 +475,15 @@ class Game {
 
   // ---------- building & mortgages ----------
   buildHouse(p, pos) {
-    const sp = SPACES[pos];
+    const sp = this.S[pos];
     if (!sp || sp.type !== 'street' || this.owners[pos] !== p.id) return 'You can only build on your own streets.';
-    if (!this.ownsGroup(p.id, sp.group)) return `You need all the ${GROUPS[sp.group].name} first!`;
+    if (!this.ownsGroup(p.id, sp.group)) return `You need all the ${this.G[sp.group].name} first!`;
     const grp = groupOf(sp.group);
     if (grp.some((i) => this.mortgaged[i])) return 'Unmortgage the whole colour set first.';
     const h = this.houses[pos] || 0;
     if (h >= 5) return 'This already has a hotel!';
     if (h > Math.min(...grp.map((i) => this.houses[i] || 0))) return 'Build evenly — add houses to the other streets in this colour first.';
-    if (p.cash < sp.house) return `A house costs €${sp.house}.`;
+    if (p.cash < sp.house) return `A house costs ${this.T.cur}${sp.house}.`;
     if (h === 4) {
       if (this.hotelsLeft < 1) return 'The bank has no hotels left!';
       this.hotelsLeft--; this.housesLeft += 4;
@@ -489,7 +498,7 @@ class Game {
   }
 
   sellHouse(p, pos) {
-    const sp = SPACES[pos];
+    const sp = this.S[pos];
     if (!sp || sp.type !== 'street' || this.owners[pos] !== p.id) return 'Not yours.';
     const h = this.houses[pos] || 0;
     if (!h) return 'No buildings here.';
@@ -501,28 +510,28 @@ class Game {
     } else this.housesLeft++;
     this.houses[pos] = h - 1;
     p.cash += sp.house / 2;
-    this.say(`💰 ${this.nm(p)} sold a ${h === 5 ? 'hotel' : 'house'} on ${sp.name} for €${sp.house / 2}.`);
+    this.say(`💰 ${this.nm(p)} sold a ${h === 5 ? 'hotel' : 'house'} on ${sp.name} for ${this.T.cur}${sp.house / 2}.`);
     return null;
   }
 
   mortgage(p, pos) {
     if (!isProperty(pos) || this.owners[pos] !== p.id) return 'Not yours.';
     if (this.mortgaged[pos]) return 'Already mortgaged.';
-    const sp = SPACES[pos];
+    const sp = this.S[pos];
     if (sp.type === 'street' && this.groupHasBuildings(sp.group)) return 'Sell the houses in this colour set first.';
     this.mortgaged[pos] = true;
     p.cash += mortgageValue(pos);
-    this.say(`🏦 ${this.nm(p)} mortgaged ${sp.name} for €${mortgageValue(pos)}.`);
+    this.say(`🏦 ${this.nm(p)} mortgaged ${sp.name} for ${this.T.cur}${mortgageValue(pos)}.`);
     return null;
   }
 
   unmortgage(p, pos) {
     if (!isProperty(pos) || this.owners[pos] !== p.id || !this.mortgaged[pos]) return 'Not mortgaged.';
     const cost = unmortgageCost(pos);
-    if (p.cash < cost) return `You need €${cost} (that includes 10% interest).`;
+    if (p.cash < cost) return `You need ${this.T.cur}${cost} (that includes 10% interest).`;
     p.cash -= cost;
     delete this.mortgaged[pos];
-    this.say(`✨ ${this.nm(p)} paid back the mortgage on ${SPACES[pos].name}.`);
+    this.say(`✨ ${this.nm(p)} paid back the mortgage on ${this.S[pos].name}.`);
     return null;
   }
 
@@ -538,15 +547,15 @@ class Game {
     const a = this.P(t.from), b = this.P(t.to);
     if (!a || !b || a.bankrupt || b.bankrupt || a === b) return 'Pick another player to trade with.';
     if (!t.giveProps.length && !t.getProps.length && !t.giveCards && !t.getCards) return 'Add at least one place or card to the trade.';
-    for (const pos of t.giveProps) if (this.owners[pos] !== a.id) return `${SPACES[pos].name} isn't yours.`;
-    for (const pos of t.getProps) if (this.owners[pos] !== b.id) return `${SPACES[pos].name} isn't theirs.`;
+    for (const pos of t.giveProps) if (this.owners[pos] !== a.id) return `${this.S[pos].name} isn't yours.`;
+    for (const pos of t.getProps) if (this.owners[pos] !== b.id) return `${this.S[pos].name} isn't theirs.`;
     for (const pos of [...t.giveProps, ...t.getProps]) {
-      const sp = SPACES[pos];
-      if (sp.type === 'street' && this.groupHasBuildings(sp.group)) return `Sell the houses on the ${GROUPS[sp.group].name} before trading ${sp.name}.`;
+      const sp = this.S[pos];
+      if (sp.type === 'street' && this.groupHasBuildings(sp.group)) return `Sell the houses on the ${this.G[sp.group].name} before trading ${sp.name}.`;
     }
-    if (a.cash < t.giveCash) return `${a.name} doesn't have €${t.giveCash}.`;
-    if (b.cash < t.getCash) return `${b.name} doesn't have €${t.getCash}.`;
-    if (a.jailCards.length < t.giveCards || b.jailCards.length < t.getCards) return 'Not enough escape cards.';
+    if (a.cash < t.giveCash) return `${a.name} doesn't have ${this.T.cur}${t.giveCash}.`;
+    if (b.cash < t.getCash) return `${b.name} doesn't have ${this.T.cur}${t.getCash}.`;
+    if (a.jailCards.length < t.giveCards || b.jailCards.length < t.getCards) return `Not enough ${this.T.escapeName}s.`;
     return null;
   }
 
@@ -575,8 +584,8 @@ class Game {
     // Receiving a mortgaged place costs 10% interest (official rule).
     const fee = (list) => list.filter((pos) => this.mortgaged[pos]).reduce((s, pos) => s + interestOnly(pos), 0);
     const aFee = fee(t.getProps), bFee = fee(t.giveProps);
-    if (a.cash - t.giveCash + t.getCash < aFee) return `${a.name} can't pay the €${aFee} mortgage interest.`;
-    if (b.cash - t.getCash + t.giveCash < bFee) return `You can't pay the €${bFee} mortgage interest.`;
+    if (a.cash - t.giveCash + t.getCash < aFee) return `${a.name} can't pay the ${this.T.cur}${aFee} mortgage interest.`;
+    if (b.cash - t.getCash + t.giveCash < bFee) return `You can't pay the ${this.T.cur}${bFee} mortgage interest.`;
     a.cash += t.getCash - t.giveCash - aFee;
     b.cash += t.giveCash - t.getCash - bFee;
     for (const pos of t.giveProps) this.owners[pos] = b.id;
@@ -591,7 +600,7 @@ class Game {
   netWorth(p) {
     let v = p.cash;
     for (const pos of this.owns(p.id)) {
-      const sp = SPACES[pos];
+      const sp = this.S[pos];
       v += this.mortgaged[pos] ? sp.price / 2 : sp.price;
       const h = this.houses[pos] || 0;
       if (h) v += h * sp.house;
@@ -607,7 +616,7 @@ class Game {
       .map((p) => ({ id: p.id, worth: p.bankrupt ? 0 : this.netWorth(p) }))
       .sort((x, y) => y.worth - x.worth);
     const w = this.P(this.ranking[0].id);
-    this.say(`👑 ${this.nm(w)} is the Queen of Greece! 🎉`);
+    this.say(`👑 ${this.nm(w)} is the ${this.T.crown}! 🎉`);
   }
 
   // ---------- dispatch ----------

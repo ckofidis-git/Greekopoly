@@ -73,7 +73,21 @@ io.on('connection', (socket) => {
     else if (type === 'kick') err = g.game.removePlayer(playerId);
     else if (type === 'endAuction') g.game.checkAuctionEnd(true);
     else if (type === 'endGame') g.game.finishGame();
-    else if (type === 'settings') g.game.settings.jackpot = !!(settings && settings.jackpot);
+    else if (type === 'settings') {
+      g.game.settings.jackpot = !!(settings && settings.jackpot);
+      if (settings && settings.theme) g.game.setTheme(settings.theme);
+    } else if (type === 'reset') {
+      // Back to the lobby with the same players still joined (same code, phones stay connected).
+      const old = g.game;
+      const fresh = new Game(code);
+      fresh.settings.jackpot = old.settings.jackpot;
+      fresh.setTheme(old.settings.theme);
+      for (const p of old.players) {
+        fresh.join(p.id, p.name, p.token);
+        fresh.P(p.id).connected = p.connected;
+      }
+      g.game = fresh;
+    }
     reply(cb, { error: err });
     broadcast(code);
   });

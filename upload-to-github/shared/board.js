@@ -109,7 +109,100 @@
     { id: 'star', emoji: '⭐', name: 'Star', color: '#eab308' },
   ];
 
-  const api = { GROUPS, SPACES, CHANCE, CHEST, TOKENS, START_CASH: 1500, GO_SALARY: 200, JAIL_FINE: 50, JAIL_POS: 10 };
+  // ---------- Themes: same board & rules, different names, words and cards ----------
+  const THEMES = {
+    greece: {
+      id: 'greece', title: 'Greekopoly', icon: '🇬🇷', cur: '€',
+      tagline: 'A sunny Monopoly adventure around Greece 🇬🇷 🌊 🏛️',
+      boardTag: '🌸 Buy islands, build little white houses, become Queen of Greece! 🌸',
+      crown: 'Queen of Greece',
+      jail: "the Minotaur's Maze", jailShort: 'the Maze', jailIco: '🐂', gotoIco: '🌀',
+      escapeIco: '🧵', escapeName: 'escape card',
+      parkingIco: '🏖️', parkingName: 'Beach Day', parkingMsg: 'relaxes on the beach',
+      chanceIco: '🔮', chanceName: 'Oracle of Delphi', chanceShort: 'the Oracle',
+      chestIco: '🏺', chestName: 'Treasure Amphora',
+      payEach: 'the party', collectEach: 'a Name Day present', goIco: '🌞',
+      rail: 'Ferry', rails: 'Ferries', util: 'Magic Power', utils: 'Magic Powers',
+      deco: ['⛵', '🏝️', '🐬', '🐬', '🏛️', '☁️'],
+    },
+    world: {
+      id: 'world', title: 'Worldopoly', icon: '🌍', cur: '$',
+      tagline: 'Travel the world and collect countries! 🌍 ✈️ 🗺️',
+      boardTag: '🌸 Visit countries, build houses everywhere, become Queen of the World! 🌸',
+      crown: 'Queen of the World',
+      jail: 'the Lost Passport Office', jailShort: 'the Passport Office', jailIco: '🛂', gotoIco: '😱',
+      escapeIco: '🎫', escapeName: 'Golden Passport',
+      parkingIco: '🧺', parkingName: 'Picnic Park', parkingMsg: 'has a picnic in the park',
+      chanceIco: '💌', chanceName: 'Mystery Postcard', chanceShort: 'the Postcard',
+      chestIco: '🧳', chestName: 'Travel Suitcase',
+      payEach: 'the world party', collectEach: 'a birthday present', goIco: '🌍',
+      rail: 'Airline', rails: 'Airlines', util: 'Power Plant', utils: 'Power Plants',
+      deco: ['✈️', '🌍', '🐋', '🎈', '🗽', '☁️'],
+      groups: {
+        brown: 'Africa', light: 'The Americas', pink: 'Asia', orange: 'Europe',
+        red: 'Mediterranean', yellow: 'Middle East', green: 'Down Under', blue: 'Royal & Maple',
+      },
+      names: [
+        ['GO! Hello World!', '🌍'], ['Kenya', '🇰🇪'], ['Travel Suitcase', '🧳'], ['Egypt', '🇪🇬'], ['Passport Fee', '🛂'],
+        ['Rainbow Airline', '🛫'], ['Mexico', '🇲🇽'], ['Mystery Postcard', '💌'], ['Brazil', '🇧🇷'], ['USA', '🇺🇸'],
+        ['Lost Passport Office', '🛂'], ['India', '🇮🇳'], ['Solar Power', '☀️'], ['China', '🇨🇳'], ['Japan', '🇯🇵'],
+        ['Unicorn Airline', '🛫'], ['Netherlands', '🇳🇱'], ['Travel Suitcase', '🧳'], ['Germany', '🇩🇪'], ['France', '🇫🇷'],
+        ['Picnic Park', '🧺'], ['Spain', '🇪🇸'], ['Mystery Postcard', '💌'], ['Italy', '🇮🇹'], ['Greece', '🇬🇷'],
+        ['Butterfly Airline', '🛫'], ['Jordan', '🇯🇴'], ['Palestine', '🇵🇸'], ['Wind Power', '🌬️'], ['Saudi Arabia', '🇸🇦'],
+        ['Lost Your Passport!', '😱'], ['Fiji', '🇫🇯'], ['New Zealand', '🇳🇿'], ['Travel Suitcase', '🧳'], ['Australia', '🇦🇺'],
+        ['Rocket Airline', '🛫'], ['Mystery Postcard', '💌'], ['Canada', '🇨🇦'], ['Souvenir Tax', '🛍️'], ['England', '🏴󠁧󠁢󠁥󠁮󠁧󠁿'],
+      ],
+      chance: [
+        'Fly to England for tea with the King!',
+        'Advance to GO! Collect $200.',
+        'Advance to Greece. If you pass GO, collect $200.',
+        'Advance to India. If you pass GO, collect $200.',
+        'Fly to the nearest Airline! If someone owns it, pay them double rent. If not, you may buy it.',
+        'Fly to the nearest Airline! If someone owns it, pay them double rent. If not, you may buy it.',
+        'Go to the nearest Solar or Wind Power! If owned, roll the dice and pay 10× the roll.',
+        'You sold your travel photos! Collect $50.',
+        'Golden Passport: get out of the Lost Passport Office for free! Keep this card.',
+        'Oops, you forgot your suitcase! Go back 3 spaces.',
+        'You lost your passport! Go straight to the Lost Passport Office. Do not pass GO.',
+        'Your houses need fresh paint! Pay $25 for each house and $100 for each hotel.',
+        'You missed the bus! Pay a $15 taxi fare.',
+        'Take a trip on Rainbow Airline. If you pass GO, collect $200.',
+        'You threw a world party! Pay every player $50.',
+        'Your lemonade stand went global! Collect $150.',
+      ],
+      chest: [
+        'Advance to GO! Collect $200.',
+        'The bank made a mistake in your favour! Collect $200.',
+        'Travel doctor visit. Pay $50.',
+        'You sold your stamp collection! Collect $50.',
+        'Golden Passport: get out of the Lost Passport Office for free! Keep this card.',
+        'You lost your passport! Go straight to the Lost Passport Office. Do not pass GO.',
+        'Your holiday piggy bank is full! Collect $100.',
+        'Tax refund! Collect $20.',
+        "It's your birthday! Collect $10 from every player.",
+        'Grandma sends a present from abroad! Collect $100.',
+        'Your puppy needs a passport. Pay $100.',
+        'Language school fees. Pay $50.',
+        'You helped a lost tourist find the way! Collect $25.',
+        'The roads need fixing. Pay $40 per house and $115 per hotel.',
+        'You won 2nd prize in the world dance contest! Collect $10.',
+        'You found treasure in an old suitcase! Collect $100.',
+      ],
+    },
+  };
+
+  // Returns the board, groups and cards dressed in a theme. Prices and rules never change.
+  function themed(id) {
+    const t = THEMES[id] || THEMES.greece;
+    const spaces = SPACES.map((s, i) => (t.names ? { ...s, name: t.names[i][0], emoji: t.names[i][1] } : s));
+    const groups = {};
+    for (const [k, g] of Object.entries(GROUPS)) groups[k] = { ...g, name: t.groups ? t.groups[k] : g.name };
+    const chance = CHANCE.map((c, i) => (t.chance ? { ...c, text: t.chance[i] } : c));
+    const chest = CHEST.map((c, i) => (t.chest ? { ...c, text: t.chest[i] } : c));
+    return { T: t, SPACES: spaces, GROUPS: groups, CHANCE: chance, CHEST: chest };
+  }
+
+  const api = { GROUPS, SPACES, CHANCE, CHEST, TOKENS, THEMES, themed, START_CASH: 1500, GO_SALARY: 200, JAIL_FINE: 50, JAIL_POS: 10 };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.BOARD = api;
 })(typeof window !== 'undefined' ? window : globalThis);
