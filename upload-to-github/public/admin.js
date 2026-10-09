@@ -114,7 +114,7 @@ function applyTheme() {
 
 function tokenXY(pos, idx, count, inJail) {
   const t = $('#t' + pos);
-  const w = t.offsetWidth, h = t.offsetHeight, size = $('#board').offsetWidth * 0.046;
+  const w = t.offsetWidth, h = t.offsetHeight, size = Math.min($('#board').offsetWidth, $('#board').offsetHeight) * 0.054;
   const cols = count > 4 ? 3 : 2;
   const r = Math.floor(idx / cols), c = idx % cols;
   const spread = Math.min(w, h) * 0.36;
@@ -211,10 +211,10 @@ function renderAuction() {
   box.classList.remove('hidden');
   const top = S.players.find((p) => p.id === a.bidder);
   box.innerHTML = `<h2>🔨 Auction: ${SPACES[a.pos].emoji} ${esc(SPACES[a.pos].name)}</h2>
-    <div class="muted" style="font-size:1.8cqw">Worth ${eur(SPACES[a.pos].price)}</div>
+    <div class="muted" style="font-size:1.8cqmin">Worth ${eur(SPACES[a.pos].price)}</div>
     <div class="bid">${a.bid ? eur(a.bid) : 'No bids yet'}</div>
-    <div style="font-size:2.2cqw">${top ? `Top bid: ${top.emoji} <b>${esc(top.name)}</b>` : 'Who wants it?'}</div>
-    <div class="row wrap" style="justify-content:center;margin-top:1cqw">${a.inIds.map((id) => {
+    <div style="font-size:2.2cqmin">${top ? `Top bid: ${top.emoji} <b>${esc(top.name)}</b>` : 'Who wants it?'}</div>
+    <div class="row wrap" style="justify-content:center;margin-top:1cqmin">${a.inIds.map((id) => {
       const p = S.players.find((x) => x.id === id); return `<span class="chip">${p.emoji} ${esc(p.name)}</span>`; }).join('')}</div>`;
 }
 
