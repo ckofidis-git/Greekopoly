@@ -48,13 +48,14 @@ function renderLobby() {
       <button class="x" data-kick="${p.id}" title="Remove">✕</button>
       <div class="e">${p.emoji}</div><div class="n">${esc(p.name)}</div>
       <div class="muted">${p.connected ? 'Ready! 💖' : 'Reconnecting…'}</div></div>`);
-  for (let i = S.players.length; i < Math.max(4, Math.min(8, S.players.length + 1)); i++) slots.push(`<div class="empty-slot">waiting for a friend…</div>`);
+  for (let i = S.players.length; i < 8; i++) slots.push(`<div class="empty-slot">${i + 1}<small>waiting for a friend…</small></div>`);
+  $('#playerCount').textContent = `👫 Players: ${S.players.length} of 8`;
   $('#lobbyPlayers').innerHTML = slots.join('');
   $('#jackpot').checked = S.settings.jackpot;
   $('#themePick').innerHTML = Object.values(window.BOARD.THEMES).map((t) => `<button data-theme="${t.id}" class="${t.id === S.settings.theme ? 'sel' : ''}">
       <span class="ti">${t.icon}</span><span><b>${t.title}</b><small>${esc(t.tagline)}</small></span></button>`).join('');
   $('#startBtn').disabled = S.players.length < 2;
-  $('#startHint').textContent = S.players.length < 2 ? 'Waiting for at least 2 players…' : `${S.players.length} players ready — let's go!`;
+  $('#startHint').textContent = S.players.length < 2 ? 'Waiting for at least 2 players (2 to 8 can play)…' : S.players.length === 8 ? "8 players — the game is full! Let's go!" : `${S.players.length} players ready — more friends can still join (up to 8)!`;
 }
 $('#lobbyPlayers').addEventListener('click', (e) => {
   const id = e.target.dataset.kick;
@@ -98,8 +99,11 @@ function buildBoard() {
 buildBoard();
 
 // Dress the screen in the chosen theme (names, flags, wording, decorations).
+let themeShown = null;
 function applyTheme() {
-  if (!useTheme(S.settings.theme) && document.title.startsWith(TH.title)) return;
+  useTheme(S.settings.theme);
+  if (themeShown === TH.id) return;
+  themeShown = TH.id;
   buildBoard();
   document.title = `${TH.title} — Big Screen`;
   $('#lobbyLogo').textContent = TH.title; $('#lobbyTag').textContent = TH.tagline;
@@ -215,6 +219,7 @@ function renderAuction() {
 }
 
 function renderPlayers() {
+  $('#players').classList.toggle('many', S.players.length > 5);
   $('#players').innerHTML = S.players.map((p, i) => {
     const props = Object.keys(S.owners).filter((k) => S.owners[k] === p.id).map(Number).sort((a, b) => a - b);
     const debt = S.debts.find((d) => d.from === p.id);

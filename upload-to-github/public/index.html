@@ -17,13 +17,15 @@
   .qr-card img { width: 100%; max-width: 360px; aspect-ratio: 1; border-radius: 18px; border: 6px solid #f1ecff; }
   .qr-card .code { font-size: 2.6rem; font-weight: 700; letter-spacing: 8px; color: var(--pink); }
   .qr-card .url { font-size: .95rem; word-break: break-all; }
-  .lobby-players { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; margin: 18px 0; }
-  .lp { position: relative; text-align: center; padding: 18px 10px; animation: pop2 .4s ease; }
+  .lobby-players { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 8px 0 18px; }
+  #playerCount { font-size: 1.3rem; font-weight: 700; margin-top: 18px; }
+  .lp { position: relative; text-align: center; padding: 12px 8px; animation: pop2 .4s ease; min-height: 120px; }
   @keyframes pop2 { from { transform: scale(.5); opacity: 0; } }
-  .lp .e { font-size: 3.6rem; }
+  .lp .e { font-size: 3rem; }
   .lp .n { font-size: 1.35rem; font-weight: 600; }
   .lp .x { position: absolute; top: 6px; right: 6px; padding: 2px 9px; font-size: .9rem; box-shadow: none; background: #ffe1e7; color: #c0163a; }
-  .empty-slot { border: 3px dashed #cfc4f5; border-radius: var(--radius); display: grid; place-items: center; color: var(--ink-soft); min-height: 150px; font-size: 1.1rem; }
+  .empty-slot { border: 3px dashed #cfc4f5; border-radius: var(--radius); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #b9addf; min-height: 120px; font-size: 2rem; font-weight: 700; }
+  .empty-slot small { font-size: .9rem; font-weight: 500; color: var(--ink-soft); }
   .themes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .themes button { display: flex; align-items: center; gap: 12px; text-align: left; padding: 14px; border: 4px solid transparent; border-radius: 20px; }
   .themes button.sel { border-color: var(--pink); background: #fff0f7; }
@@ -105,6 +107,11 @@
   .pl .sw span { width: 12px; height: 12px; border-radius: 4px; }
   .pl .cash { font-size: 1.3rem; }
   #players { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
+  #players.many { gap: 5px; }
+  #players.many .pl { padding: 5px 10px; }
+  #players.many .pl .e { width: 38px; height: 38px; font-size: 1.5rem; border-width: 3px; }
+  #players.many .pl .n { font-size: 1.05rem; }
+  #players.many .pl .cash { font-size: 1.15rem; }
   #log { flex: 1; overflow-y: auto; font-size: .98rem; display: flex; flex-direction: column-reverse; gap: 5px; min-height: 80px; }
   #log div { background: rgba(255,255,255,.7); padding: 6px 10px; border-radius: 12px; }
   .tools { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -126,6 +133,7 @@
   <div>
     <div class="logo" id="lobbyLogo">Greekopoly</div>
     <div style="font-size:1.5rem;margin-top:6px" id="lobbyTag"></div>
+    <div id="playerCount"></div>
     <div class="lobby-players" id="lobbyPlayers"></div>
     <div class="panel" style="display:flex;flex-direction:column;gap:14px">
       <div style="font-weight:700;font-size:1.2rem">🎨 Choose a theme</div>
