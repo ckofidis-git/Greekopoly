@@ -611,7 +611,8 @@ class Game {
   finishGame() {
     if (this.phase === 'over') return;
     this.phase = 'over';
-    this.auction = null; this.debts = []; this.trades = [];
+    this.step = 'over';
+    this.auction = null; this.debts = []; this.trades = []; this.pendingBuy = null; this.canRollAgain = false;
     this.ranking = this.players
       .map((p) => ({ id: p.id, worth: p.bankrupt ? 0 : this.netWorth(p) }))
       .sort((x, y) => y.worth - x.worth);

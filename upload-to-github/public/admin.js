@@ -198,7 +198,7 @@ function stepText(cur) {
     case 'roll': return cur.inJail ? `${name} is stuck in ${esc(TH.jail)} ${TH.jailIco} — pay ${eur(50)}, use a card, or try for doubles!` : `Roll the dice on your phone! 🎲`;
     case 'buy': { const sp = SPACES[S.pendingBuy]; return `Buy <b>${esc(sp.name)}</b> for ${eur(sp.price)}? 🤔`; }
     case 'auction': return 'Auction! Everyone bids on their phone 🔨';
-    case 'debt': { const d = S.debts[0]; const p = S.players.find((x) => x.id === d.from); return `${p.emoji} ${esc(p.name)} needs ${eur(d.amount)} — sell houses or mortgage places! 😟`; }
+    case 'debt': { const d = S.debts[0]; const p = d && S.players.find((x) => x.id === d.from); if (!p) return ''; return `${p.emoji} ${esc(p.name)} needs ${eur(d.amount)} — sell houses or mortgage places! 😟`; }
     case 'endturn': return S.canRollAgain ? 'Roll again!' : `Tap <b>End turn</b> when you're done 👍`;
     default: return '';
   }
@@ -249,6 +249,21 @@ function renderTiles() {
   });
 }
 
+function renderOver() {
+  if (S.phase === 'over' && !shown.over) {
+    shown.over = true;
+    confetti(120); sfx([523, 659, 784, 1046, 1318], 0.15);
+  }
+  if (S.phase === 'over') {
+    const medals = ['👑', '🥈', '🥉', '🌸', '🌸', '🌸', '🌸', '🌸'];
+    $('#ranking').innerHTML = S.ranking.map((r, i) => {
+      const p = S.players.find((x) => x.id === r.id);
+      return `<div class="rank"><span>${medals[i]}</span><span style="font-size:2rem">${p.emoji}</span><span class="grow" style="text-align:left">${esc(p.name)}</span><span class="money">${p.bankrupt ? 'out' : eur(r.worth)}</span></div>`;
+    }).join('');
+    $('#over').classList.remove('hidden');
+  }
+}
+
 function render(state) {
   if (!state || state.code !== code) return;
   const prev = S;
@@ -264,15 +279,13 @@ function render(state) {
   }
   $('#lobby').classList.add('hidden');
   $('#game').classList.remove('hidden');
+  renderOver(); // first, so the results always appear even if something below fails
   $('#qrSmall').src = qrSrc();
   $('#codeSmall').textContent = code;
 
-  renderTiles();
-  renderDice();
-  renderPlayers();
-  renderAuction();
-  animateTokens();
-  placeTokens();
+  for (const part of [renderTiles, renderDice, renderPlayers, renderAuction, animateTokens, placeTokens]) {
+    try { part(); } catch (e) { console.error(e); }
+  }
 
   const cur = S.players[S.turn];
   $('#who').innerHTML = `${cur.emoji} ${esc(cur.name)}'s turn`;
@@ -298,18 +311,6 @@ function render(state) {
   shown.owners = { ...S.owners };
   if (prev && prev.turn !== S.turn) sfx([523, 784], 0.12);
 
-  if (S.phase === 'over' && !shown.over) {
-    shown.over = true;
-    confetti(120); sfx([523, 659, 784, 1046, 1318], 0.15);
-  }
-  if (S.phase === 'over') {
-    const medals = ['👑', '🥈', '🥉', '🌸', '🌸', '🌸', '🌸', '🌸'];
-    $('#ranking').innerHTML = S.ranking.map((r, i) => {
-      const p = S.players.find((x) => x.id === r.id);
-      return `<div class="rank"><span>${medals[i]}</span><span style="font-size:2rem">${p.emoji}</span><span class="grow" style="text-align:left">${esc(p.name)}</span><span class="money">${p.bankrupt ? 'out' : eur(r.worth)}</span></div>`;
-    }).join('');
-    $('#over').classList.remove('hidden');
-  }
 }
 
 window.addEventListener('resize', () => S && S.phase !== 'lobby' && placeTokens());
