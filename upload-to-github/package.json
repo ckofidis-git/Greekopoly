@@ -1,13 +1,15 @@
 {
-  "name": "greekopoly",
+  "name": "game-hub",
   "version": "1.0.0",
-  "description": "Monopoly-style board game with a Greek theme. Big screen + phones as controllers.",
+  "description": "Family game hub: Monopoly (Greekopoly/Worldopoly) and Maths Superstars. Big screen + phones.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node test/sim.js"
+    "test": "node test/monopoly.js && node test/quiz.js"
   },
-  "engines": { "node": ">=18" },
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "express": "^4.21.2",
     "qrcode": "^1.5.4",

@@ -1,22 +1,25 @@
-# Greekopoly & Worldopoly 🏛️🌍
+# Game Hub 🎲
 
-A Monopoly-style board game with two themes: Greece (Greekopoly) and countries of the world (Worldopoly). Pick the theme in the lobby. One big screen shows the board; each player uses their phone or tablet as a controller (scan the QR code).
+Family party games for the big screen. Open the site on a TV or laptop, pick a game, and everyone joins on their phone by scanning the QR code.
 
-## Play
-1. Open the site on the big screen (TV / laptop). A game is created with a QR code.
-2. Each player scans the QR code, types a name and picks a character.
-3. Press **Start the game!** on the big screen.
+| Game | Address | What it is |
+|---|---|---|
+| 🏛️ Monopoly | `/monopoly/` | Official Monopoly rules with two themes: 🇬🇷 Greekopoly and 🌍 Worldopoly. 2–8 players. |
+| 🌟 Maths Superstars | `/quiz/` | Times-tables quiz show for Year 5 (age 9–10): × ÷ facts to 12×12, missing numbers, × ÷ 10/100/1000. 1–40 players. |
 
-## Run locally
+## Layout
+- `server.js` — the hub: game picker page (`public/`), QR codes, and mounts each game
+- `games/<name>/server.js` — each game's pages and its own Socket.IO namespace
+- `test/` — rule simulations for each game
+
+## Run
 ```
 npm install
-npm start        # http://localhost:3000
-npm test         # 300 simulated bot games to check the rules engine
+npm start     # http://localhost:3000
+npm test
 ```
-Phones on the same Wi-Fi can't reach "localhost": use the Render URL for real games.
 
-## Deploy on Render
-Push this folder to a GitHub repo, then in Render: **New → Blueprint** → pick the repo (uses `render.yaml`).
-Or **New → Web Service**: Build `npm install`, Start `npm start`.
+## Adding a game
+Create `games/<name>/` with a `server.js` that exports `(app, io) => {}`, serve its pages under `/<name>/`, use `io.of('/<name>')`, then add one line in `server.js` and a card in `public/index.html`.
 
-Games live in server memory, so a restart (redeploy, or the free plan sleeping after ~15 idle minutes) ends running games.
+Games live in server memory: a restart (redeploy, or the free plan sleeping after ~15 idle minutes) ends running games.
