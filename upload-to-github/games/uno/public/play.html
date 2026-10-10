@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b3d2e">
+<title>UNO — Player</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎴</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  body { font-size: 17px; min-height: 100vh; }
+  .screen { max-width: 520px; margin: 0 auto; padding: 14px; padding-bottom: max(14px, env(safe-area-inset-bottom)); min-height: 100vh; display: flex; flex-direction: column; gap: 12px; }
+  h1.logo { font-size: 2.3rem; text-align: center; margin: 14px 0 0; }
+  .sub { text-align: center; color: #fff; opacity: .9; }
+  input[type=text] { font: inherit; font-size: 1.4rem; width: 100%; padding: 14px 16px; border-radius: 18px; border: 3px solid #bfe8d4; outline: none; color: var(--ink); background: #fff; }
+  input[type=text]:focus { border-color: #e53935; }
+  .label { font-weight: 600; margin: 4px 0 8px; font-size: 1.1rem; }
+  .avs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .avs button { font-size: 1.9rem; padding: 8px 0; border-radius: 16px; border: 3px solid transparent; }
+  .avs button.sel { border-color: #e53935; background: #ffe4e6; transform: scale(1.08); }
+  #hdr { display: flex; align-items: center; gap: 10px; color: #fff; }
+  #hdr .a { font-size: 2.2rem; }
+  #hdr .n { font-weight: 600; font-size: 1.15rem; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #hdr .coin { font-size: 1.35rem; }
+  #hdr .clk { font-weight: 700; font-size: 1.1rem; background: rgba(255,255,255,.2); padding: 3px 10px; border-radius: 99px; }
+  #stat { color: #fff; text-align: center; font-size: .95rem; opacity: .95; }
+  .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .tabs button { font-size: 1.1rem; font-weight: 700; padding: 12px 6px; background: rgba(255,255,255,.2); color: #fff; box-shadow: none; border: 3px solid transparent; position: relative; }
+  .tabs button.on { background: #fff; color: var(--ink); border-color: #f59e0b; }
+  .tabs .dot { position: absolute; top: -6px; right: -4px; background: #ff4f6b; color: #fff; font-size: .75rem; border-radius: 99px; padding: 2px 7px; }
+  .q { background: #fff; border-radius: 24px; padding: 16px 10px; text-align: center; font-size: clamp(2.2rem, 12vw, 3.2rem); font-weight: 700; box-shadow: var(--shadow); animation: popin .3s ease; }
+  .grid4 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .grid4 .fruit { flex-direction: column; justify-content: center; gap: 4px; font-size: clamp(1.9rem, 10vw, 2.6rem); min-height: 17vh; padding: 8px; }
+  .grid4 .fe { width: 44px; height: 44px; font-size: 1.7rem; }
+  .display { background: #fff; border-radius: 20px; min-height: 70px; display: grid; place-items: center; font-size: 2.6rem; font-weight: 700; box-shadow: var(--shadow); }
+  .display.empty { color: #b9d6e2; font-size: 1.3rem; }
+  .pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .pad button { font-size: 1.8rem; font-weight: 700; padding: 11px 0; border-radius: 18px; }
+  .pad .ok { background: linear-gradient(180deg, #5ee08e, var(--green)); color: #fff; box-shadow: 0 5px 0 #15803d; }
+  .fb { min-height: 46px; border-radius: 16px; padding: 10px 12px; text-align: center; font-weight: 600; font-size: 1.1rem; background: rgba(255,255,255,.18); color: #fff; }
+  .fb.good { background: #dcfce7; color: #14532d; animation: popin .3s ease; }
+  .fb.bad { background: #ffe4e6; color: #9f1239; animation: popin .3s ease; }
+  .hint { text-align: center; color: #fff; font-weight: 600; }
+  .info { background: #fff; border-radius: 20px; padding: 12px; text-align: center; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 8px; }
+  .card { background: #fff; border-radius: 26px; padding: 22px 16px; text-align: center; box-shadow: var(--shadow); animation: popin .4s ease; }
+  .card .big-e { font-size: 4.2rem; line-height: 1; }
+  .card h2 { margin: 8px 0 4px; font-size: 1.8rem; }
+  .recap div { display: flex; justify-content: space-between; gap: 8px; padding: 8px 2px; border-bottom: 1px dashed #d6ecf5; font-size: 1.1rem; }
+  .recap .bad { color: var(--red); }
+  .tableRow { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,.14); border-radius: 18px; padding: 10px 12px; color: #fff; }
+  .tableRow .ucard { --cw: 64px; }
+  .tableRow .info2 { flex: 1; font-weight: 600; font-size: 1.05rem; }
+  .banner2 { text-align: center; font-weight: 700; font-size: 1.25rem; padding: 10px; border-radius: 16px; background: rgba(255,255,255,.18); color: #fff; }
+  .banner2.mine { background: #fde047; color: #5b3a00; animation: glow 1.4s ease-in-out infinite; }
+  @keyframes glow { 50% { box-shadow: 0 0 0 6px rgba(253,224,71,.35); } }
+  .hand { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 6px 0 14px; }
+  .hand .ucard { --cw: 19vw; max-width: 92px; cursor: pointer; transition: transform .12s; }
+  .acts2 { display: flex; flex-direction: column; gap: 10px; }
+  .unoBtn { background: linear-gradient(180deg, #ff6b6b, #e53935); color: #fff; box-shadow: 0 6px 0 #9b1c1c; font-size: 1.8rem; font-weight: 800; animation: pulse 1s ease-in-out infinite; }
+  @keyframes pulse { 50% { transform: scale(1.04); } }
+  .catchBtn { background: linear-gradient(180deg, #fde047, #f59e0b); color: #5b3a00; box-shadow: 0 6px 0 #b45309; font-size: 1.25rem; font-weight: 800; }
+  .colors { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cb { height: 90px; border-radius: 22px; border: 5px solid #fff; box-shadow: 0 5px 0 rgba(0,0,0,.2); }
+  .cb.r { background: var(--ur); } .cb.y { background: var(--uy); } .cb.g { background: var(--ug); } .cb.b { background: var(--ub); }
+</style>
+</head>
+<body>
+<div id="joinScreen" class="screen hidden">
+  <h1 class="logo" data-ih="title"><span>UNO</span> 🎴</h1>
+  <div class="sub" data-i="subtitle">Match colours and numbers!</div>
+  <div class="panel" style="display:flex;flex-direction:column;gap:10px">
+    <div id="codeBox" class="hidden">
+      <div class="label" data-i="gameCode">Game code (on the big screen)</div>
+      <input type="text" id="codeIn" maxlength="4" autocapitalize="characters" autocomplete="off" placeholder="ABCD" style="text-transform:uppercase;letter-spacing:8px;text-align:center">
+    </div>
+    <div class="label" data-i="name">What's your name?</div>
+    <input type="text" id="nameIn" maxlength="14" autocomplete="off" placeholder="Your name" data-ip="namePh">
+    <div class="label" data-i="pickAvatar">Pick your avatar</div>
+    <div class="avs" id="avs"></div>
+    <button class="btn-pink huge" id="joinBtn" style="margin-top:8px" data-i="join">Join UNO! 🎴</button>
+  </div>
+</div>
+
+<div id="gameScreen" class="screen hidden">
+  <div id="hdr"><span class="a" id="hA"></span><span class="n" id="hN"></span><span class="coin" id="hC"></span></div>
+  <div id="stat"></div>
+  <div id="main" style="display:flex;flex-direction:column;gap:12px"></div>
+</div>
+<div id="picker" class="overlay hidden"><div class="panel center" style="width:min(420px,92vw)">
+  <h2 style="margin:0 0 12px" data-i="pickColor">🌈 Pick a colour</h2>
+  <div class="colors"><button data-col="r" class="cb r"></button><button data-col="y" class="cb y"></button><button data-col="g" class="cb g"></button><button data-col="b" class="cb b"></button></div>
+  <button class="btn-soft" id="pickCancel" style="margin-top:12px" data-i="cancel">Cancel</button>
+</div></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="i18n.js"></script>
+<script src="common.js"></script>
+<script src="play.js"></script>
+</body>
+</html>

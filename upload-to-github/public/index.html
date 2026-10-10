@@ -29,6 +29,7 @@
   .art.island { background: radial-gradient(ellipse at 50% 60%, #f6dfa8 0 22%, #5ad1e6 23%, #1fa2c9 60%, #0b6fa4 100%); }
   .art.monster { background: radial-gradient(circle at 25% 20%, #7c3aed, transparent 55%), linear-gradient(150deg, #1e0b3d, #4c1d95 55%, #be3a1a); }
   .art.bingo { background: radial-gradient(circle at 25% 20%, #f472b6, transparent 55%), linear-gradient(150deg, #9d174d, #db2777 55%, #f59e0b); }
+  .art.uno { background: radial-gradient(ellipse at 50% 45%, #18a06f, transparent 65%), linear-gradient(150deg, #0b3d2e, #11704d); }
   .art.soon { background: repeating-linear-gradient(45deg, #f6f2ff, #f6f2ff 14px, #efe8ff 14px, #efe8ff 28px); color: #c8bdf0; }
   .art .float { animation: float 3s ease-in-out infinite; display: inline-block; }
   @keyframes float { 50% { transform: translateY(-10px); } }
@@ -96,6 +97,15 @@
         <span class="play" data-i="binGo">Play Bingo ▶</span>
       </div>
     </a>
+    <a class="game" href="/uno/">
+      <div class="art uno"><span class="float">🎴</span></div>
+      <div class="info">
+        <h2 data-i="uno">UNO</h2>
+        <p data-i="unoP">The classic card game with the official rules! Match colours and numbers, shout UNO! and be the first to empty your hand. 🌈</p>
+        <div class="chips"><span class="chip" data-i="unoC1">👫 2–10 players</span><span class="chip" data-i="unoC2">⏱️ 10–30 min</span><span class="chip" data-i="unoC3">🃏 Card game</span></div>
+        <span class="play" data-i="unoGo">Play UNO ▶</span>
+      </div>
+    </a>
     <a class="game soon-card" aria-disabled="true" tabindex="-1">
       <div class="art soon">✨</div>
       <div class="info">
@@ -119,6 +129,8 @@
       monC1: '👫 1–40 players', monC2: '⏱️ 3–8 min', monC3: '🤝 Team game', monGo: 'Fight the monsters ▶',
       bin: 'Times Table Bingo', binP: 'The big screen calls a question — find the answer on your card! Lines and a full card win big. 🎉',
       binC1: '👫 1–40 players', binC2: '⏱️ 5–10 min', binC3: '🎯 Accuracy wins', binGo: 'Play Bingo ▶',
+      uno: 'UNO', unoP: 'The classic card game with the official rules! Match colours and numbers, shout UNO! and be the first to empty your hand. 🌈',
+      unoC1: '👫 2–10 players', unoC2: '⏱️ 10–30 min', unoC3: '🃏 Card game', unoGo: 'Play UNO ▶',
       soon: 'More games coming soon…', soonP: 'What should we make next?',
       foot: "Open this page on the TV or laptop. Players don't need to come here — they scan the code shown in the game." },
     el: { title: 'Γωνιά Παιχνιδιών', hub: 'Γωνιά Παιχνιδιών', tag: 'Διάλεξε παιχνίδι για τη μεγάλη οθόνη — όλοι μπαίνουν από το κινητό τους σκανάροντας τον κωδικό QR! 📱',
@@ -132,6 +144,8 @@
       monC1: '👫 1–40 παίκτες', monC2: '⏱️ 3–8 λεπτά', monC3: '🤝 Ομαδικό παιχνίδι', monGo: 'Πολέμα τα τέρατα ▶',
       bin: 'Μπίνγκο της Προπαίδειας', binP: 'Η μεγάλη οθόνη λέει μια ερώτηση — βρες την απάντηση στην κάρτα σου! Οι γραμμές και η γεμάτη κάρτα δίνουν πολλούς πόντους. 🎉',
       binC1: '👫 1–40 παίκτες', binC2: '⏱️ 5–10 λεπτά', binC3: '🎯 Νικά η προσοχή', binGo: 'Παίξε μπίνγκο ▶',
+      uno: 'UNO', unoP: 'Το κλασικό παιχνίδι με κάρτες, με τους επίσημους κανόνες! Ταίριαξε χρώματα και αριθμούς, φώναξε UNO! και άδειασε το χέρι σου πριν από όλους. 🌈',
+      unoC1: '👫 2–10 παίκτες', unoC2: '⏱️ 10–30 λεπτά', unoC3: '🃏 Παιχνίδι με κάρτες', unoGo: 'Παίξε UNO ▶',
       soon: 'Έρχονται κι άλλα παιχνίδια…', soonP: 'Τι να φτιάξουμε μετά;',
       foot: 'Άνοιξε αυτή τη σελίδα στην τηλεόραση ή στο laptop. Οι παίκτες δεν χρειάζεται να έρθουν εδώ — σκανάρουν τον κωδικό που δείχνει το παιχνίδι.' },
   };

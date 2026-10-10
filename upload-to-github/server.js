@@ -22,6 +22,7 @@ require('./games/quiz/server')(app, io);
 require('./games/island/server')(app, io);
 require('./games/monster/server')(app, io);
 require('./games/bingo/server')(app, io);
+require('./games/uno/server')(app, io);
 
 app.use(express.static(path.join(__dirname, 'public'))); // the game picker
 
