@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Greekopoly — Big Screen</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  body { overflow: hidden; }
+  /* ---------- Lobby ---------- */
+  #lobby { min-height: 100vh; display: grid; grid-template-columns: minmax(320px, 440px) 1fr; gap: 28px; padding: 28px; align-items: start; }
+  #lobby .logo { font-size: clamp(3rem, 6vw, 5.2rem); }
+  .qr-card { text-align: center; padding: 22px; }
+  .qr-card img { width: 100%; max-width: 360px; aspect-ratio: 1; border-radius: 18px; border: 6px solid #f1ecff; }
+  .qr-card .code { font-size: 2.6rem; font-weight: 700; letter-spacing: 8px; color: var(--pink); }
+  .qr-card .url { font-size: .95rem; word-break: break-all; }
+  .lobby-players { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 8px 0 18px; }
+  #playerCount { font-size: 1.3rem; font-weight: 700; margin-top: 18px; }
+  .lp { position: relative; text-align: center; padding: 12px 8px; animation: pop2 .4s ease; min-height: 120px; }
+  @keyframes pop2 { from { transform: scale(.5); opacity: 0; } }
+  .lp .e { font-size: 3rem; }
+  .lp .n { font-size: 1.35rem; font-weight: 600; }
+  .lp .x { position: absolute; top: 6px; right: 6px; padding: 2px 9px; font-size: .9rem; box-shadow: none; background: #ffe1e7; color: #c0163a; }
+  .empty-slot { border: 3px dashed #cfc4f5; border-radius: var(--radius); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #b9addf; min-height: 120px; font-size: 2rem; font-weight: 700; }
+  .empty-slot small { font-size: .9rem; font-weight: 500; color: var(--ink-soft); }
+  .themes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .themes button { display: flex; align-items: center; gap: 12px; text-align: left; padding: 14px; border: 4px solid transparent; border-radius: 20px; }
+  .themes button.sel { border-color: var(--pink); background: #fff0f7; }
+  .themes .ti { font-size: 2.6rem; }
+  .themes b { font-size: 1.35rem; display: block; }
+  .themes small { color: var(--ink-soft); font-size: .9rem; }
+  .toggle { display: flex; gap: 12px; align-items: center; font-size: 1.1rem; cursor: pointer; }
+  .toggle input { width: 26px; height: 26px; accent-color: var(--pink); }
+
+  /* ---------- Game ---------- */
+  #game { height: 100vh; display: flex; gap: 14px; padding: 12px; }
+  #boardWrap { flex: none; display: grid; place-items: center; }
+  #board {
+    /* Wide board: full height, ~78% of the width (a square can't be wider than the screen is tall). */
+    width: max(calc(100vw - 440px), 78vw); height: calc(100vh - 24px); position: relative; container-type: size;
+    display: grid; grid-template-columns: 1.55fr repeat(9, 1fr) 1.55fr; grid-template-rows: 1.55fr repeat(9, 1fr) 1.55fr; gap: 0.35cqmin;
+    background: #fff; padding: 1.4cqmin; border-radius: 3cqmin; box-shadow: var(--shadow);
+    border: 1.2cqmin solid transparent; border-image: var(--meander) 24 round;
+  }
+  .tile { position: relative; background: var(--cream); border-radius: 1cqmin; display: flex; overflow: hidden; text-align: center; transition: box-shadow .3s; }
+  .tile .band { flex: 0 0 22%; display: flex; align-items: center; justify-content: center; gap: .2cqmin; font-size: 2cqmin; line-height: 1; }
+  .tile .info { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: .3cqmin; min-width: 0; }
+  .tile .nm { font-size: 1.55cqmin; font-weight: 600; line-height: 1.05; word-break: break-word; }
+  .tile .em { font-size: 3.2cqmin; line-height: 1.1; }
+  .tile .pr { font-size: 1.4cqmin; color: var(--ink-soft); font-weight: 500; }
+  .tile.side-b { flex-direction: column; } .tile.side-t { flex-direction: column-reverse; }
+  .tile.side-l { flex-direction: row-reverse; } .tile.side-r { flex-direction: row; }
+  .tile.side-l .band, .tile.side-r .band { flex-basis: 20%; flex-direction: column; }
+  .tile.corner { background: linear-gradient(150deg, #fff3fa, #eaf6ff); }
+  .tile.corner .em { font-size: 5.6cqmin; } .tile.corner .nm { font-size: 1.9cqmin; }
+  .tile.special .em { font-size: 3.8cqmin; }
+  .tile .owner { position: absolute; bottom: .25cqmin; right: .25cqmin; width: 3cqmin; height: 3cqmin; border-radius: 50%; display: grid; place-items: center; font-size: 1.9cqmin; border: .3cqmin solid; background: #fff; }
+  .tile.mort { filter: grayscale(.8); opacity: .65; }
+  .tile.hl { box-shadow: 0 0 0 .5cqmin var(--gold), 0 0 2cqmin var(--gold); z-index: 2; }
+
+  #center { grid-area: 2 / 2 / 11 / 11; border-radius: 2cqmin; position: relative; overflow: hidden;
+    background: linear-gradient(180deg, #bfe6ff 0%, #e2f3ff 44%, #4aa8ff 44.5%, #1e6fd9 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 3cqmin 3cqmin; gap: 1.6cqmin; }
+  #center .sun { position: absolute; top: 2cqmin; right: 3cqmin; font-size: 7cqmin; animation: spin 30s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #center .boat { position: absolute; bottom: 4cqmin; font-size: 5cqmin; animation: sail 26s linear infinite; }
+  @keyframes sail { from { left: -8cqmin; } to { left: 110%; } }
+  .deco { position: absolute; font-size: 4.5cqmin; }
+  .deco.jump { animation: jump 3.4s ease-in-out infinite; }
+  @keyframes jump { 0%, 60%, 100% { transform: translateY(0) rotate(0); } 75% { transform: translateY(-4cqmin) rotate(-25deg); } 90% { transform: translateY(-1cqmin) rotate(15deg); } }
+  @keyframes float { 50% { transform: translateX(3cqmin); } }
+  #center .logo { font-size: 7.5cqmin; text-shadow: none; filter: drop-shadow(0 .3cqmin 0 #fff); }
+  #center .tag { margin-top: -1.2cqmin; font-size: 1.8cqmin; color: var(--ink); font-weight: 500; }
+  #turnBox { background: rgba(255,255,255,.93); border-radius: 2.4cqmin; padding: 1.6cqmin 2.4cqmin; text-align: center; box-shadow: var(--shadow); width: 74%; z-index: 1; }
+  #turnBox .who { font-size: 3.1cqmin; font-weight: 700; }
+  #turnBox .what { font-size: 2cqmin; color: var(--ink-soft); margin-top: .3cqmin; }
+  #turnBox .last { font-size: 1.9cqmin; margin-top: 1cqmin; padding-top: 1cqmin; border-top: 2px dashed #e6defd; }
+  #center .dice-row .die { width: 7cqmin; height: 7cqmin; border-radius: 1.6cqmin; padding: .9cqmin; }
+  #popup { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(59,42,122,.35); z-index: 5; padding: 6cqmin; }
+  #popup > div { width: 70%; animation: pop2 .35s ease; }
+  #popup .fcard p { font-size: 2.8cqmin; } #popup .fcard h3 { font-size: 2.2cqmin; } #popup .fcard .ico { font-size: 6cqmin; }
+  #popup .deed { font-size: 1.8cqmin; width: 60%; margin: 0 auto; } #popup .deed .band { font-size: 2.8cqmin; }
+  .auction { background: #fff; border-radius: 2.4cqmin; padding: 2cqmin; text-align: center; box-shadow: var(--shadow); width: 80%; }
+  .auction h2 { margin: 0; font-size: 3.2cqmin; }
+  .auction .bid { font-size: 5cqmin; font-weight: 700; color: var(--pink); }
+  .auction .chip { font-size: 1.8cqmin; }
+
+  #tokens { position: absolute; inset: 0; pointer-events: none; }
+  .tok { position: absolute; width: 5.4cqmin; height: 5.4cqmin; border-radius: 50%; background: #fff; display: grid; place-items: center; font-size: 3.5cqmin;
+    border: .45cqmin solid; box-shadow: 0 .5cqmin 1cqmin rgba(0,0,0,.25); transition: left .18s ease, top .18s ease, transform .2s; z-index: 4; }
+  .tok.cur { transform: scale(1.25); z-index: 6; animation: bob 1s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: scale(1.25) translateY(-.6cqmin); } }
+  .tok .lock { position: absolute; bottom: -1cqmin; right: -1cqmin; font-size: 1.8cqmin; }
+
+  #side { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+  #side .head img { width: 64px !important; height: 64px !important; }
+  #side .head #codeSmall { font-size: 1.4rem !important; }
+  #side .head .muted { font-size: .75rem !important; }
+  #log { font-size: .85rem !important; }
+  #log div { padding: 4px 8px !important; }
+  .tools button { padding: 6px 9px !important; font-size: .8rem !important; }
+  #side .head { display: flex; align-items: center; gap: 12px; }
+  #side .head img { width: 92px; height: 92px; border-radius: 12px; }
+  .pl { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 18px; background: #fff; box-shadow: var(--shadow); border: 3px solid transparent; }
+  .pl.cur { border-color: var(--pink); background: #fff5fa; }
+  .pl.out { opacity: .45; filter: grayscale(1); }
+  .pl .e { font-size: 2rem; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; border: 4px solid; background: #fff; flex: none; }
+  .pl .n { font-weight: 600; font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pl .sw { display: flex; gap: 3px; flex-wrap: wrap; margin-top: 3px; }
+  .pl .sw span { width: 12px; height: 12px; border-radius: 4px; }
+  .pl .cash { font-size: 1.3rem; }
+  #players { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
+  #players.many { gap: 5px; }
+  #players.many .pl { padding: 5px 10px; }
+  #players.many .pl .e { width: 38px; height: 38px; font-size: 1.5rem; border-width: 3px; }
+  #players.many .pl .n { font-size: 1.05rem; }
+  #players.many .pl .cash { font-size: 1.15rem; }
+  #log { flex: 1; overflow-y: auto; font-size: .98rem; display: flex; flex-direction: column-reverse; gap: 5px; min-height: 80px; }
+  #log div { background: rgba(255,255,255,.7); padding: 6px 10px; border-radius: 12px; }
+  .tools { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tools button { padding: 8px 12px; font-size: .95rem; }
+  #over .panel { max-width: 560px; width: 100%; text-align: center; }
+  #over .rank { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 16px; background: #f8f5ff; margin: 8px 0; font-size: 1.3rem; }
+  #over .rank:first-child { background: linear-gradient(90deg, #fff3c4, #ffe1f0); font-size: 1.6rem; font-weight: 700; }
+</style>
+</head>
+<body>
+<div id="lobby" class="hidden">
+  <div class="panel qr-card">
+    <div style="font-size:1.7rem;font-weight:700">📱 Scan to join!</div>
+    <img id="qr" alt="QR code to join the game">
+    <div class="muted">or open the link and type the code</div>
+    <div class="code" id="code">····</div>
+    <div class="url muted" id="url"></div>
+  </div>
+  <div>
+    <div class="logo" id="lobbyLogo">Greekopoly</div>
+    <div style="font-size:1.5rem;margin-top:6px" id="lobbyTag"></div>
+    <div id="playerCount"></div>
+    <div class="lobby-players" id="lobbyPlayers"></div>
+    <div class="panel" style="display:flex;flex-direction:column;gap:14px">
+      <div style="font-weight:700;font-size:1.2rem">🎨 Choose a theme</div>
+      <div class="themes" id="themePick"></div>
+      <label class="toggle"><input type="checkbox" id="jackpot"> <span id="jackpotLabel"></span></label>
+      <div class="row wrap">
+        <button class="btn-pink huge" id="startBtn" style="width:auto;flex:1">✨ Start the game!</button>
+        <button class="btn-soft" id="newBtn">🔄 New game</button>
+        <a class="btn-soft" href="/" style="text-decoration:none;padding:12px 18px;border-radius:18px;background:#f1ecff;color:var(--ink);font-weight:500">🏠 All games</a>
+      </div>
+      <div class="muted" id="startHint">Waiting for at least 2 players…</div>
+    </div>
+  </div>
+</div>
+
+<div id="game" class="hidden">
+  <div id="boardWrap"><div id="board">
+    <div id="center">
+      <div class="sun">☀️</div><div class="boat" data-d="0">⛵</div>
+      <div class="deco" data-d="1" style="left:6%;bottom:9%;font-size:6cqmin">🏝️</div>
+      <div class="deco jump" data-d="2" style="left:30%;bottom:20%">🐬</div>
+      <div class="deco jump" data-d="3" style="right:24%;bottom:12%;animation-delay:1.3s">🐬</div>
+      <div class="deco" data-d="4" style="right:6%;bottom:6%;font-size:6.5cqmin">🏛️</div>
+      <div class="deco" data-d="5" style="left:7%;top:5%;font-size:4cqmin;animation:float 6s ease-in-out infinite">☁️</div>
+      <div id="bank" class="chip" style="position:absolute;left:2cqmin;bottom:2cqmin;font-size:1.5cqmin;background:rgba(255,255,255,.85)"></div>
+      <div class="logo" id="boardLogo">Greekopoly</div>
+      <div class="tag" id="boardTag"></div>
+      <div class="dice-row" id="dice"></div>
+      <div id="turnBox"><div class="who" id="who"></div><div class="what" id="what"></div><div class="last" id="last"></div></div>
+      <div id="auctionBox" class="auction hidden"></div>
+      <div id="popup" class="hidden"></div>
+    </div>
+    <div id="tokens"></div>
+  </div></div>
+  <aside id="side">
+    <div class="head panel" style="padding:10px">
+      <img id="qrSmall" alt="QR code to rejoin">
+      <div class="grow"><div class="muted">Game code</div><div style="font-size:1.9rem;font-weight:700;letter-spacing:4px;color:var(--pink)" id="codeSmall"></div>
+        <div class="muted" style="font-size:.85rem">Lost your phone? Scan again to come back.</div></div>
+    </div>
+    <div id="potBox" class="chip hidden" style="font-size:1.1rem;align-self:flex-start"></div>
+    <div id="players"></div>
+    <div id="log"></div>
+    <div class="tools">
+      <button class="btn-soft" id="fsBtn">⛶ Full screen</button>
+      <button class="btn-soft" id="soundBtn">🔊 Sound on</button>
+      <button class="btn-gold" id="endAuctionBtn">🔨 Close auction</button>
+      <button class="btn-red" id="endGameBtn">🏁 Finish game</button>
+    </div>
+  </aside>
+</div>
+
+<div id="over" class="overlay hidden"><div class="panel">
+  <div style="font-size:4rem">👑</div><div class="logo" style="font-size:2.6rem">Game over!</div>
+  <div id="ranking"></div>
+  <div class="muted" style="margin:6px 0 12px">Everyone stays joined — pick a theme and play again!</div>
+  <button class="btn-pink big" id="againBtn">🏠 Home screen</button>
+</div></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="shared/board.js"></script>
+<script src="common.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

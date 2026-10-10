@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3b1c8c">
+<title>Maths Superstars — Player</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  body { font-size: 17px; min-height: 100vh; }
+  .screen { max-width: 520px; margin: 0 auto; padding: 16px; padding-bottom: max(16px, env(safe-area-inset-bottom)); min-height: 100vh; display: flex; flex-direction: column; gap: 14px; }
+  h1.logo { font-size: 2.5rem; text-align: center; margin: 16px 0 0; }
+  .sub { text-align: center; color: #fff; opacity: .9; }
+  input[type=text] { font: inherit; font-size: 1.4rem; width: 100%; padding: 14px 16px; border-radius: 18px; border: 3px solid #e2d8ff; outline: none; color: var(--ink); background: #fff; }
+  input[type=text]:focus { border-color: var(--pink); }
+  .label { font-weight: 600; margin: 4px 0 8px; font-size: 1.1rem; }
+  .avs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .avs button { font-size: 1.9rem; padding: 8px 0; border-radius: 16px; border: 3px solid transparent; }
+  .avs button.sel { border-color: var(--pink); background: #ffe3ef; transform: scale(1.08); }
+
+  #hdr { display: flex; align-items: center; gap: 10px; color: #fff; padding: 4px 2px; }
+  #hdr .a { font-size: 2.3rem; }
+  #hdr .n { font-weight: 600; font-size: 1.2rem; }
+  #hdr .sc { margin-left: auto; text-align: right; font-weight: 700; font-size: 1.4rem; }
+  #hdr .sc small { display: block; font-size: .8rem; font-weight: 500; opacity: .85; }
+  #main { flex: 1; display: flex; flex-direction: column; gap: 14px; justify-content: center; }
+  .q { background: #fff; border-radius: 26px; padding: 18px 10px; text-align: center; font-size: clamp(2.4rem, 13vw, 3.6rem); font-weight: 700; box-shadow: var(--shadow); }
+  .grid4 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid4 .fruit { flex-direction: column; justify-content: center; gap: 6px; font-size: clamp(2rem, 11vw, 2.8rem); min-height: 22vh; padding: 10px; }
+  .grid4 .fe { width: 52px; height: 52px; font-size: 2rem; }
+  .grid4 .fruit.picked { outline: 6px solid #fff; transform: scale(1.04); }
+  .grid4 .fruit.faded { opacity: .35; }
+  .display { background: #fff; border-radius: 22px; min-height: 84px; display: grid; place-items: center; font-size: 3rem; font-weight: 700; box-shadow: var(--shadow); letter-spacing: 2px; }
+  .display.empty { color: #c9bdf0; font-size: 1.4rem; letter-spacing: 0; }
+  .pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .pad button { font-size: 2rem; font-weight: 700; padding: 14px 0; border-radius: 20px; }
+  .pad .ok { background: linear-gradient(180deg, #5ee08e, var(--green)); color: #fff; box-shadow: 0 5px 0 #15803d; }
+  .card { background: #fff; border-radius: 28px; padding: 26px 18px; text-align: center; box-shadow: var(--shadow); animation: popin .4s ease; }
+  .card .big-e { font-size: 4.5rem; line-height: 1; }
+  .card h2 { margin: 8px 0 4px; font-size: 2rem; }
+  .card .pts { font-size: 2.2rem; font-weight: 700; color: var(--green); }
+  .white { color: #fff; text-align: center; }
+  .count { font-size: 9rem; font-weight: 700; color: #fff; text-align: center; animation: popin .6s ease; text-shadow: 0 8px 0 #c42a63; }
+  .recap div { display: flex; justify-content: space-between; gap: 8px; padding: 8px 2px; border-bottom: 1px dashed #e9e2ff; font-size: 1.15rem; }
+  .recap .bad { color: var(--red); }
+</style>
+</head>
+<body>
+<div id="joinScreen" class="screen hidden">
+  <h1 class="logo">Maths <span>Superstars</span> 🌟</h1>
+  <div class="sub">The times tables quiz show!</div>
+  <div class="panel" style="display:flex;flex-direction:column;gap:10px">
+    <div id="codeBox" class="hidden">
+      <div class="label">Game code (on the big screen)</div>
+      <input type="text" id="codeIn" maxlength="4" autocapitalize="characters" autocomplete="off" placeholder="ABCD" style="text-transform:uppercase;letter-spacing:8px;text-align:center">
+    </div>
+    <div class="label">What's your name?</div>
+    <input type="text" id="nameIn" maxlength="14" autocomplete="off" placeholder="Your name">
+    <div class="label">Pick your avatar</div>
+    <div class="avs" id="avs"></div>
+    <button class="btn-pink huge" id="joinBtn" style="margin-top:8px">Join the show! 🎤</button>
+  </div>
+</div>
+
+<div id="gameScreen" class="screen hidden">
+  <div id="hdr"><span class="a" id="hA"></span><span class="n" id="hN"></span><span class="sc" id="hS"></span></div>
+  <div class="timer hidden" id="bar"><i></i></div>
+  <div id="main"></div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="common.js"></script>
+<script src="play.js"></script>
+</body>
+</html>
