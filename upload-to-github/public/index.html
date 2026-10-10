@@ -27,6 +27,8 @@
   .art.mono { background: linear-gradient(180deg, #bfe6ff 0%, #e2f3ff 55%, #4aa8ff 56%, #1e6fd9 100%); }
   .art.quiz { background: radial-gradient(circle at 25% 20%, #9d4edd, transparent 50%), linear-gradient(150deg, #3b1c8c, #7b2cbf 55%, #e0399b); }
   .art.island { background: radial-gradient(ellipse at 50% 60%, #f6dfa8 0 22%, #5ad1e6 23%, #1fa2c9 60%, #0b6fa4 100%); }
+  .art.monster { background: radial-gradient(circle at 25% 20%, #7c3aed, transparent 55%), linear-gradient(150deg, #1e0b3d, #4c1d95 55%, #be3a1a); }
+  .art.bingo { background: radial-gradient(circle at 25% 20%, #f472b6, transparent 55%), linear-gradient(150deg, #9d174d, #db2777 55%, #f59e0b); }
   .art.soon { background: repeating-linear-gradient(45deg, #f6f2ff, #f6f2ff 14px, #efe8ff 14px, #efe8ff 28px); color: #c8bdf0; }
   .art .float { animation: float 3s ease-in-out infinite; display: inline-block; }
   @keyframes float { 50% { transform: translateY(-10px); } }
@@ -76,6 +78,24 @@
         <span class="play" data-i="islGo">Play Treasure Island ▶</span>
       </div>
     </a>
+    <a class="game" href="/monster/">
+      <div class="art monster"><span class="float">🐉</span></div>
+      <div class="info">
+        <h2 data-i="mon">Monster Battle</h2>
+        <p data-i="monP">Team up against the maths monsters! Every right answer is a 💥 hit. How many monsters can your team beat?</p>
+        <div class="chips"><span class="chip" data-i="monC1">👫 1–40 players</span><span class="chip" data-i="monC2">⏱️ 3–8 min</span><span class="chip" data-i="monC3">🤝 Team game</span></div>
+        <span class="play" data-i="monGo">Fight the monsters ▶</span>
+      </div>
+    </a>
+    <a class="game" href="/bingo/">
+      <div class="art bingo"><span class="float">🎱</span></div>
+      <div class="info">
+        <h2 data-i="bin">Times Table Bingo</h2>
+        <p data-i="binP">The big screen calls a question — find the answer on your card! Lines and a full card win big. 🎉</p>
+        <div class="chips"><span class="chip" data-i="binC1">👫 1–40 players</span><span class="chip" data-i="binC2">⏱️ 5–10 min</span><span class="chip" data-i="binC3">🎯 Accuracy wins</span></div>
+        <span class="play" data-i="binGo">Play Bingo ▶</span>
+      </div>
+    </a>
     <a class="game soon-card" aria-disabled="true" tabindex="-1">
       <div class="art soon">✨</div>
       <div class="info">
@@ -95,6 +115,10 @@
       quizC1: '👫 1–40 players', quizC2: '⏱️ 5–15 min', quizC3: '🧠 Year 5 maths', quizGo: 'Play the quiz ▶',
       isl: 'Treasure Island', islP: 'Answer maths questions to earn gold 🪙, then claim squares of the island. Find hidden treasure — the biggest landowner wins! 🏴‍☠️',
       islC1: '👫 1–16 players', islC2: '⏱️ 3–8 min', islC3: '🧠 Maths + strategy', islGo: 'Play Treasure Island ▶',
+      mon: 'Monster Battle', monP: 'Team up against the maths monsters! Every right answer is a 💥 hit. How many monsters can your team beat?',
+      monC1: '👫 1–40 players', monC2: '⏱️ 3–8 min', monC3: '🤝 Team game', monGo: 'Fight the monsters ▶',
+      bin: 'Times Table Bingo', binP: 'The big screen calls a question — find the answer on your card! Lines and a full card win big. 🎉',
+      binC1: '👫 1–40 players', binC2: '⏱️ 5–10 min', binC3: '🎯 Accuracy wins', binGo: 'Play Bingo ▶',
       soon: 'More games coming soon…', soonP: 'What should we make next?',
       foot: "Open this page on the TV or laptop. Players don't need to come here — they scan the code shown in the game." },
     el: { title: 'Γωνιά Παιχνιδιών', hub: 'Γωνιά Παιχνιδιών', tag: 'Διάλεξε παιχνίδι για τη μεγάλη οθόνη — όλοι μπαίνουν από το κινητό τους σκανάροντας τον κωδικό QR! 📱',
@@ -104,6 +128,10 @@
       quizC1: '👫 1–40 παίκτες', quizC2: '⏱️ 5–15 λεπτά', quizC3: '🧠 Μαθηματικά Ε΄ τάξης', quizGo: 'Παίξε το κουίζ ▶',
       isl: 'Το Νησί του Θησαυρού', islP: 'Απάντα σε ερωτήσεις μαθηματικών για να κερδίσεις χρυσό 🪙 και πάρε τετράγωνα του νησιού. Βρες κρυμμένους θησαυρούς — νικά όποιος έχει την περισσότερη γη! 🏴‍☠️',
       islC1: '👫 1–16 παίκτες', islC2: '⏱️ 3–8 λεπτά', islC3: '🧠 Μαθηματικά + στρατηγική', islGo: 'Παίξε στο Νησί ▶',
+      mon: 'Μάχη με Τέρατα', monP: 'Ενώστε τις δυνάμεις σας ενάντια στα τέρατα των μαθηματικών! Κάθε σωστή απάντηση είναι ένα 💥 χτύπημα. Πόσα τέρατα θα νικήσει η ομάδα σας;',
+      monC1: '👫 1–40 παίκτες', monC2: '⏱️ 3–8 λεπτά', monC3: '🤝 Ομαδικό παιχνίδι', monGo: 'Πολέμα τα τέρατα ▶',
+      bin: 'Μπίνγκο της Προπαίδειας', binP: 'Η μεγάλη οθόνη λέει μια ερώτηση — βρες την απάντηση στην κάρτα σου! Οι γραμμές και η γεμάτη κάρτα δίνουν πολλούς πόντους. 🎉',
+      binC1: '👫 1–40 παίκτες', binC2: '⏱️ 5–10 λεπτά', binC3: '🎯 Νικά η προσοχή', binGo: 'Παίξε μπίνγκο ▶',
       soon: 'Έρχονται κι άλλα παιχνίδια…', soonP: 'Τι να φτιάξουμε μετά;',
       foot: 'Άνοιξε αυτή τη σελίδα στην τηλεόραση ή στο laptop. Οι παίκτες δεν χρειάζεται να έρθουν εδώ — σκανάρουν τον κωδικό που δείχνει το παιχνίδι.' },
   };
