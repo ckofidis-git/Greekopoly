@@ -19,6 +19,7 @@ app.get('/qr.svg', async (req, res) => {
 
 require('./games/monopoly/server')(app, io);
 require('./games/quiz/server')(app, io);
+require('./games/island/server')(app, io);
 
 app.use(express.static(path.join(__dirname, 'public'))); // the game picker
 

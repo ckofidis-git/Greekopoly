@@ -26,6 +26,7 @@
   .art { height: 190px; display: grid; place-items: center; font-size: 5.2rem; position: relative; }
   .art.mono { background: linear-gradient(180deg, #bfe6ff 0%, #e2f3ff 55%, #4aa8ff 56%, #1e6fd9 100%); }
   .art.quiz { background: radial-gradient(circle at 25% 20%, #9d4edd, transparent 50%), linear-gradient(150deg, #3b1c8c, #7b2cbf 55%, #e0399b); }
+  .art.island { background: radial-gradient(ellipse at 50% 60%, #f6dfa8 0 22%, #5ad1e6 23%, #1fa2c9 60%, #0b6fa4 100%); }
   .art.soon { background: repeating-linear-gradient(45deg, #f6f2ff, #f6f2ff 14px, #efe8ff 14px, #efe8ff 28px); color: #c8bdf0; }
   .art .float { animation: float 3s ease-in-out infinite; display: inline-block; }
   @keyframes float { 50% { transform: translateY(-10px); } }
@@ -66,6 +67,15 @@
         <span class="play" data-i="quizGo">Play the quiz ▶</span>
       </div>
     </a>
+    <a class="game" href="/island/">
+      <div class="art island"><span class="float">🏝️</span></div>
+      <div class="info">
+        <h2 data-i="isl">Treasure Island</h2>
+        <p data-i="islP">Answer maths questions to earn gold 🪙, then claim squares of the island. Find hidden treasure — the biggest landowner wins! 🏴‍☠️</p>
+        <div class="chips"><span class="chip" data-i="islC1">👫 1–16 players</span><span class="chip" data-i="islC2">⏱️ 3–8 min</span><span class="chip" data-i="islC3">🧠 Maths + strategy</span></div>
+        <span class="play" data-i="islGo">Play Treasure Island ▶</span>
+      </div>
+    </a>
     <a class="game soon-card" aria-disabled="true" tabindex="-1">
       <div class="art soon">✨</div>
       <div class="info">
@@ -83,6 +93,8 @@
       monoC1: '👫 2–8 players', monoC2: '⏱️ 45+ min', monoC3: '🎲 Board game', monoGo: 'Play Monopoly ▶',
       quiz: 'Maths Superstars', quizP: 'The times tables quiz show! Answer fast, build a 🔥 streak and become the Superstar. ✖️ ➗',
       quizC1: '👫 1–40 players', quizC2: '⏱️ 5–15 min', quizC3: '🧠 Year 5 maths', quizGo: 'Play the quiz ▶',
+      isl: 'Treasure Island', islP: 'Answer maths questions to earn gold 🪙, then claim squares of the island. Find hidden treasure — the biggest landowner wins! 🏴‍☠️',
+      islC1: '👫 1–16 players', islC2: '⏱️ 3–8 min', islC3: '🧠 Maths + strategy', islGo: 'Play Treasure Island ▶',
       soon: 'More games coming soon…', soonP: 'What should we make next?',
       foot: "Open this page on the TV or laptop. Players don't need to come here — they scan the code shown in the game." },
     el: { title: 'Γωνιά Παιχνιδιών', hub: 'Γωνιά Παιχνιδιών', tag: 'Διάλεξε παιχνίδι για τη μεγάλη οθόνη — όλοι μπαίνουν από το κινητό τους σκανάροντας τον κωδικό QR! 📱',
@@ -90,6 +102,8 @@
       monoC1: '👫 2–8 παίκτες', monoC2: '⏱️ 45+ λεπτά', monoC3: '🎲 Επιτραπέζιο', monoGo: 'Παίξε Μονόπολη ▶',
       quiz: 'Αστέρια των Μαθηματικών', quizP: 'Το κουίζ της προπαίδειας! Απάντα γρήγορα, κάνε 🔥 σερί και γίνε το Αστέρι. ✖️ ➗',
       quizC1: '👫 1–40 παίκτες', quizC2: '⏱️ 5–15 λεπτά', quizC3: '🧠 Μαθηματικά Ε΄ τάξης', quizGo: 'Παίξε το κουίζ ▶',
+      isl: 'Το Νησί του Θησαυρού', islP: 'Απάντα σε ερωτήσεις μαθηματικών για να κερδίσεις χρυσό 🪙 και πάρε τετράγωνα του νησιού. Βρες κρυμμένους θησαυρούς — νικά όποιος έχει την περισσότερη γη! 🏴‍☠️',
+      islC1: '👫 1–16 παίκτες', islC2: '⏱️ 3–8 λεπτά', islC3: '🧠 Μαθηματικά + στρατηγική', islGo: 'Παίξε στο Νησί ▶',
       soon: 'Έρχονται κι άλλα παιχνίδια…', soonP: 'Τι να φτιάξουμε μετά;',
       foot: 'Άνοιξε αυτή τη σελίδα στην τηλεόραση ή στο laptop. Οι παίκτες δεν χρειάζεται να έρθουν εδώ — σκανάρουν τον κωδικό που δείχνει το παιχνίδι.' },
   };

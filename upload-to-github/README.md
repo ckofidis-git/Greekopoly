@@ -6,6 +6,7 @@ Family party games for the big screen. Open the site on a TV or laptop, pick a g
 |---|---|---|
 | 🏛️ Monopoly | `/monopoly/` | Official Monopoly rules with two themes: 🇬🇷 Greekopoly and 🌍 Worldopoly. 2–8 players. |
 | 🌟 Maths Superstars | `/quiz/` | Times-tables quiz show for Year 5 (age 9–10): × ÷ facts to 12×12, missing numbers, × ÷ 10/100/1000. 1–40 players. |
+| 🏝️ Treasure Island | `/island/` | Answer maths questions at your own pace to earn gold, spend it claiming (or stealing) squares of a shared island; hidden surprises; most land wins. 1–16 players. |
 
 ## Layout
 - `server.js` — the hub: game picker page (`public/`), QR codes, and mounts each game
