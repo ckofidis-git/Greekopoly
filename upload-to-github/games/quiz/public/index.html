@@ -6,7 +6,7 @@
 <title>Maths Superstars — Big Screen</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
   body { overflow: hidden; height: 100vh; }
@@ -31,6 +31,9 @@
   .tog button.on { background: #ffe3ef; border-color: var(--pink); color: #b0154f; font-weight: 700; }
   .tog .tbl { width: 66px; font-weight: 700; }
   .tog .quick { background: #fff7d6; }
+  .langs { display: flex; gap: 6px; }
+  .langs button { padding: 8px 14px; font-size: 1.05rem; border: 3px solid transparent; }
+  .langs button.sel { border-color: var(--gold); background: #fff7d6; font-weight: 700; }
 
   /* ---------- Show ---------- */
   #show { height: 100vh; display: flex; flex-direction: column; padding: 18px 26px; gap: 14px; }
@@ -82,44 +85,45 @@
 <body>
 <div id="lobby" class="hidden">
   <div class="panel qr-card">
-    <div style="font-size:1.8rem;font-weight:700">📱 Scan to join!</div>
+    <div style="font-size:1.8rem;font-weight:700" data-i="scan">📱 Scan to join!</div>
     <img id="qr" alt="QR code to join">
-    <div class="muted">or open the link and type the code</div>
+    <div class="muted" data-i="orLink">or open the link and type the code</div>
     <div class="code" id="code">····</div>
     <div class="muted" id="url" style="font-size:.9rem;word-break:break-all"></div>
   </div>
   <div class="right">
     <div>
-      <div class="logo">Maths <span>Superstars</span> 🌟</div>
-      <div style="color:#fff;font-size:1.4rem;margin-top:8px">The times tables quiz show! Answer fast, collect points, become the Superstar! ✖️➗</div>
+      <div class="row wrap" style="justify-content:space-between;align-items:flex-start"><div class="logo" data-ih="title">Maths <span>Superstars</span> 🌟</div>
+        <div class="langs" id="langPick"><button data-lang="en">🇬🇧 English</button><button data-lang="el">🇬🇷 Ελληνικά</button></div></div>
+      <div style="color:#fff;font-size:1.4rem;margin-top:8px" data-i="tagline">The times tables quiz show! Answer fast, collect points, become the Superstar! ✖️➗</div>
     </div>
     <div class="kids" id="kids"></div>
     <div class="panel" style="overflow-y:auto">
       <div class="settings">
         <div class="full">
-          <h3>✖️ Which times tables?</h3>
+          <h3 data-i="hTables">✖️ Which times tables?</h3>
           <div class="tog" id="tables"></div>
         </div>
         <div>
-          <h3>🧮 Question types</h3>
+          <h3 data-i="hTypes">🧮 Question types</h3>
           <div class="tog" id="ops"></div>
         </div>
         <div>
-          <h3>📱 How to answer</h3>
+          <h3 data-i="hMode">📱 How to answer</h3>
           <div class="tog" id="mode"></div>
         </div>
         <div>
-          <h3>❓ How many questions?</h3>
+          <h3 data-i="hCount">❓ How many questions?</h3>
           <div class="tog" id="count"></div>
         </div>
         <div>
-          <h3>⏱️ Seconds per question</h3>
+          <h3 data-i="hTime">⏱️ Seconds per question</h3>
           <div class="tog" id="time"></div>
         </div>
         <div class="full row">
           <button class="btn-pink huge" id="startBtn" style="flex:1">🚀 Start the quiz!</button>
-          <button class="btn-soft" id="newBtn">🔄 New game code</button>
-          <a href="/" style="text-decoration:none;padding:12px 18px;border-radius:18px;background:#f1ebff;color:var(--ink);font-weight:500">🏠 All games</a>
+          <button class="btn-soft" id="newBtn" data-i="newCode">🔄 New game code</button>
+          <a href="/" style="text-decoration:none;padding:12px 18px;border-radius:18px;background:#f1ebff;color:var(--ink);font-weight:500" data-i="allGames">🏠 All games</a>
         </div>
       </div>
     </div>
@@ -128,22 +132,24 @@
 
 <div id="show" class="hidden">
   <div id="top">
-    <div class="logo">Maths <span>Superstars</span> 🌟</div>
+    <div class="logo" data-ih="title">Maths <span>Superstars</span> 🌟</div>
     <div id="qnum"></div>
     <div class="grow"></div>
-    <div style="text-align:right"><div style="opacity:.8;font-size:.9rem">Join late? Code</div><div style="font-size:1.6rem;font-weight:700;letter-spacing:4px" id="codeSmall"></div></div>
+    <div style="text-align:right"><div style="opacity:.8;font-size:.9rem" data-i="lateJoin">Join late? Code</div><div style="font-size:1.6rem;font-weight:700;letter-spacing:4px" id="codeSmall"></div></div>
     <img id="qrSmall" alt="QR code to join">
   </div>
   <div id="stage"></div>
   <div id="controls">
     <button class="btn-ghost" id="soundBtn">🔊 Sound on</button>
-    <button class="btn-ghost" id="fsBtn">⛶ Full screen</button>
-    <button class="btn-ghost" id="skipBtn">⏭️ Next</button>
-    <button class="btn-ghost" id="endBtn">🏁 End quiz</button>
+    <button class="btn-ghost" id="langBtn"></button>
+    <button class="btn-ghost" id="fsBtn" data-i="fullScreen">⛶ Full screen</button>
+    <button class="btn-ghost" id="skipBtn" data-i="next">⏭️ Next</button>
+    <button class="btn-ghost" id="endBtn" data-i="end">🏁 End quiz</button>
   </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
+<script src="i18n.js"></script>
 <script src="common.js"></script>
 <script src="host.js"></script>
 </body>

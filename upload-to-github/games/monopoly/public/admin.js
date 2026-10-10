@@ -10,7 +10,7 @@ const joinUrl = () => `${location.origin}/monopoly/play?g=${code}`;
 const qrSrc = () => `/qr.svg?u=${encodeURIComponent(joinUrl())}`;
 
 function adminDo(type, extra = {}) {
-  socket.emit('admin:do', { type, ...extra }, (r) => r && r.error && toast(r.error));
+  socket.emit('admin:do', { type, ...extra }, (r) => r && r.error && toast(t(r.error)));
 }
 
 function boot() {
@@ -21,7 +21,7 @@ function boot() {
   } else createGame();
 }
 function createGame() {
-  socket.emit('admin:create', {}, (r) => {
+  socket.emit('admin:create', { lang: guessLang() }, (r) => {
     try { localStorage.setItem('gk_admin', JSON.stringify({ code: r.code, adminKey: r.adminKey })); } catch (e) {}
     enter(r.code, r.state);
   });
@@ -32,6 +32,8 @@ function enter(c, state) {
   shown.diceSeq = state.diceSeq; shown.cardSeq = state.card ? state.card.seq : 0; shown.over = state.phase === 'over';
   shown.owners = { ...state.owners };
   render(state);
+  // Coming from the home page with a language picked: a game still in its lobby follows it.
+  if (state.phase === 'lobby' && state.settings.lang !== guessLang()) adminDo('settings', { settings: { ...state.settings, lang: guessLang() } });
 }
 socket.on('connect', () => { if (code) boot(); });
 socket.on('state', render);
@@ -45,17 +47,21 @@ function renderLobby() {
   $('#code').textContent = code;
   $('#url').textContent = joinUrl();
   const slots = S.players.map((p) => `<div class="panel lp" style="border:4px solid ${p.color}">
-      <button class="x" data-kick="${p.id}" title="Remove">✕</button>
+      <button class="x" data-kick="${p.id}" title="${t('ui.remove')}">✕</button>
       <div class="e">${p.emoji}</div><div class="n">${esc(p.name)}</div>
-      <div class="muted">${p.connected ? 'Ready! 💖' : 'Reconnecting…'}</div></div>`);
-  for (let i = S.players.length; i < 8; i++) slots.push(`<div class="empty-slot">${i + 1}<small>waiting for a friend…</small></div>`);
-  $('#playerCount').textContent = `👫 Players: ${S.players.length} of 8`;
+      <div class="muted">${t(p.connected ? 'ui.ready' : 'ui.reconnecting')}</div></div>`);
+  for (let i = S.players.length; i < 8; i++) slots.push(`<div class="empty-slot">${i + 1}<small>${t('ui.waitingFriend')}</small></div>`);
+  $('#playerCount').textContent = t('ui.playersOf8', { n: S.players.length });
   $('#lobbyPlayers').innerHTML = slots.join('');
   $('#jackpot').checked = S.settings.jackpot;
-  $('#themePick').innerHTML = Object.values(window.BOARD.THEMES).map((t) => `<button data-theme="${t.id}" class="${t.id === S.settings.theme ? 'sel' : ''}">
-      <span class="ti">${t.icon}</span><span><b>${t.title}</b><small>${esc(t.tagline)}</small></span></button>`).join('');
+  $('#themePick').innerHTML = Object.keys(window.BOARD.THEMES).map((id) => {
+    const th = window.BOARD.themed(id, LANG).T;
+    return `<button data-theme="${id}" class="${id === S.settings.theme ? 'sel' : ''}">
+      <span class="ti">${th.icon}</span><span><b>${th.title}</b><small>${esc(th.tagline)}</small></span></button>`;
+  }).join('');
+  for (const b of $('#langPick').children) b.classList.toggle('sel', b.dataset.lang === LANG);
   $('#startBtn').disabled = S.players.length < 2;
-  $('#startHint').textContent = S.players.length < 2 ? 'Waiting for at least 2 players (2 to 8 can play)…' : S.players.length === 8 ? "8 players — the game is full! Let's go!" : `${S.players.length} players ready — more friends can still join (up to 8)!`;
+  $('#startHint').textContent = S.players.length < 2 ? t('ui.hintWait') : S.players.length === 8 ? t('ui.hintFull') : t('ui.hintReady', { n: S.players.length });
 }
 $('#lobbyPlayers').addEventListener('click', (e) => {
   const id = e.target.dataset.kick;
@@ -65,9 +71,15 @@ $('#themePick').addEventListener('click', (e) => {
   const b = e.target.closest('[data-theme]');
   if (b) { sfx([660, 990], 0.08); adminDo('settings', { settings: { jackpot: $('#jackpot').checked, theme: b.dataset.theme } }); }
 });
+function setLang(lang) {
+  try { localStorage.setItem('hub_lang', lang); } catch (e) {}
+  adminDo('settings', { settings: { jackpot: S.settings.jackpot, theme: S.settings.theme, lang } });
+}
+$('#langPick').addEventListener('click', (e) => { const b = e.target.closest('[data-lang]'); if (b) setLang(b.dataset.lang); });
+$('#langBtn').onclick = () => setLang(LANG === 'el' ? 'en' : 'el');
 $('#jackpot').onchange = (e) => adminDo('settings', { settings: { jackpot: e.target.checked, theme: S.settings.theme } });
 $('#startBtn').onclick = () => { sfx([523, 659, 784, 1046], 0.12); adminDo('start', { settings: { jackpot: $('#jackpot').checked, theme: S.settings.theme } }); };
-$('#newBtn').onclick = () => askConfirm('Start a brand new game with a new code? Everyone will need to scan again.', 'Yes, new game', () => { localStorage.removeItem('gk_admin'); createGame(); });
+$('#newBtn').onclick = () => askConfirm(t('ui.newGameQ'), t('ui.newGameYes'), () => { localStorage.removeItem('gk_admin'); createGame(); });
 $('#againBtn').onclick = () => { $('#over').classList.add('hidden'); adminDo('reset'); };
 
 // ---------- board ----------
@@ -83,17 +95,17 @@ function buildBoard() {
   const board = $('#board');
   board.querySelectorAll('.tile').forEach((t) => t.remove());
   SPACES.forEach((sp, i) => {
-    const t = document.createElement('div');
+    const tile = document.createElement('div');
     const [r, c] = cellOf(i);
-    t.style.gridArea = `${r} / ${c}`;
-    t.id = 't' + i;
+    tile.style.gridArea = `${r} / ${c}`;
+    tile.id = 't' + i;
     const corner = i % 10 === 0;
     const hasBand = sp.type === 'street';
-    t.className = `tile side-${sideOf(i)} ${corner ? 'corner' : ''} ${hasBand ? '' : 'special'}`;
-    t.innerHTML = `${hasBand ? `<div class="band" style="background:${GROUPS[sp.group].color}"></div>` : ''}
+    tile.className = `tile side-${sideOf(i)} ${corner ? 'corner' : ''} ${hasBand ? '' : 'special'}`;
+    tile.innerHTML = `${hasBand ? `<div class="band" style="background:${GROUPS[sp.group].color}"></div>` : ''}
       <div class="info"><div class="em">${sp.emoji}</div><div class="nm">${esc(sp.name)}</div>
-      ${sp.price ? `<div class="pr">${eur(sp.price)}</div>` : sp.amount ? `<div class="pr">pay ${eur(sp.amount)}</div>` : ''}</div>`;
-    board.appendChild(t);
+      ${sp.price ? `<div class="pr">${eur(sp.price)}</div>` : sp.amount ? `<div class="pr">${t('ui.pay', { m: eur(sp.amount) })}</div>` : ''}</div>`;
+    board.appendChild(tile);
   });
 }
 buildBoard();
@@ -101,15 +113,18 @@ buildBoard();
 // Dress the screen in the chosen theme (names, flags, wording, decorations).
 let themeShown = null;
 function applyTheme() {
-  useTheme(S.settings.theme);
-  if (themeShown === TH.id) return;
-  themeShown = TH.id;
+  useTheme(S.settings.theme, S.settings.lang);
+  if (themeShown === TH.id + LANG) return;
+  themeShown = TH.id + LANG;
   buildBoard();
-  document.title = `${TH.title} — Big Screen`;
+  applyStatic();
+  $('#soundBtn').textContent = t(soundOn ? 'ui.soundOn' : 'ui.soundOff');
+  $('#langBtn').textContent = LANG === 'el' ? '🇬🇧 English' : '🇬🇷 Ελληνικά';
+  document.title = `${TH.title} — ${t('ui.bigScreen')}`;
   $('#lobbyLogo').textContent = TH.title; $('#lobbyTag').textContent = TH.tagline;
   $('#boardLogo').textContent = TH.title; $('#boardTag').textContent = TH.boardTag;
   document.querySelectorAll('[data-d]').forEach((el) => { el.textContent = TH.deco[el.dataset.d]; });
-  $('#jackpotLabel').innerHTML = `${TH.parkingIco} <b>${TH.parkingName} jackpot</b> <span class="muted">(house rule — taxes & fines go to ${TH.parkingName}; land there to win them!)</span>`;
+  $('#jackpotLabel').innerHTML = t('ui.jackpotLabel');
 }
 
 function tokenXY(pos, idx, count, inJail) {
@@ -195,11 +210,11 @@ $('#popup').onclick = () => $('#popup').classList.add('hidden');
 function stepText(cur) {
   const name = `${esc(cur.name)}`;
   switch (S.step) {
-    case 'roll': return cur.inJail ? `${name} is stuck in ${esc(TH.jail)} ${TH.jailIco} — pay ${eur(50)}, use a card, or try for doubles!` : `Roll the dice on your phone! 🎲`;
-    case 'buy': { const sp = SPACES[S.pendingBuy]; return `Buy <b>${esc(sp.name)}</b> for ${eur(sp.price)}? 🤔`; }
-    case 'auction': return 'Auction! Everyone bids on their phone 🔨';
-    case 'debt': { const d = S.debts[0]; const p = d && S.players.find((x) => x.id === d.from); if (!p) return ''; return `${p.emoji} ${esc(p.name)} needs ${eur(d.amount)} — sell houses or mortgage places! 😟`; }
-    case 'endturn': return S.canRollAgain ? 'Roll again!' : `Tap <b>End turn</b> when you're done 👍`;
+    case 'roll': return cur.inJail ? t('ui.stepJail', { name, m: eur(50) }) : t('ui.stepRoll');
+    case 'buy': { const sp = SPACES[S.pendingBuy]; return t('ui.stepBuy', { place: esc(sp.name), m: eur(sp.price) }); }
+    case 'auction': return t('ui.stepAuction');
+    case 'debt': { const d = S.debts[0]; const p = d && S.players.find((x) => x.id === d.from); if (!p) return ''; return t('ui.stepDebt', { who: `${p.emoji} ${esc(p.name)}`, m: eur(d.amount) }); }
+    case 'endturn': return S.canRollAgain ? t('ui.stepAgain') : t('ui.stepEnd');
     default: return '';
   }
 }
@@ -210,10 +225,10 @@ function renderAuction() {
   $('#turnBox').classList.add('hidden');
   box.classList.remove('hidden');
   const top = S.players.find((p) => p.id === a.bidder);
-  box.innerHTML = `<h2>🔨 Auction: ${SPACES[a.pos].emoji} ${esc(SPACES[a.pos].name)}</h2>
-    <div class="muted" style="font-size:1.8cqmin">Worth ${eur(SPACES[a.pos].price)}</div>
-    <div class="bid">${a.bid ? eur(a.bid) : 'No bids yet'}</div>
-    <div style="font-size:2.2cqmin">${top ? `Top bid: ${top.emoji} <b>${esc(top.name)}</b>` : 'Who wants it?'}</div>
+  box.innerHTML = `<h2>${t('ui.auctionTitle', { place: `${SPACES[a.pos].emoji} ${esc(SPACES[a.pos].name)}` })}</h2>
+    <div class="muted" style="font-size:1.8cqmin">${t('ui.worth', { m: eur(SPACES[a.pos].price) })}</div>
+    <div class="bid">${a.bid ? eur(a.bid) : t('ui.noBids')}</div>
+    <div style="font-size:2.2cqmin">${top ? t('ui.topBid', { who: `${top.emoji} <b>${esc(top.name)}</b>` }) : t('ui.whoWants')}</div>
     <div class="row wrap" style="justify-content:center;margin-top:1cqmin">${a.inIds.map((id) => {
       const p = S.players.find((x) => x.id === id); return `<span class="chip">${p.emoji} ${esc(p.name)}</span>`; }).join('')}</div>`;
 }
@@ -227,7 +242,7 @@ function renderPlayers() {
       <div class="e" style="border-color:${p.color}">${p.emoji}</div>
       <div class="grow" style="min-width:0"><div class="n">${esc(p.name)} ${p.inJail ? '🔒' : ''} ${TH.escapeIco.repeat(p.jailCards.length)} ${p.connected ? '' : '📵'}</div>
         <div class="sw">${props.map((pos) => `<span title="${esc(SPACES[pos].name)}" style="background:${spaceColor(pos)};${S.mortgaged[pos] ? 'opacity:.35' : ''}"></span>`).join('')}</div></div>
-      <div class="cash money">${p.bankrupt ? 'out' : eur(p.cash)}${debt ? `<div style="color:var(--red);font-size:.85rem">owes ${eur(debt.amount)}</div>` : ''}</div></div>`;
+      <div class="cash money">${p.bankrupt ? t('ui.out') : eur(p.cash)}${debt ? `<div style="color:var(--red);font-size:.85rem">${t('ui.owes', { m: eur(debt.amount) })}</div>` : ''}</div></div>`;
   }).join('');
 }
 
@@ -258,7 +273,7 @@ function renderOver() {
     const medals = ['👑', '🥈', '🥉', '🌸', '🌸', '🌸', '🌸', '🌸'];
     $('#ranking').innerHTML = S.ranking.map((r, i) => {
       const p = S.players.find((x) => x.id === r.id);
-      return `<div class="rank"><span>${medals[i]}</span><span style="font-size:2rem">${p.emoji}</span><span class="grow" style="text-align:left">${esc(p.name)}</span><span class="money">${p.bankrupt ? 'out' : eur(r.worth)}</span></div>`;
+      return `<div class="rank"><span>${medals[i]}</span><span style="font-size:2rem">${p.emoji}</span><span class="grow" style="text-align:left">${esc(p.name)}</span><span class="money">${p.bankrupt ? t('ui.out') : eur(r.worth)}</span></div>`;
     }).join('');
     $('#over').classList.remove('hidden');
   }
@@ -288,14 +303,14 @@ function render(state) {
   }
 
   const cur = S.players[S.turn];
-  $('#who').innerHTML = `${cur.emoji} ${esc(cur.name)}'s turn`;
+  $('#who').innerHTML = t('ui.turnOf', { who: `${cur.emoji} ${esc(cur.name)}` });
   $('#who').style.color = cur.color;
   $('#what').innerHTML = stepText(cur);
   $('#last').textContent = S.log[S.log.length - 1] || '';
   $('#log').innerHTML = S.log.slice().reverse().map((l) => `<div>${esc(l)}</div>`).join('');
-  $('#bank').textContent = `Bank: 🏠 ${S.housesLeft} houses · 🏨 ${S.hotelsLeft} hotels`;
+  $('#bank').textContent = t('ui.bank', { h: S.housesLeft, H: S.hotelsLeft });
   $('#potBox').classList.toggle('hidden', !S.settings.jackpot);
-  $('#potBox').textContent = `${TH.parkingIco} ${TH.parkingName} jackpot: ${eur(S.pot)}`;
+  $('#potBox').textContent = t('ui.jackpotPot', { m: eur(S.pot) });
   $('#endAuctionBtn').classList.toggle('hidden', !S.auction);
 
   // New card drawn
@@ -315,6 +330,6 @@ function render(state) {
 
 window.addEventListener('resize', () => S && S.phase !== 'lobby' && placeTokens());
 $('#fsBtn').onclick = () => (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen());
-$('#soundBtn').onclick = (e) => { soundOn = !soundOn; e.target.textContent = soundOn ? '🔊 Sound on' : '🔇 Sound off'; };
-$('#endAuctionBtn').onclick = () => askConfirm('Close the auction now? The top bidder wins (or the bank keeps it if nobody bid).', 'Close auction', () => adminDo('endAuction'));
-$('#endGameBtn').onclick = () => askConfirm('Finish the game now? The richest player (money + places + houses) wins!', '🏁 Finish game', () => adminDo('endGame'));
+$('#soundBtn').onclick = (e) => { soundOn = !soundOn; e.target.textContent = t(soundOn ? 'ui.soundOn' : 'ui.soundOff'); };
+$('#endAuctionBtn').onclick = () => askConfirm(t('ui.closeAuctionQ'), t('ui.closeAuctionYes'), () => adminDo('endAuction'));
+$('#endGameBtn').onclick = () => askConfirm(t('ui.finishQ'), t('ui.finish'), () => adminDo('endGame'));

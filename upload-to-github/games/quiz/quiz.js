@@ -10,7 +10,7 @@ class Quiz {
     Object.assign(this, { code, onChange, rng, now, schedule, cancel });
     this.phase = 'lobby'; // lobby | countdown | question | reveal | board | final
     this.players = [];
-    this.settings = { tables: ALL_TABLES.slice(), ops: { mul: true, div: true, missing: false, big: false }, count: 10, time: 20, mode: 'choices' };
+    this.settings = { tables: ALL_TABLES.slice(), ops: { mul: true, div: true, missing: false, big: false }, count: 10, time: 20, mode: 'choices', lang: 'en' };
     this.questions = [];
     this.qi = -1;
     this.phaseEnds = 0;
@@ -22,10 +22,10 @@ class Quiz {
 
   // ---------- lobby ----------
   join(id, name, avatar) {
-    if (this.players.length >= MAX_PLAYERS) return `The game is full (${MAX_PLAYERS} players).`;
+    if (this.players.length >= MAX_PLAYERS) return 'err.full';
     name = String(name || '').trim().slice(0, 14);
-    if (!name) return 'Please type your name.';
-    if (this.players.some((p) => p.name.toLowerCase() === name.toLowerCase())) return 'Someone already has that name — add a letter!';
+    if (!name) return 'err.name';
+    if (this.players.some((p) => p.name.toLowerCase() === name.toLowerCase())) return 'err.nameTaken';
     this.players.push({ id, name, avatar: String(avatar || '⭐').slice(0, 8), score: 0, streak: 0, best: 0, answers: [], connected: true, lastPoints: 0 });
     return null;
   }
@@ -36,7 +36,7 @@ class Quiz {
   }
 
   setSettings(s = {}) {
-    if (this.phase !== 'lobby' && this.phase !== 'final') return 'Change settings before starting.';
+    if (this.phase !== 'lobby' && this.phase !== 'final') return 'err.settingsLocked';
     const tables = Array.isArray(s.tables) ? s.tables.map(Number).filter((t) => ALL_TABLES.includes(t)) : this.settings.tables;
     const ops = { ...this.settings.ops };
     for (const k of Object.keys(ops)) if (s.ops && k in s.ops) ops[k] = !!s.ops[k];
@@ -47,6 +47,7 @@ class Quiz {
       count: [5, 10, 15, 20].includes(Number(s.count)) ? Number(s.count) : this.settings.count,
       time: [10, 15, 20, 30].includes(Number(s.time)) ? Number(s.time) : this.settings.time,
       mode: s.mode === 'type' || s.mode === 'choices' ? s.mode : this.settings.mode,
+      lang: s.lang === 'el' || s.lang === 'en' ? s.lang : this.settings.lang,
     };
     return null;
   }
@@ -60,8 +61,8 @@ class Quiz {
   }
 
   start() {
-    if (this.phase !== 'lobby' && this.phase !== 'final') return 'Already running.';
-    if (!this.players.length) return 'Wait for at least one player to join.';
+    if (this.phase !== 'lobby' && this.phase !== 'final') return 'err.running';
+    if (!this.players.length) return 'err.noPlayers';
     this.questions = buildQuiz(this.settings, this.rng);
     for (const p of this.players) Object.assign(p, { score: 0, streak: 0, best: 0, answers: [], lastPoints: 0 });
     this.qi = 0;
@@ -76,9 +77,9 @@ class Quiz {
 
   answer(pid, value) {
     const p = this.P(pid);
-    if (!p) return 'Please join again.';
-    if (this.phase !== 'question') return 'Too late!';
-    if (p.answers[this.qi]) return 'You already answered.';
+    if (!p) return 'err.rejoin';
+    if (this.phase !== 'question') return 'err.late';
+    if (p.answers[this.qi]) return 'err.answered';
     const ms = this.now() - this.askedAt;
     const correct = Number(value) === this.q.answer;
     const limit = this.settings.time * 1000;
@@ -123,7 +124,7 @@ class Quiz {
 
   // Host's "Next" button: jump to the end of the current step.
   skip() {
-    if (!this.timer) return 'Nothing to skip.';
+    if (!this.timer) return 'err.noSkip';
     this.cancel(this.timer);
     const steps = { countdown: () => this.ask(), question: () => this.reveal(), reveal: () => (this.qi >= this.questions.length - 1 ? this.finish() : this.board()), board: () => { this.qi++; this.ask(); } };
     steps[this.phase]();

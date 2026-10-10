@@ -10,7 +10,8 @@ const shuffle = (arr, rng) => {
   }
   return a;
 };
-const fmt = (n) => Number(n).toLocaleString('en-GB');
+let locale = 'en-GB';
+const fmt = (n) => Number(n).toLocaleString(locale);
 
 function makeQuestion(kind, tables, rng) {
   const t = pick(tables, rng);
@@ -58,6 +59,7 @@ function distractors(q, rng) {
 }
 
 function buildQuiz(settings, rng = Math.random) {
+  locale = settings.lang === 'el' ? 'el-GR' : 'en-GB';
   const tables = settings.tables.length ? settings.tables : [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const kinds = [];
   if (settings.ops.mul) kinds.push('mul');

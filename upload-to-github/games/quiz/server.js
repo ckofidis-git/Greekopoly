@@ -40,10 +40,11 @@ module.exports = function mountQuiz(app, io) {
     socket.data = {};
     const reply = (cb, data) => typeof cb === 'function' && cb(data);
 
-    socket.on('host:create', (_, cb) => {
+    socket.on('host:create', ({ lang } = {}, cb) => {
       const code = newCode();
       const hostKey = id();
       const quiz = new Quiz(code, () => broadcast(code));
+      quiz.setSettings({ lang });
       games.set(code, { quiz, hostKey, touched: Date.now() });
       socket.join(code);
       socket.data = { code, host: true };
@@ -52,7 +53,7 @@ module.exports = function mountQuiz(app, io) {
 
     socket.on('host:resume', ({ code, hostKey } = {}, cb) => {
       const g = games.get(String(code || '').toUpperCase());
-      if (!g || g.hostKey !== hostKey) return reply(cb, { error: 'Game not found' });
+      if (!g || g.hostKey !== hostKey) return reply(cb, { error: 'err.nogame' });
       socket.join(g.quiz.code);
       socket.data = { code: g.quiz.code, host: true };
       reply(cb, { code: g.quiz.code, state: g.quiz.view() });
@@ -61,7 +62,7 @@ module.exports = function mountQuiz(app, io) {
     socket.on('host:do', ({ type, settings, playerId } = {}, cb) => {
       const { code, host } = socket.data;
       const g = games.get(code);
-      if (!host || !g) return reply(cb, { error: 'Not the host.' });
+      if (!host || !g) return reply(cb, { error: 'err.nothost' });
       const q = g.quiz;
       let err = null;
       if (type === 'settings') err = q.setSettings(settings);
@@ -77,13 +78,13 @@ module.exports = function mountQuiz(app, io) {
     socket.on('player:join', ({ code, playerId, name, avatar } = {}, cb) => {
       code = String(code || '').toUpperCase().trim();
       const g = games.get(code);
-      if (!g) return reply(cb, { error: 'No game with that code. Check the big screen!' });
+      if (!g) return reply(cb, { error: 'err.nogame' });
       let p = playerId && g.quiz.P(playerId);
       if (!p) {
-        if (!name) return reply(cb, { needJoin: true });
+        if (!name) return reply(cb, { needJoin: true, lang: g.quiz.settings.lang });
         const newId = id();
         const err = g.quiz.join(newId, name, avatar);
-        if (err) return reply(cb, { error: err });
+        if (err) return reply(cb, { error: err, lang: g.quiz.settings.lang });
         p = g.quiz.P(newId);
       }
       p.connected = true;
@@ -96,7 +97,7 @@ module.exports = function mountQuiz(app, io) {
     socket.on('answer', ({ value } = {}, cb) => {
       const { code, playerId } = socket.data;
       const g = games.get(code);
-      if (!g || !playerId) return reply(cb, { error: 'Please join again.' });
+      if (!g || !playerId) return reply(cb, { error: 'err.rejoin' });
       const err = g.quiz.answer(playerId, value);
       reply(cb, { error: err });
       broadcast(code);

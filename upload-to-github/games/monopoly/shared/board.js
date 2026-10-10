@@ -99,14 +99,14 @@
   ];
 
   const TOKENS = [
-    { id: 'owl', emoji: '🦉', name: 'Athena Owl', color: '#8b5cf6' },
-    { id: 'dolphin', emoji: '🐬', name: 'Dolphin', color: '#0ea5e9' },
-    { id: 'cat', emoji: '🐱', name: 'Island Cat', color: '#f97316' },
-    { id: 'unicorn', emoji: '🦄', name: 'Pegasus', color: '#ec4899' },
-    { id: 'butterfly', emoji: '🦋', name: 'Butterfly', color: '#3b82f6' },
-    { id: 'turtle', emoji: '🐢', name: 'Sea Turtle', color: '#10b981' },
-    { id: 'flower', emoji: '🌸', name: 'Flower', color: '#e11d48' },
-    { id: 'star', emoji: '⭐', name: 'Star', color: '#eab308' },
+    { id: 'owl', emoji: '🦉', name: 'Athena Owl', nameEl: 'Κουκουβάγια', color: '#8b5cf6' },
+    { id: 'dolphin', emoji: '🐬', name: 'Dolphin', nameEl: 'Δελφίνι', color: '#0ea5e9' },
+    { id: 'cat', emoji: '🐱', name: 'Island Cat', nameEl: 'Γατούλα', color: '#f97316' },
+    { id: 'unicorn', emoji: '🦄', name: 'Pegasus', nameEl: 'Πήγασος', color: '#ec4899' },
+    { id: 'butterfly', emoji: '🦋', name: 'Butterfly', nameEl: 'Πεταλούδα', color: '#3b82f6' },
+    { id: 'turtle', emoji: '🐢', name: 'Sea Turtle', nameEl: 'Χελώνα', color: '#10b981' },
+    { id: 'flower', emoji: '🌸', name: 'Flower', nameEl: 'Λουλούδι', color: '#e11d48' },
+    { id: 'star', emoji: '⭐', name: 'Star', nameEl: 'Αστέρι', color: '#eab308' },
   ];
 
   // ---------- Themes: same board & rules, different names, words and cards ----------
@@ -116,7 +116,7 @@
       tagline: 'A sunny Monopoly adventure around Greece 🇬🇷 🌊 🏛️',
       boardTag: '🌸 Buy islands, build little white houses, become Queen of Greece! 🌸',
       crown: 'Queen of Greece',
-      jail: "the Minotaur's Maze", jailShort: 'the Maze', jailIco: '🐂', gotoIco: '🌀',
+      jail: "the Minotaur's Maze", jailShort: 'the Maze', escapeNames: 'escape cards', jailIco: '🐂', gotoIco: '🌀',
       escapeIco: '🧵', escapeName: 'escape card',
       parkingIco: '🏖️', parkingName: 'Beach Day', parkingMsg: 'relaxes on the beach',
       chanceIco: '🔮', chanceName: 'Oracle of Delphi', chanceShort: 'the Oracle',
@@ -124,13 +124,65 @@
       payEach: 'the party', collectEach: 'a Name Day present', goIco: '🌞',
       rail: 'Ferry', rails: 'Ferries', util: 'Magic Power', utils: 'Magic Powers',
       deco: ['⛵', '🏝️', '🐬', '🐬', '🏛️', '☁️'],
+      el: {
+        title: 'Ελλαδόπολη', tagline: 'Μια ηλιόλουστη περιπέτεια Μονόπολης στην Ελλάδα 🇬🇷 🌊 🏛️',
+        boardTag: '🌸 Αγόρασε νησιά, χτίσε ασπρόσπιτα, γίνε η Βασίλισσα της Ελλάδας! 🌸',
+        crown: 'η Βασίλισσα της Ελλάδας', cur: '€',
+        jail: 'Λαβύρινθος του Μινώταυρου', jailTo: 'στον Λαβύρινθο του Μινώταυρου', jailIn: 'στον Λαβύρινθο', jailFrom: 'από τον Λαβύρινθο',
+        escapeName: 'κάρτα απόδρασης', escapeNames: 'κάρτες απόδρασης',
+        parkingName: 'Μέρα στην Παραλία', parkingMsg: 'χαλαρώνει στην παραλία',
+        chanceName: 'Μαντείο των Δελφών', chestName: 'Αμφορέας του Θησαυρού',
+        payEach: 'το πάρτι', collectEach: 'δώρο γιορτής',
+        rail: 'Πλοίο', rails: 'Πλοία', util: 'Μαγική Δύναμη', utils: 'Μαγικές Δυνάμεις',
+        groups: { brown: 'Ελαιώνες', light: 'Ορεινές Πόλεις', pink: 'Πόλεις με Κάστρα', orange: 'Αρχαία Θαύματα', red: 'Μεγάλα Νησιά', yellow: 'Κυκλάδες', green: 'Ζωή στην Πόλη', blue: 'Σούπερ Σταρ' },
+        names: ['ΑΦΕΤΗΡΙΑ! Γεια σου!', 'Καλαμάτα', 'Αμφορέας του Θησαυρού', 'Λάρισα', 'Φόρος Ελαιολάδου', 'Πλοίο Πειραιά', 'Ιωάννινα', 'Μαντείο των Δελφών', 'Βόλος', 'Πάτρα',
+          'Λαβύρινθος του Μινώταυρου', 'Ναύπλιο', 'Κεραυνός του Δία', 'Κέρκυρα', 'Ρόδος', 'Πλοίο Ραφήνας', 'Μετέωρα', 'Αμφορέας του Θησαυρού', 'Δελφοί', 'Ολυμπία',
+          'Μέρα στην Παραλία', 'Χανιά', 'Μαντείο των Δελφών', 'Ζάκυνθος', 'Νάξος', 'Πλοίο Ηρακλείου', 'Πάρος', 'Μήλος', 'Σιντριβάνι του Ποσειδώνα', 'Μύκονος',
+          'Στον Λαβύρινθο!', 'Θεσσαλονίκη', 'Πλάκα', 'Αμφορέας του Θησαυρού', 'Μοναστηράκι', 'Πλοίο Λαυρίου', 'Μαντείο των Δελφών', 'Σαντορίνη', 'Φόρος Κοσμημάτων', 'Ακρόπολη'],
+        chance: [
+          'Ταξίδι στην Ακρόπολη!',
+          'Πήγαινε στην ΑΦΕΤΗΡΙΑ! Πάρε 200 €.',
+          'Πήγαινε στη Νάξο. Αν περάσεις από την ΑΦΕΤΗΡΙΑ, πάρε 200 €.',
+          'Πήγαινε στο Ναύπλιο. Αν περάσεις από την ΑΦΕΤΗΡΙΑ, πάρε 200 €.',
+          'Ταξίδεψε με το πιο κοντινό Πλοίο! Αν έχει ιδιοκτήτη, πλήρωσε διπλό ενοίκιο. Αν όχι, μπορείς να το αγοράσεις.',
+          'Ταξίδεψε με το πιο κοντινό Πλοίο! Αν έχει ιδιοκτήτη, πλήρωσε διπλό ενοίκιο. Αν όχι, μπορείς να το αγοράσεις.',
+          'Πήγαινε στον πιο κοντινό Δία ή Ποσειδώνα! Αν έχει ιδιοκτήτη, ρίξε τα ζάρια και πλήρωσε 10 φορές τη ζαριά.',
+          'Η σοδειά της ελιάς ήταν τέλεια! Πάρε 50 €.',
+          'Η Αριάδνη σού δίνει τον μαγικό της μίτο: βγες από τον Λαβύρινθο δωρεάν! Κράτα αυτή την κάρτα.',
+          'Ουπς, ξέχασες το καπέλο σου! Πήγαινε 3 θέσεις πίσω.',
+          'Σε έπιασε ο Μινώταυρος! Πήγαινε κατευθείαν στον Λαβύρινθο. Μην περάσεις από την ΑΦΕΤΗΡΙΑ.',
+          'Βάψε τα σπίτια σου άσπρα και μπλε! Πλήρωσε 25 € για κάθε σπίτι και 100 € για κάθε ξενοδοχείο.',
+          'Το γαϊδουράκι σου έτρεξε πολύ γρήγορα! Πλήρωσε πρόστιμο 15 €.',
+          'Πάρε το Πλοίο του Πειραιά. Αν περάσεις από την ΑΦΕΤΗΡΙΑ, πάρε 200 €.',
+          'Σε διάλεξαν Βασίλισσα της Γιορτής! Πλήρωσε 50 € σε κάθε παίκτη για το πάρτι.',
+          'Το μαγαζί σου με λουκουμάδες έγινε ανάρπαστο! Πάρε 150 €.',
+        ],
+        chest: [
+          'Πήγαινε στην ΑΦΕΤΗΡΙΑ! Πάρε 200 €.',
+          'Η τράπεζα έκανε λάθος υπέρ σου! Πάρε 200 €.',
+          'Επίσκεψη στον γιατρό. Πλήρωσε 50 €.',
+          'Πούλησες τη συλλογή σου με κοχύλια! Πάρε 50 €.',
+          'Ο Ερμής σού φέρνει ένα μαγικό κλειδί: βγες από τον Λαβύρινθο δωρεάν! Κράτα αυτή την κάρτα.',
+          'Σε έπιασε ο Μινώταυρος! Πήγαινε κατευθείαν στον Λαβύρινθο. Μην περάσεις από την ΑΦΕΤΗΡΙΑ.',
+          'Ο κουμπαράς των διακοπών γέμισε! Πάρε 100 €.',
+          'Επιστροφή φόρου! Πάρε 20 €.',
+          'Γιορτάζεις σήμερα! Πάρε 10 € από κάθε παίκτη.',
+          'Η γιαγιά σού στέλνει δώρο! Πάρε 100 €.',
+          'Η γάτα σου έφαγε πολλή φέτα. Πλήρωσε 100 € στον κτηνίατρο.',
+          'Δίδακτρα για τη σχολή χορού. Πλήρωσε 50 €.',
+          'Βοήθησες να φτιαχτεί σπανακόπιτα! Πάρε 25 €.',
+          'Οι δρόμοι θέλουν φτιάξιμο. Πλήρωσε 40 € για κάθε σπίτι και 115 € για κάθε ξενοδοχείο.',
+          'Κέρδισες το 2ο βραβείο στον διαγωνισμό για κάστρα στην άμμο! Πάρε 10 €.',
+          'Βρήκες θησαυρό σε έναν παλιό αμφορέα! Πάρε 100 €.',
+        ],
+      },
     },
     world: {
       id: 'world', title: 'Worldopoly', icon: '🌍', cur: '$',
       tagline: 'Travel the world and collect countries! 🌍 ✈️ 🗺️',
       boardTag: '🌸 Visit countries, build houses everywhere, become Queen of the World! 🌸',
       crown: 'Queen of the World',
-      jail: 'the Lost Passport Office', jailShort: 'the Passport Office', jailIco: '🛂', gotoIco: '😱',
+      jail: 'the Lost Passport Office', jailShort: 'the Passport Office', escapeNames: 'Golden Passports', jailIco: '🛂', gotoIco: '😱',
       escapeIco: '🎫', escapeName: 'Golden Passport',
       parkingIco: '🧺', parkingName: 'Picnic Park', parkingMsg: 'has a picnic in the park',
       chanceIco: '💌', chanceName: 'Mystery Postcard', chanceShort: 'the Postcard',
@@ -138,6 +190,58 @@
       payEach: 'the world party', collectEach: 'a birthday present', goIco: '🌍',
       rail: 'Airline', rails: 'Airlines', util: 'Power Plant', utils: 'Power Plants',
       deco: ['✈️', '🌍', '🐋', '🎈', '🗽', '☁️'],
+      el: {
+        title: 'Κοσμόπολη', tagline: 'Ταξίδεψε στον κόσμο και μάζεψε χώρες! 🌍 ✈️ 🗺️',
+        boardTag: '🌸 Επισκέψου χώρες, χτίσε σπίτια παντού, γίνε η Βασίλισσα του Κόσμου! 🌸',
+        crown: 'η Βασίλισσα του Κόσμου', cur: '$',
+        jail: 'Γραφείο Χαμένων Διαβατηρίων', jailTo: 'στο Γραφείο Χαμένων Διαβατηρίων', jailIn: 'στο Γραφείο Διαβατηρίων', jailFrom: 'από το Γραφείο Διαβατηρίων',
+        escapeName: 'Χρυσό Διαβατήριο', escapeNames: 'Χρυσά Διαβατήρια',
+        parkingName: 'Πικνίκ στο Πάρκο', parkingMsg: 'κάνει πικνίκ στο πάρκο',
+        chanceName: 'Μυστηριώδης Κάρτα', chestName: 'Ταξιδιωτική Βαλίτσα',
+        payEach: 'το παγκόσμιο πάρτι', collectEach: 'δώρο γενεθλίων',
+        rail: 'Αεροπορική', rails: 'Αεροπορικές', util: 'Σταθμός Ενέργειας', utils: 'Σταθμοί Ενέργειας',
+        groups: { brown: 'Αφρική', light: 'Αμερική', pink: 'Ασία', orange: 'Ευρώπη', red: 'Μεσόγειος', yellow: 'Μέση Ανατολή', green: 'Ωκεανία', blue: 'Κορώνα & Σφεντάμι' },
+        names: ['ΑΦΕΤΗΡΙΑ! Γεια σου, Κόσμε!', 'Κένυα', 'Ταξιδιωτική Βαλίτσα', 'Αίγυπτος', 'Τέλος Διαβατηρίου', 'Αεροπορική Ουράνιο Τόξο', 'Μεξικό', 'Μυστηριώδης Κάρτα', 'Βραζιλία', 'ΗΠΑ',
+          'Γραφείο Χαμένων Διαβατηρίων', 'Ινδία', 'Ηλιακή Ενέργεια', 'Κίνα', 'Ιαπωνία', 'Αεροπορική Μονόκερος', 'Ολλανδία', 'Ταξιδιωτική Βαλίτσα', 'Γερμανία', 'Γαλλία',
+          'Πικνίκ στο Πάρκο', 'Ισπανία', 'Μυστηριώδης Κάρτα', 'Ιταλία', 'Ελλάδα', 'Αεροπορική Πεταλούδα', 'Ιορδανία', 'Παλαιστίνη', 'Αιολική Ενέργεια', 'Σαουδική Αραβία',
+          'Έχασες το Διαβατήριο!', 'Φίτζι', 'Νέα Ζηλανδία', 'Ταξιδιωτική Βαλίτσα', 'Αυστραλία', 'Αεροπορική Πύραυλος', 'Μυστηριώδης Κάρτα', 'Καναδάς', 'Φόρος Σουβενίρ', 'Αγγλία'],
+        chance: [
+          'Πέτα στην Αγγλία για τσάι με τον Βασιλιά!',
+          'Πήγαινε στην ΑΦΕΤΗΡΙΑ! Πάρε 200 $.',
+          'Πήγαινε στην Ελλάδα. Αν περάσεις από την ΑΦΕΤΗΡΙΑ, πάρε 200 $.',
+          'Πήγαινε στην Ινδία. Αν περάσεις από την ΑΦΕΤΗΡΙΑ, πάρε 200 $.',
+          'Πέτα με την πιο κοντινή Αεροπορική! Αν έχει ιδιοκτήτη, πλήρωσε διπλό ενοίκιο. Αν όχι, μπορείς να την αγοράσεις.',
+          'Πέτα με την πιο κοντινή Αεροπορική! Αν έχει ιδιοκτήτη, πλήρωσε διπλό ενοίκιο. Αν όχι, μπορείς να την αγοράσεις.',
+          'Πήγαινε στην πιο κοντινή Ηλιακή ή Αιολική Ενέργεια! Αν έχει ιδιοκτήτη, ρίξε τα ζάρια και πλήρωσε 10 φορές τη ζαριά.',
+          'Πούλησες τις φωτογραφίες από τα ταξίδια σου! Πάρε 50 $.',
+          'Χρυσό Διαβατήριο: βγες από το Γραφείο Χαμένων Διαβατηρίων δωρεάν! Κράτα αυτή την κάρτα.',
+          'Ουπς, ξέχασες τη βαλίτσα σου! Πήγαινε 3 θέσεις πίσω.',
+          'Έχασες το διαβατήριό σου! Πήγαινε κατευθείαν στο Γραφείο Χαμένων Διαβατηρίων. Μην περάσεις από την ΑΦΕΤΗΡΙΑ.',
+          'Τα σπίτια σου θέλουν φρέσκια μπογιά! Πλήρωσε 25 $ για κάθε σπίτι και 100 $ για κάθε ξενοδοχείο.',
+          'Έχασες το λεωφορείο! Πλήρωσε 15 $ για ταξί.',
+          'Ταξίδεψε με την Αεροπορική Ουράνιο Τόξο. Αν περάσεις από την ΑΦΕΤΗΡΙΑ, πάρε 200 $.',
+          'Έκανες ένα παγκόσμιο πάρτι! Πλήρωσε 50 $ σε κάθε παίκτη.',
+          'Η λεμονάδα σου έγινε διάσημη σε όλο τον κόσμο! Πάρε 150 $.',
+        ],
+        chest: [
+          'Πήγαινε στην ΑΦΕΤΗΡΙΑ! Πάρε 200 $.',
+          'Η τράπεζα έκανε λάθος υπέρ σου! Πάρε 200 $.',
+          'Επίσκεψη σε ταξιδιωτικό γιατρό. Πλήρωσε 50 $.',
+          'Πούλησες τη συλλογή σου με γραμματόσημα! Πάρε 50 $.',
+          'Χρυσό Διαβατήριο: βγες από το Γραφείο Χαμένων Διαβατηρίων δωρεάν! Κράτα αυτή την κάρτα.',
+          'Έχασες το διαβατήριό σου! Πήγαινε κατευθείαν στο Γραφείο Χαμένων Διαβατηρίων. Μην περάσεις από την ΑΦΕΤΗΡΙΑ.',
+          'Ο κουμπαράς των διακοπών γέμισε! Πάρε 100 $.',
+          'Επιστροφή φόρου! Πάρε 20 $.',
+          'Έχεις γενέθλια! Πάρε 10 $ από κάθε παίκτη.',
+          'Η γιαγιά σού στέλνει δώρο από το εξωτερικό! Πάρε 100 $.',
+          'Το κουτάβι σου χρειάζεται διαβατήριο. Πλήρωσε 100 $.',
+          'Δίδακτρα για μαθήματα ξένων γλωσσών. Πλήρωσε 50 $.',
+          'Βοήθησες έναν χαμένο τουρίστα να βρει τον δρόμο! Πάρε 25 $.',
+          'Οι δρόμοι θέλουν φτιάξιμο. Πλήρωσε 40 $ για κάθε σπίτι και 115 $ για κάθε ξενοδοχείο.',
+          'Κέρδισες το 2ο βραβείο στον παγκόσμιο διαγωνισμό χορού! Πάρε 10 $.',
+          'Βρήκες θησαυρό σε μια παλιά βαλίτσα! Πάρε 100 $.',
+        ],
+      },
       groups: {
         brown: 'Africa', light: 'The Americas', pink: 'Asia', orange: 'Europe',
         red: 'Mediterranean', yellow: 'Middle East', green: 'Down Under', blue: 'Royal & Maple',
@@ -192,17 +296,29 @@
   };
 
   // Returns the board, groups and cards dressed in a theme. Prices and rules never change.
-  function themed(id) {
-    const t = THEMES[id] || THEMES.greece;
-    const spaces = SPACES.map((s, i) => (t.names ? { ...s, name: t.names[i][0], emoji: t.names[i][1] } : s));
+  function themed(id, lang) {
+    const base = THEMES[id] || THEMES.greece;
+    const tr = lang === 'el' ? base.el : null;
+    const t = { ...base, ...(tr || {}), lang: tr ? 'el' : 'en' };
+    const names = tr ? tr.names : base.names && base.names.map((n) => n[0]);
+    const emojis = base.names ? base.names.map((n) => n[1]) : null;
+    const spaces = SPACES.map((s, i) => ({ ...s, name: names ? names[i] : s.name, emoji: emojis ? emojis[i] : s.emoji }));
     const groups = {};
-    for (const [k, g] of Object.entries(GROUPS)) groups[k] = { ...g, name: t.groups ? t.groups[k] : g.name };
-    const chance = CHANCE.map((c, i) => (t.chance ? { ...c, text: t.chance[i] } : c));
-    const chest = CHEST.map((c, i) => (t.chest ? { ...c, text: t.chest[i] } : c));
+    for (const [k, g] of Object.entries(GROUPS)) groups[k] = { ...g, name: (t.groups && t.groups[k]) || g.name };
+    const texts = (deck, base2) => (tr ? tr[deck] : base[deck]) || base2.map((c) => c.text);
+    const chanceText = texts('chance', CHANCE), chestText = texts('chest', CHEST);
+    const chance = CHANCE.map((c, i) => ({ ...c, text: chanceText[i] }));
+    const chest = CHEST.map((c, i) => ({ ...c, text: chestText[i] }));
     return { T: t, SPACES: spaces, GROUPS: groups, CHANCE: chance, CHEST: chest };
   }
 
-  const api = { GROUPS, SPACES, CHANCE, CHEST, TOKENS, THEMES, themed, START_CASH: 1500, GO_SALARY: 200, JAIL_FINE: 50, JAIL_POS: 10 };
+  // Money in the local style: €1,500 in English, 1.500 € in Greek.
+  function money(T, n) {
+    n = Math.round(Number(n) || 0);
+    return T.lang === 'el' ? `${n.toLocaleString('el-GR')} ${T.cur}` : `${T.cur}${n.toLocaleString('en-GB')}`;
+  }
+
+  const api = { GROUPS, SPACES, CHANCE, CHEST, TOKENS, THEMES, themed, money, START_CASH: 1500, GO_SALARY: 200, JAIL_FINE: 50, JAIL_POS: 10 };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.BOARD = api;
 })(typeof window !== 'undefined' ? window : globalThis);

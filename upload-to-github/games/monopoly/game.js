@@ -1,5 +1,6 @@
 // Game rules engine. All state lives here; clients only send intents.
 const B = require('./shared/board');
+const { makeT } = require('./shared/i18n');
 const { SPACES, CHANCE, CHEST, TOKENS } = B;
 
 const shuffle = (arr, rng) => {
@@ -41,8 +42,8 @@ class Game {
     this.card = null;
     this.cardSeq = 0;
     this.pot = 0;
-    this.settings = { jackpot: false, theme: 'greece' };
-    this.setTheme('greece');
+    this.settings = { jackpot: false, theme: 'greece', lang: 'en' };
+    this.dress();
     this.log = [];
     this.ranking = null;
     this.decks = { chance: shuffle([...CHANCE.keys()], rng), chest: shuffle([...CHEST.keys()], rng) };
@@ -61,50 +62,66 @@ class Game {
 
   setTheme(id) {
     if (this.phase !== 'lobby' || !B.THEMES[id]) return;
-    const t = B.themed(id);
     this.settings.theme = id;
-    this.T = t.T; this.S = t.SPACES; this.G = t.GROUPS; this.CH = t.CHANCE; this.CC = t.CHEST;
+    this.dress();
   }
+
+  // Language can change at any time; new messages use the new language.
+  setLang(lang) {
+    if (lang !== 'en' && lang !== 'el') return;
+    this.settings.lang = lang;
+    this.dress();
+  }
+
+  dress() {
+    const t = B.themed(this.settings.theme, this.settings.lang);
+    this.T = t.T; this.S = t.SPACES; this.G = t.GROUPS; this.CH = t.CHANCE; this.CC = t.CHEST;
+    this.tr = makeT(this.settings.lang);
+  }
+
+  t(key, p = {}) { return this.tr(key, { T: this.T, ...p }); }
+  m(n) { return B.money(this.T, n); }
 
   // ---------- lobby ----------
   join(id, name, tokenId) {
-    if (this.phase !== 'lobby') return 'The game has already started.';
-    if (this.players.length >= 8) return 'The game is full (8 players).';
+    if (this.phase !== 'lobby') return this.t('err.started');
+    if (this.players.length >= 8) return this.t('err.full');
     name = String(name || '').trim().slice(0, 14);
-    if (!name) return 'Please type your name.';
+    if (!name) return this.t('err.name');
     const tok = TOKENS.find((t) => t.id === tokenId);
-    if (!tok) return 'Pick a character!';
-    if (this.players.some((p) => p.token === tokenId)) return 'Someone already picked that one!';
+    if (!tok) return this.t('err.token');
+    if (this.players.some((p) => p.token === tokenId)) return this.t('err.tokenTaken');
     this.players.push({
       id, name, token: tok.id, emoji: tok.emoji, color: tok.color,
       cash: B.START_CASH, pos: 0, inJail: false, jailTurns: 0, jailCards: [], bankrupt: false, connected: true,
     });
-    this.say(`${tok.emoji} ${name} joined the game!`);
+    this.say(this.t('log.joined', { who: `${tok.emoji} ${name}` }));
     return null;
   }
 
   start(settings = {}) {
-    if (this.phase !== 'lobby') return 'Already started.';
-    if (this.players.length < 2) return 'You need at least 2 players.';
+    if (this.phase !== 'lobby') return this.t('err.alreadyStarted');
+    if (this.players.length < 2) return this.t('err.need2');
     this.settings.jackpot = !!settings.jackpot;
     if (settings.theme) this.setTheme(settings.theme);
+    if (settings.lang) this.setLang(settings.lang);
     this.players = shuffle(this.players, this.rng);
     this.phase = 'playing';
     this.turn = 0;
-    this.say(`🎉 The adventure begins! ${this.nm(this.current)} goes first.`);
+    this.say(this.t('log.begins', { who: this.nm(this.current) }));
     this.beginTurn();
     return null;
   }
 
   removePlayer(id) {
     const p = this.P(id);
-    if (!p) return 'No such player.';
+    if (!p) return this.t('err.noPlayer');
     if (this.phase === 'lobby') {
       this.players = this.players.filter((x) => x !== p);
       return null;
     }
     if (p.bankrupt) return null;
-    this.say(`👋 ${this.nm(p)} left the game.`);
+    this.say(this.t('log.left', { who: this.nm(p) }));
     this.goBankrupt(p, null);
     this.settle();
     return null;
@@ -127,7 +144,7 @@ class Game {
     }
     this.turn = n;
     this.beginTurn();
-    this.say(`➡️ It's ${this.nm(this.current)}'s turn.`);
+    this.say(this.t('log.turn', { who: this.nm(this.current) }));
   }
 
   // Decide what the game is waiting for next.
@@ -142,34 +159,34 @@ class Game {
   }
 
   roll(p) {
-    if (p !== this.current || this.step !== 'roll') return "You can't roll right now.";
+    if (p !== this.current || this.step !== 'roll') return this.t('err.cantRoll');
     const d1 = this.rand6(), d2 = this.rand6();
     this.dice = [d1, d2];
     this.diceSeq++;
     const sum = d1 + d2, dbl = d1 === d2;
-    this.say(`🎲 ${this.nm(p)} rolled ${d1} + ${d2} = ${sum}${dbl ? ' — doubles!' : ''}`);
+    this.say(this.t('log.rolled', { who: this.nm(p), d1, d2, dbl }));
 
     if (p.inJail) {
       if (dbl) {
         p.inJail = false; p.jailTurns = 0; this.canRollAgain = false;
-        this.say(`${this.T.escapeIco} ${this.nm(p)} rolled doubles and escaped ${this.T.jailShort}!`);
+        this.say(this.t('log.escapedDoubles', { who: this.nm(p) }));
         this.move(p, sum);
       } else {
         p.jailTurns++;
         if (p.jailTurns >= 3) {
-          this.say(`${this.T.jailIco} Third try in ${this.T.jailShort} — ${this.nm(p)} pays ${this.T.cur}${B.JAIL_FINE} and walks out.`);
+          this.say(this.t('log.thirdTry', { who: this.nm(p), m: this.m(B.JAIL_FINE) }));
           p.inJail = false; p.jailTurns = 0; this.canRollAgain = false;
-          this.pay(p, null, B.JAIL_FINE, 'the jail fine');
+          this.pay(p, null, B.JAIL_FINE, this.t('reason.jailFine'));
           this.move(p, sum);
         } else {
-          this.say(`${this.T.jailIco} Still stuck in ${this.T.jailShort} (try ${p.jailTurns} of 3).`);
+          this.say(this.t('log.stillStuck', { n: p.jailTurns }));
           this.canRollAgain = false;
         }
       }
     } else if (dbl) {
       this.doublesCount++;
       if (this.doublesCount >= 3) {
-        this.say(`😵 Three doubles in a row! ${this.nm(p)} goes to ${this.T.jailShort}.`);
+        this.say(this.t('log.threeDoubles', { who: this.nm(p) }));
         this.sendToJail(p);
       } else {
         this.canRollAgain = true;
@@ -184,7 +201,7 @@ class Game {
   }
 
   endTurn(p) {
-    if (p !== this.current || this.step !== 'endturn') return "You can't end your turn yet.";
+    if (p !== this.current || this.step !== 'endturn') return this.t('err.cantEnd');
     this.nextTurn();
     return null;
   }
@@ -192,7 +209,7 @@ class Game {
   // ---------- movement ----------
   passGo(p) {
     p.cash += B.GO_SALARY;
-    this.say(`${this.T.goIco} ${this.nm(p)} passed GO and collected ${this.T.cur}${B.GO_SALARY}!`);
+    this.say(this.t('log.passGo', { who: this.nm(p), m: this.m(B.GO_SALARY) }));
   }
 
   move(p, steps) {
@@ -221,37 +238,37 @@ class Game {
       const ownerId = this.owners[p.pos];
       if (!ownerId) {
         this.pendingBuy = p.pos;
-        this.say(`📍 ${this.nm(p)} landed on ${sp.name} (${this.T.cur}${sp.price}). Buy it?`);
+        this.say(this.t('log.landedBuy', { who: this.nm(p), place: sp.name, m: this.m(sp.price) }));
       } else if (ownerId === p.id) {
-        this.say(`🏡 ${this.nm(p)} is visiting their own ${sp.name}.`);
+        this.say(this.t('log.ownPlace', { who: this.nm(p), place: sp.name }));
       } else if (this.mortgaged[p.pos]) {
-        this.say(`💤 ${sp.name} is mortgaged — no rent to pay!`);
+        this.say(this.t('log.mortNoRent', { place: sp.name }));
       } else {
         const owner = this.P(ownerId);
         const rent = this.rentFor(p.pos, diceSum, mods);
-        this.say(`💸 ${this.nm(p)} pays ${this.T.cur}${rent} rent to ${this.nm(owner)} for ${sp.name}.`);
-        this.pay(p, owner, rent, `rent for ${sp.name}`);
+        this.say(this.t('log.rent', { who: this.nm(p), m: this.m(rent), owner: this.nm(owner), place: sp.name }));
+        this.pay(p, owner, rent, this.t('reason.rent', { place: sp.name }));
       }
       return;
     }
     switch (sp.type) {
       case 'tax':
-        this.say(`${sp.emoji} ${this.nm(p)} pays ${this.T.cur}${sp.amount} ${sp.name}.`);
+        this.say(this.t('log.tax', { ico: sp.emoji, who: this.nm(p), m: this.m(sp.amount), place: sp.name }));
         this.pay(p, null, sp.amount, sp.name);
         break;
       case 'chance': this.drawCard(p, 'chance', diceSum); break;
       case 'chest': this.drawCard(p, 'chest', diceSum); break;
       case 'gotojail':
-        this.say(`${this.T.gotoIco} ${this.nm(p)} goes to ${this.T.jail}!`);
+        this.say(this.t('log.gotoJail', { who: this.nm(p) }));
         this.sendToJail(p);
         break;
       case 'parking':
         if (this.settings.jackpot && this.pot > 0) {
-          this.say(`${this.T.parkingIco} ${this.T.parkingName} jackpot! ${this.nm(p)} collects ${this.T.cur}${this.pot}!`);
+          this.say(this.t('log.jackpot', { who: this.nm(p), m: this.m(this.pot) }));
           p.cash += this.pot; this.pot = 0;
-        } else this.say(`${this.T.parkingIco} ${this.nm(p)} ${this.T.parkingMsg}.`);
+        } else this.say(this.t('log.parking', { who: this.nm(p) }));
         break;
-      case 'jail': this.say(`👀 ${this.nm(p)} is just visiting ${this.T.jailShort}.`); break;
+      case 'jail': this.say(this.t('log.visiting', { who: this.nm(p) })); break;
       default: break;
     }
   }
@@ -270,7 +287,7 @@ class Game {
     if (mods.util10) {
       const d1 = this.rand6(), d2 = this.rand6();
       this.dice = [d1, d2]; this.diceSeq++;
-      this.say(`🎲 Rolled ${d1} + ${d2} for ${this.T.chanceShort}: 10 × ${d1 + d2}.`);
+      this.say(this.t('log.util10', { d1, d2, s: d1 + d2 }));
       return 10 * (d1 + d2);
     }
     const n = [12, 28].filter((i) => this.owners[i] === ownerId).length;
@@ -285,7 +302,7 @@ class Game {
       this.receive(to, amount);
     } else {
       this.debts.push({ from: from.id, to: to ? to.id : null, amount, reason });
-      this.say(`😟 ${this.nm(from)} needs ${this.T.cur}${amount} for ${reason} — time to sell or mortgage something!`);
+      this.say(this.t('log.needs', { who: this.nm(from), m: this.m(amount), reason }));
     }
   }
 
@@ -296,19 +313,19 @@ class Game {
 
   payDebt(p) {
     const d = this.debts[0];
-    if (!d || d.from !== p.id) return "You don't owe anything right now.";
-    if (p.cash < d.amount) return `You need ${this.T.cur}${d.amount - p.cash} more. Sell houses or mortgage places first.`;
+    if (!d || d.from !== p.id) return this.t('err.noDebt');
+    if (p.cash < d.amount) return this.t('err.needMore', { m: this.m(d.amount - p.cash) });
     p.cash -= d.amount;
     this.receive(d.to ? this.P(d.to) : null, d.amount);
     this.debts.shift();
-    this.say(`✅ ${this.nm(p)} paid ${this.T.cur}${d.amount}.`);
+    this.say(this.t('log.paid', { who: this.nm(p), m: this.m(d.amount) }));
     this.settle();
     return null;
   }
 
   declareBankrupt(p) {
     const d = this.debts.find((x) => x.from === p.id);
-    if (!d) return 'You can only give up when you owe money you cannot pay.';
+    if (!d) return this.t('err.giveUpOnly');
     const creditor = d.to ? this.P(d.to) : null;
     this.goBankrupt(p, creditor);
     this.settle();
@@ -328,11 +345,11 @@ class Game {
       creditor.cash += p.cash;
       for (const pos of this.owns(p.id)) this.owners[pos] = creditor.id;
       creditor.jailCards.push(...p.jailCards);
-      this.say(`💔 ${this.nm(p)} is out! Everything goes to ${this.nm(creditor)}.`);
+      this.say(this.t('log.outTo', { who: this.nm(p), to: this.nm(creditor) }));
     } else {
       for (const pos of this.owns(p.id)) { delete this.owners[pos]; delete this.mortgaged[pos]; }
       for (const deck of p.jailCards) this.decks[deck].push(deck === 'chance' ? 8 : 4);
-      this.say(`💔 ${this.nm(p)} is out! Their places go back to the bank.`);
+      this.say(this.t('log.outBank', { who: this.nm(p) }));
     }
     p.cash = 0; p.jailCards = []; p.bankrupt = true; p.inJail = false;
     this.debts = this.debts.filter((d) => d.from !== p.id && d.to !== p.id);
@@ -353,7 +370,7 @@ class Game {
     const card = (deckName === 'chance' ? this.CH : this.CC)[idx];
     if (card.act !== 'jailcard') deck.push(idx);
     this.card = { deck: deckName, text: card.text, playerId: p.id, seq: ++this.cardSeq };
-    this.say(`${deckName === 'chance' ? this.T.chanceIco : this.T.chestIco} ${this.nm(p)}: "${card.text}"`);
+    this.say(this.t('log.card', { ico: deckName === 'chance' ? this.T.chanceIco : this.T.chestIco, who: this.nm(p), text: card.text }));
     switch (card.act) {
       case 'move': this.moveTo(p, card.to); break;
       case 'nearest': {
@@ -364,7 +381,7 @@ class Game {
       }
       case 'money':
         if (card.amount > 0) p.cash += card.amount;
-        else this.pay(p, null, -card.amount, 'a ' + this.T.chanceName + ' card');
+        else this.pay(p, null, -card.amount, this.t('reason.card'));
         break;
       case 'jailcard': p.jailCards.push(deckName); break;
       case 'back3': p.pos = (p.pos + 37) % 40; this.landOn(p, diceSum, {}); break;
@@ -375,15 +392,15 @@ class Game {
           const h = this.houses[pos] || 0;
           total += h === 5 ? card.hotel : h * card.house;
         }
-        if (total) this.pay(p, null, total, 'repairs');
-        else this.say('Lucky! No houses to fix.');
+        if (total) this.pay(p, null, total, this.t('reason.repairs'));
+        else this.say(this.t('log.noRepairs'));
         break;
       }
       case 'each':
         for (const o of this.active()) {
           if (o === p) continue;
-          if (card.amount < 0) this.pay(p, o, -card.amount, this.T.payEach);
-          else this.pay(o, p, card.amount, this.T.collectEach);
+          if (card.amount < 0) this.pay(p, o, -card.amount, this.t('reason.payEach'));
+          else this.pay(o, p, card.amount, this.t('reason.collectEach'));
         }
         break;
       default: break;
@@ -392,66 +409,66 @@ class Game {
 
   // ---------- jail ----------
   payJail(p) {
-    if (p !== this.current || this.step !== 'roll' || !p.inJail) return 'Not now.';
-    if (p.cash < B.JAIL_FINE) return `You need ${this.T.cur}${B.JAIL_FINE}.`;
+    if (p !== this.current || this.step !== 'roll' || !p.inJail) return this.t('err.notNow');
+    if (p.cash < B.JAIL_FINE) return this.t('err.need', { m: this.m(B.JAIL_FINE) });
     p.cash -= B.JAIL_FINE;
     this.receive(null, B.JAIL_FINE);
     p.inJail = false; p.jailTurns = 0;
-    this.say(`🔓 ${this.nm(p)} paid ${this.T.cur}${B.JAIL_FINE} to leave ${this.T.jailShort}.`);
+    this.say(this.t('log.paidJail', { who: this.nm(p), m: this.m(B.JAIL_FINE) }));
     return null;
   }
 
   useJailCard(p) {
-    if (p !== this.current || this.step !== 'roll' || !p.inJail) return 'Not now.';
+    if (p !== this.current || this.step !== 'roll' || !p.inJail) return this.t('err.notNow');
     const deck = p.jailCards.pop();
-    if (!deck) return `You don't have a ${this.T.escapeName}.`;
+    if (!deck) return this.t('err.noEscape');
     this.decks[deck].push(deck === 'chance' ? 8 : 4);
     p.inJail = false; p.jailTurns = 0;
-    this.say(`${this.T.escapeIco} ${this.nm(p)} used a ${this.T.escapeName}!`);
+    this.say(this.t('log.usedEscape', { who: this.nm(p) }));
     return null;
   }
 
   // ---------- buying & auctions ----------
   buy(p) {
-    if (p !== this.current || this.step !== 'buy') return 'Not now.';
+    if (p !== this.current || this.step !== 'buy') return this.t('err.notNow');
     const pos = this.pendingBuy, price = this.S[pos].price;
-    if (p.cash < price) return "You don't have enough money — try the auction!";
+    if (p.cash < price) return this.t('err.noMoneyAuction');
     p.cash -= price;
     this.owners[pos] = p.id;
     this.pendingBuy = null;
-    this.say(`🎀 ${this.nm(p)} bought ${this.S[pos].name}!`);
+    this.say(this.t('log.bought', { who: this.nm(p), place: this.S[pos].name }));
     this.settle();
     return null;
   }
 
   decline(p) {
-    if (p !== this.current || this.step !== 'buy') return 'Not now.';
+    if (p !== this.current || this.step !== 'buy') return this.t('err.notNow');
     const pos = this.pendingBuy;
     this.pendingBuy = null;
     this.auction = { pos, bid: 0, bidder: null, inIds: this.active().map((x) => x.id) };
-    this.say(`🔨 Auction time for ${this.S[pos].name}! Everyone can bid.`);
+    this.say(this.t('log.auction', { place: this.S[pos].name }));
     this.settle();
     return null;
   }
 
   bid(p, inc) {
     const a = this.auction;
-    if (!a || !a.inIds.includes(p.id)) return 'You are not in this auction.';
+    if (!a || !a.inIds.includes(p.id)) return this.t('err.notInAuction');
     inc = Math.max(1, Math.floor(Number(inc) || 0));
     const amount = a.bid + inc;
-    if (p.cash < amount) return `You only have ${this.T.cur}${p.cash}.`;
+    if (p.cash < amount) return this.t('err.onlyHave', { m: this.m(p.cash) });
     a.bid = amount; a.bidder = p.id;
-    this.say(`🙋 ${this.nm(p)} bids ${this.T.cur}${amount}!`);
+    this.say(this.t('log.bid', { who: this.nm(p), m: this.m(amount) }));
     this.checkAuctionEnd();
     return null;
   }
 
   passAuction(p) {
     const a = this.auction;
-    if (!a || !a.inIds.includes(p.id)) return 'You are not in this auction.';
-    if (a.bidder === p.id) return 'You have the top bid!';
+    if (!a || !a.inIds.includes(p.id)) return this.t('err.notInAuction');
+    if (a.bidder === p.id) return this.t('err.topBid');
     a.inIds = a.inIds.filter((id) => id !== p.id);
-    this.say(`🙅 ${this.nm(p)} stops bidding.`);
+    this.say(this.t('log.stopBid', { who: this.nm(p) }));
     this.checkAuctionEnd();
     return null;
   }
@@ -465,9 +482,9 @@ class Game {
       const w = this.P(a.bidder);
       w.cash -= a.bid;
       this.owners[a.pos] = w.id;
-      this.say(`🎉 ${this.nm(w)} won ${this.S[a.pos].name} for ${this.T.cur}${a.bid}!`);
+      this.say(this.t('log.won', { who: this.nm(w), place: this.S[a.pos].name, m: this.m(a.bid) }));
     } else {
-      this.say(`Nobody bid — ${this.S[a.pos].name} stays with the bank.`);
+      this.say(this.t('log.nobody', { place: this.S[a.pos].name }));
     }
     this.auction = null;
     this.settle();
@@ -476,62 +493,62 @@ class Game {
   // ---------- building & mortgages ----------
   buildHouse(p, pos) {
     const sp = this.S[pos];
-    if (!sp || sp.type !== 'street' || this.owners[pos] !== p.id) return 'You can only build on your own streets.';
-    if (!this.ownsGroup(p.id, sp.group)) return `You need all the ${this.G[sp.group].name} first!`;
+    if (!sp || sp.type !== 'street' || this.owners[pos] !== p.id) return this.t('err.buildOwn');
+    if (!this.ownsGroup(p.id, sp.group)) return this.t('err.needSet', { group: this.G[sp.group].name });
     const grp = groupOf(sp.group);
-    if (grp.some((i) => this.mortgaged[i])) return 'Unmortgage the whole colour set first.';
+    if (grp.some((i) => this.mortgaged[i])) return this.t('err.unmortgageSet');
     const h = this.houses[pos] || 0;
-    if (h >= 5) return 'This already has a hotel!';
-    if (h > Math.min(...grp.map((i) => this.houses[i] || 0))) return 'Build evenly — add houses to the other streets in this colour first.';
-    if (p.cash < sp.house) return `A house costs ${this.T.cur}${sp.house}.`;
+    if (h >= 5) return this.t('err.hasHotel');
+    if (h > Math.min(...grp.map((i) => this.houses[i] || 0))) return this.t('err.buildEven');
+    if (p.cash < sp.house) return this.t('err.houseCost', { m: this.m(sp.house) });
     if (h === 4) {
-      if (this.hotelsLeft < 1) return 'The bank has no hotels left!';
+      if (this.hotelsLeft < 1) return this.t('err.noHotels');
       this.hotelsLeft--; this.housesLeft += 4;
     } else {
-      if (this.housesLeft < 1) return 'The bank has no houses left!';
+      if (this.housesLeft < 1) return this.t('err.noHouses');
       this.housesLeft--;
     }
     p.cash -= sp.house;
     this.houses[pos] = h + 1;
-    this.say(`${h === 4 ? '🏨' : '🏠'} ${this.nm(p)} built a ${h === 4 ? 'hotel' : 'house'} on ${sp.name}!`);
+    this.say(this.t(h === 4 ? 'log.builtHotel' : 'log.builtHouse', { who: this.nm(p), place: sp.name }));
     return null;
   }
 
   sellHouse(p, pos) {
     const sp = this.S[pos];
-    if (!sp || sp.type !== 'street' || this.owners[pos] !== p.id) return 'Not yours.';
+    if (!sp || sp.type !== 'street' || this.owners[pos] !== p.id) return this.t('err.notYours');
     const h = this.houses[pos] || 0;
-    if (!h) return 'No buildings here.';
+    if (!h) return this.t('err.noBuildings');
     const grp = groupOf(sp.group);
-    if (h < Math.max(...grp.map((i) => this.houses[i] || 0))) return 'Sell evenly — sell from the other streets in this colour first.';
+    if (h < Math.max(...grp.map((i) => this.houses[i] || 0))) return this.t('err.sellEven');
     if (h === 5) {
-      if (this.housesLeft < 4) return 'The bank needs 4 houses to swap for your hotel, and it does not have them.';
+      if (this.housesLeft < 4) return this.t('err.hotelSwap');
       this.housesLeft -= 4; this.hotelsLeft++;
     } else this.housesLeft++;
     this.houses[pos] = h - 1;
     p.cash += sp.house / 2;
-    this.say(`💰 ${this.nm(p)} sold a ${h === 5 ? 'hotel' : 'house'} on ${sp.name} for ${this.T.cur}${sp.house / 2}.`);
+    this.say(this.t(h === 5 ? 'log.soldHotel' : 'log.soldHouse', { who: this.nm(p), place: sp.name, m: this.m(sp.house / 2) }));
     return null;
   }
 
   mortgage(p, pos) {
-    if (!isProperty(pos) || this.owners[pos] !== p.id) return 'Not yours.';
-    if (this.mortgaged[pos]) return 'Already mortgaged.';
+    if (!isProperty(pos) || this.owners[pos] !== p.id) return this.t('err.notYours');
+    if (this.mortgaged[pos]) return this.t('err.alreadyMort');
     const sp = this.S[pos];
-    if (sp.type === 'street' && this.groupHasBuildings(sp.group)) return 'Sell the houses in this colour set first.';
+    if (sp.type === 'street' && this.groupHasBuildings(sp.group)) return this.t('err.sellHousesFirst');
     this.mortgaged[pos] = true;
     p.cash += mortgageValue(pos);
-    this.say(`🏦 ${this.nm(p)} mortgaged ${sp.name} for ${this.T.cur}${mortgageValue(pos)}.`);
+    this.say(this.t('log.mortgaged', { who: this.nm(p), place: sp.name, m: this.m(mortgageValue(pos)) }));
     return null;
   }
 
   unmortgage(p, pos) {
-    if (!isProperty(pos) || this.owners[pos] !== p.id || !this.mortgaged[pos]) return 'Not mortgaged.';
+    if (!isProperty(pos) || this.owners[pos] !== p.id || !this.mortgaged[pos]) return this.t('err.notMort');
     const cost = unmortgageCost(pos);
-    if (p.cash < cost) return `You need ${this.T.cur}${cost} (that includes 10% interest).`;
+    if (p.cash < cost) return this.t('err.unmortCost', { m: this.m(cost) });
     p.cash -= cost;
     delete this.mortgaged[pos];
-    this.say(`✨ ${this.nm(p)} paid back the mortgage on ${this.S[pos].name}.`);
+    this.say(this.t('log.unmortgaged', { who: this.nm(p), place: this.S[pos].name }));
     return null;
   }
 
@@ -545,54 +562,54 @@ class Game {
 
   checkTrade(t) {
     const a = this.P(t.from), b = this.P(t.to);
-    if (!a || !b || a.bankrupt || b.bankrupt || a === b) return 'Pick another player to trade with.';
-    if (!t.giveProps.length && !t.getProps.length && !t.giveCards && !t.getCards) return 'Add at least one place or card to the trade.';
-    for (const pos of t.giveProps) if (this.owners[pos] !== a.id) return `${this.S[pos].name} isn't yours.`;
-    for (const pos of t.getProps) if (this.owners[pos] !== b.id) return `${this.S[pos].name} isn't theirs.`;
+    if (!a || !b || a.bankrupt || b.bankrupt || a === b) return this.t('err.pickTrade');
+    if (!t.giveProps.length && !t.getProps.length && !t.giveCards && !t.getCards) return this.t('err.tradeEmpty');
+    for (const pos of t.giveProps) if (this.owners[pos] !== a.id) return this.t('err.notYoursPlace', { place: this.S[pos].name });
+    for (const pos of t.getProps) if (this.owners[pos] !== b.id) return this.t('err.notTheirs', { place: this.S[pos].name });
     for (const pos of [...t.giveProps, ...t.getProps]) {
       const sp = this.S[pos];
-      if (sp.type === 'street' && this.groupHasBuildings(sp.group)) return `Sell the houses on the ${this.G[sp.group].name} before trading ${sp.name}.`;
+      if (sp.type === 'street' && this.groupHasBuildings(sp.group)) return this.t('err.tradeHouses', { group: this.G[sp.group].name, place: sp.name });
     }
-    if (a.cash < t.giveCash) return `${a.name} doesn't have ${this.T.cur}${t.giveCash}.`;
-    if (b.cash < t.getCash) return `${b.name} doesn't have ${this.T.cur}${t.getCash}.`;
-    if (a.jailCards.length < t.giveCards || b.jailCards.length < t.getCards) return `Not enough ${this.T.escapeName}s.`;
+    if (a.cash < t.giveCash) return this.t('err.noCash', { name: a.name, m: this.m(t.giveCash) });
+    if (b.cash < t.getCash) return this.t('err.noCash', { name: b.name, m: this.m(t.getCash) });
+    if (a.jailCards.length < t.giveCards || b.jailCards.length < t.getCards) return this.t('err.notEnoughEscape');
     return null;
   }
 
   proposeTrade(p, offer) {
-    if (this.phase !== 'playing' || p.bankrupt) return 'Not now.';
+    if (this.phase !== 'playing' || p.bankrupt) return this.t('err.notNow');
     const t = { ...this.cleanOffer(offer || {}), from: p.id };
     const err = this.checkTrade(t);
     if (err) return err;
     this.trades = this.trades.filter((x) => x.from !== p.id); // one open offer each
     t.id = ++this.tradeSeq;
     this.trades.push(t);
-    this.say(`🤝 ${this.nm(p)} sent a trade offer to ${this.nm(this.P(t.to))}.`);
+    this.say(this.t('log.offer', { who: this.nm(p), to: this.nm(this.P(t.to)) }));
     return null;
   }
 
   respondTrade(p, id, accept) {
     const t = this.trades.find((x) => x.id === Number(id));
-    if (!t) return 'That offer is gone.';
-    if (accept && t.to !== p.id) return 'Only the other player can accept.';
-    if (!accept && t.to !== p.id && t.from !== p.id) return 'Not your trade.';
+    if (!t) return this.t('err.offerGone');
+    if (accept && t.to !== p.id) return this.t('err.onlyOther');
+    if (!accept && t.to !== p.id && t.from !== p.id) return this.t('err.notYourTrade');
     this.trades = this.trades.filter((x) => x !== t);
     const a = this.P(t.from), b = this.P(t.to);
-    if (!accept) { this.say(`🙅 Trade between ${this.nm(a)} and ${this.nm(b)} was cancelled.`); return null; }
+    if (!accept) { this.say(this.t('log.tradeCancelled', { a: this.nm(a), b: this.nm(b) })); return null; }
     const err = this.checkTrade(t);
     if (err) return err;
     // Receiving a mortgaged place costs 10% interest (official rule).
     const fee = (list) => list.filter((pos) => this.mortgaged[pos]).reduce((s, pos) => s + interestOnly(pos), 0);
     const aFee = fee(t.getProps), bFee = fee(t.giveProps);
-    if (a.cash - t.giveCash + t.getCash < aFee) return `${a.name} can't pay the ${this.T.cur}${aFee} mortgage interest.`;
-    if (b.cash - t.getCash + t.giveCash < bFee) return `You can't pay the ${this.T.cur}${bFee} mortgage interest.`;
+    if (a.cash - t.giveCash + t.getCash < aFee) return this.t('err.cantPayInterest', { name: a.name, m: this.m(aFee) });
+    if (b.cash - t.getCash + t.giveCash < bFee) return this.t('err.youCantPayInterest', { m: this.m(bFee) });
     a.cash += t.getCash - t.giveCash - aFee;
     b.cash += t.giveCash - t.getCash - bFee;
     for (const pos of t.giveProps) this.owners[pos] = b.id;
     for (const pos of t.getProps) this.owners[pos] = a.id;
     for (let i = 0; i < t.giveCards; i++) b.jailCards.push(a.jailCards.pop());
     for (let i = 0; i < t.getCards; i++) a.jailCards.push(b.jailCards.pop());
-    this.say(`🤝 ${this.nm(a)} and ${this.nm(b)} made a trade!`);
+    this.say(this.t('log.traded', { a: this.nm(a), b: this.nm(b) }));
     return null;
   }
 
@@ -617,15 +634,15 @@ class Game {
       .map((p) => ({ id: p.id, worth: p.bankrupt ? 0 : this.netWorth(p) }))
       .sort((x, y) => y.worth - x.worth);
     const w = this.P(this.ranking[0].id);
-    this.say(`👑 ${this.nm(w)} is the ${this.T.crown}! 🎉`);
+    this.say(this.t('log.winner', { who: this.nm(w) }));
   }
 
   // ---------- dispatch ----------
   act(pid, a) {
     const p = this.P(pid);
-    if (!p) return 'You are not in this game.';
-    if (this.phase !== 'playing') return 'The game is not running.';
-    if (p.bankrupt) return 'You are out of the game.';
+    if (!p) return this.t('err.notInGame');
+    if (this.phase !== 'playing') return this.t('err.notRunning');
+    if (p.bankrupt) return this.t('err.youreOut');
     const pos = Number(a.pos);
     switch (a.type) {
       case 'roll': return this.roll(p);
@@ -644,7 +661,7 @@ class Game {
       case 'unmortgage': return this.unmortgage(p, pos);
       case 'trade': return this.proposeTrade(p, a.offer);
       case 'tradeReply': return this.respondTrade(p, a.id, !!a.accept);
-      default: return 'Unknown action.';
+      default: return this.t('err.unknown');
     }
   }
 

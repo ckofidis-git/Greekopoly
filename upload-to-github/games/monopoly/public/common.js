@@ -1,17 +1,32 @@
 // Helpers shared by the big screen and the phone controller.
 const { TOKENS } = window.BOARD;
-let SPACES, GROUPS, TH, themeId = null;
-// Switch names, flags, wording and currency to a theme. Returns true when it changed.
-function useTheme(id) {
-  if (id === themeId) return false;
-  const t = window.BOARD.themed(id);
-  SPACES = t.SPACES; GROUPS = t.GROUPS; TH = t.T; themeId = TH.id;
+let SPACES, GROUPS, TH, themeId = null, LANG = null, tr = null;
+// Languages: the game's own setting wins; before joining, use the hub choice or the device language.
+function guessLang() {
+  try { const l = localStorage.getItem('hub_lang'); if (l === 'el' || l === 'en') return l; } catch (e) {}
+  return (navigator.language || '').toLowerCase().startsWith('el') ? 'el' : 'en';
+}
+// Switch names, flags, wording, currency and language. Returns true when anything changed.
+function useTheme(id, lang = LANG || guessLang()) {
+  if (id === themeId && lang === LANG) return false;
+  const t = window.BOARD.themed(id, lang);
+  SPACES = t.SPACES; GROUPS = t.GROUPS; TH = t.T; themeId = TH.id; LANG = lang;
+  tr = window.I18N.makeT(lang);
+  document.documentElement.lang = lang === 'el' ? 'el' : 'en-GB';
   return true;
+}
+// t('key', params): translated text. Unknown keys (e.g. a message the server already translated) come back unchanged.
+function t(key, p = {}) { return tr(key, { T: TH, ...p }); }
+// Fill every element marked data-i="key" (text) or data-ih="key" (HTML) or data-ip="key" (placeholder).
+function applyStatic() {
+  document.querySelectorAll('[data-i]').forEach((el) => { el.textContent = t(el.dataset.i); });
+  document.querySelectorAll('[data-ih]').forEach((el) => { el.innerHTML = t(el.dataset.ih); });
+  document.querySelectorAll('[data-ip]').forEach((el) => { el.placeholder = t(el.dataset.ip); });
 }
 useTheme('greece');
 const $ = (s, el = document) => el.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const eur = (n) => TH.cur + Number(n).toLocaleString('en');
+const eur = (n) => window.BOARD.money(TH, n);
 
 const PIPS = { 1: [4], 2: [0, 8], 3: [0, 4, 8], 4: [0, 2, 6, 8], 5: [0, 2, 4, 6, 8], 6: [0, 2, 3, 5, 6, 8] };
 function dieHTML(n, cls = '') {
@@ -32,21 +47,21 @@ function deedHTML(pos, state) {
   const sub = sp.type === 'street' ? GROUPS[sp.group].name : sp.type === 'rail' ? TH.rail : TH.util;
   let rows = '';
   if (sp.type === 'street') {
-    const labels = ['Rent', 'With 1 house', 'With 2 houses', 'With 3 houses', 'With 4 houses', 'With a hotel'];
+    const labels = ['deed.rent', 'deed.h1', 'deed.h2', 'deed.h3', 'deed.h4', 'deed.hotel'].map((k) => t(k));
     rows = sp.rent.map((r, i) => `<tr><td>${labels[i]}</td><td>${eur(r)}</td></tr>`).join('') +
-      `<tr><td class="muted">Each house costs</td><td>${eur(sp.house)}</td></tr>`;
+      `<tr><td class="muted">${t('deed.houseCost')}</td><td>${eur(sp.house)}</td></tr>`;
   } else if (sp.type === 'rail') {
-    rows = [25, 50, 100, 200].map((r, i) => `<tr><td>Own ${i + 1} ${i ? TH.rails : TH.rail}</td><td>${eur(r)}</td></tr>`).join('');
+    rows = [25, 50, 100, 200].map((r, i) => `<tr><td>${t('deed.rail', { n: i + 1 })}</td><td>${eur(r)}</td></tr>`).join('');
   } else {
-    rows = `<tr><td>Own 1: dice × 4</td><td></td></tr><tr><td>Own both: dice × 10</td><td></td></tr>`;
+    rows = `<tr><td>${t('deed.util1')}</td><td></td></tr><tr><td>${t('deed.util2')}</td><td></td></tr>`;
   }
   let owner = '';
   if (state && state.owners[pos]) {
     const o = state.players.find((p) => p.id === state.owners[pos]);
-    if (o) owner = `<div class="chip" style="margin-top:8px">Owner: ${o.emoji} ${esc(o.name)}${state.mortgaged[pos] ? ' · 💤 mortgaged' : ''}</div>`;
+    if (o) owner = `<div class="chip" style="margin-top:8px">${t('deed.owner', { who: `${o.emoji} ${esc(o.name)}` })}${state.mortgaged[pos] ? t('deed.mortgaged') : ''}</div>`;
   }
   return `<div class="deed"><div class="band" style="background:${color}">${esc(sp.name)}<small>${sub}</small></div>
-    <div class="body"><div class="emoji">${sp.emoji}</div><div style="font-size:1.2rem;font-weight:700">Price ${eur(sp.price)}</div>
+    <div class="body"><div class="emoji">${sp.emoji}</div><div style="font-size:1.2rem;font-weight:700">${t('deed.price', { m: eur(sp.price) })}</div>
     <table>${rows}</table>${owner}</div></div>`;
 }
 
@@ -96,13 +111,13 @@ function beep(notes = [660, 880], dur = 0.09) {
 }
 
 // In-page yes/no question (browser confirm() pop-ups can be blocked on TVs and kiosks).
-function askConfirm(text, yesLabel, onYes) {
+function askConfirm(text, yesLabel, onYes, noLabel = LANG === 'el' ? 'Άκυρο' : 'Cancel') {
   const el = document.createElement('div');
   el.className = 'overlay';
   el.style.zIndex = 300;
   el.innerHTML = `<div class="panel center" style="max-width:440px;display:flex;flex-direction:column;gap:14px">
     <div style="font-size:1.25rem;font-weight:600">${esc(text)}</div>
-    <div class="row" style="justify-content:center"><button class="btn-soft big" data-no>Cancel</button><button class="btn-pink big" data-yes>${esc(yesLabel)}</button></div></div>`;
+    <div class="row" style="justify-content:center"><button class="btn-soft big" data-no>${esc(noLabel)}</button><button class="btn-pink big" data-yes>${esc(yesLabel)}</button></div></div>`;
   el.onclick = (e) => {
     if (e.target === el || e.target.closest('[data-no]')) el.remove();
     else if (e.target.closest('[data-yes]')) { el.remove(); onYes(); }

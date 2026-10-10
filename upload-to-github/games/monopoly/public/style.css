@@ -20,7 +20,7 @@
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { margin: 0; height: 100%; }
 body {
-  font-family: 'Fredoka', 'Baloo 2', system-ui, sans-serif;
+  font-family: 'Fredoka', 'M PLUS Rounded 1c', system-ui, sans-serif;
   color: var(--ink);
   background: linear-gradient(160deg, var(--sky-1) 0%, #e9e4ff 45%, var(--sky-2) 100%) fixed;
   background-color: var(--sky-1);

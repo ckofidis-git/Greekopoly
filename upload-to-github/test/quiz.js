@@ -9,7 +9,7 @@ let seed = 7; const rng = () => ((seed = (seed * 16807) % 2147483647) / 21474836
 for (let i = 0; i < 2000; i++) {
   const tables = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].filter(() => rng() < 0.5);
   const ops = { mul: rng() < 0.7, div: rng() < 0.7, missing: rng() < 0.5, big: rng() < 0.3 };
-  const qs = buildQuiz({ tables: tables.length ? tables : [7], ops, count: 20 }, rng);
+  const qs = buildQuiz({ tables: tables.length ? tables : [7], ops, count: 20, lang: i % 2 ? 'el' : 'en' }, rng);
   assert(new Set(qs.map((q) => q.text)).size === qs.length, 'repeat question');
   for (const q of qs) {
     assert(Number.isInteger(q.answer) && q.answer > 0, 'bad answer ' + q.text);
@@ -17,7 +17,7 @@ for (let i = 0; i < 2000; i++) {
     assert(q.choices.includes(q.answer), 'answer missing ' + q.text);
     assert(q.choices.every((c) => Number.isInteger(c) && c > 0), 'bad choice ' + q.text + ' ' + q.choices);
     // check the maths in the text
-    const t = q.text.replace(/,/g, '');
+    const t = q.text.replace(/[,.]/g, ''); // thousands separators: 1,000 (English) or 1.000 (Greek)
     let m;
     if ((m = t.match(/^(\d+) × (\d+)$/))) assert.strictEqual(+m[1] * +m[2], q.answer, q.text);
     else if ((m = t.match(/^(\d+) ÷ (\d+)$/))) assert.strictEqual(+m[1] / +m[2], q.answer, q.text);
@@ -36,7 +36,7 @@ for (let g = 0; g < 200; g++) {
   const quiz = new Quiz('T', () => {}, clock);
   const n = 1 + (g % 12);
   for (let i = 0; i < n; i++) assert.strictEqual(quiz.join('p' + i, 'Kid' + i, '🦄'), null);
-  assert(quiz.join('x', 'kid0', '🐱'), 'duplicate name allowed');
+  assert.strictEqual(quiz.join('x', 'kid0', '🐱'), 'err.nameTaken', 'duplicate name allowed');
   quiz.setSettings({ count: [5, 10, 15, 20][g % 4], time: [10, 15, 20, 30][g % 4], mode: g % 2 ? 'type' : 'choices', ops: { missing: true } });
   assert.strictEqual(quiz.start(), null);
   const shown = new Set();
@@ -67,4 +67,4 @@ for (let g = 0; g < 200; g++) {
   quiz.backToLobby();
   assert(quiz.players.length === n && quiz.players.every((p) => p.score === 0), 'reset failed');
 }
-console.log('OK — 2000 quizzes generated (maths checked), 200 games played with a fake clock, all rules held.');
+console.log('OK — 2000 quizzes generated in English and Greek (maths checked), 200 games played with a fake clock, all rules held.');

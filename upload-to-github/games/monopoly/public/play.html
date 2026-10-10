@@ -7,7 +7,7 @@
 <title>Greekopoly — Player</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
   body { font-size: 17px; }
@@ -35,6 +35,7 @@
   nav { position: fixed; bottom: 0; left: 0; right: 0; display: flex; gap: 8px; padding: 10px 12px; padding-bottom: max(10px, env(safe-area-inset-bottom)); background: rgba(255,255,255,.95); box-shadow: 0 -4px 16px rgba(59,42,122,.12); z-index: 10; }
   nav button { flex: 1; display: flex; flex-direction: column; align-items: center; font-size: .9rem; font-weight: 600; padding: 8px 4px; box-shadow: none; background: transparent; position: relative; }
   nav button span { font-size: 1.7rem; }
+  nav button b { font-weight: 600; }
   nav button.on { background: #ffe8f3; color: #d43c80; }
   nav .dot { position: absolute; top: 4px; right: 18%; width: 12px; height: 12px; border-radius: 50%; background: var(--red); }
 
@@ -69,21 +70,21 @@
   <h1 class="logo">Greekopoly</h1>
   <div class="center muted" style="font-size:1.1rem" id="joinTag"></div>
   <div id="codeBox" class="hidden">
-    <div class="label">Game code (on the big screen)</div>
+    <div class="label" data-i="ph.gameCode">Game code (on the big screen)</div>
     <input type="text" id="codeIn" maxlength="4" autocapitalize="characters" autocomplete="off" placeholder="ABCD" style="text-transform:uppercase;letter-spacing:8px;text-align:center">
   </div>
-  <div class="label">What's your name?</div>
-  <input type="text" id="nameIn" maxlength="14" autocomplete="off" placeholder="Your name">
-  <div class="label">Pick your character</div>
+  <div class="label" data-i="ph.name">What's your name?</div>
+  <input type="text" id="nameIn" maxlength="14" autocomplete="off" placeholder="Your name" data-ip="ph.namePh">
+  <div class="label" data-i="ph.pick">Pick your character</div>
   <div class="tokens" id="tokenPick"></div>
-  <button class="btn-pink huge" id="joinBtn" style="margin-top:22px">Join the game! 💖</button>
+  <button class="btn-pink huge" id="joinBtn" style="margin-top:22px" data-i="ph.join">Join the game! 💖</button>
 </div>
 
 <div id="waitScreen" class="screen hidden center">
   <h1 class="logo">Greekopoly</h1>
   <div class="wait-anim" id="waitMe"></div>
-  <div style="font-size:1.5rem;font-weight:600">You're in! 🎉</div>
-  <div class="muted" style="font-size:1.1rem;margin:6px 0 18px">Waiting for the host to start the game…</div>
+  <div style="font-size:1.5rem;font-weight:600" data-i="ph.youreIn">You're in! 🎉</div>
+  <div class="muted" style="font-size:1.1rem;margin:6px 0 18px" data-i="ph.waitHost">Waiting for the host to start the game…</div>
   <div class="panel" id="waitList"></div>
 </div>
 
@@ -97,9 +98,9 @@
   <div class="screen hidden" id="tabMine"></div>
   <div class="screen hidden" id="tabTrade"></div>
   <nav>
-    <button data-tab="Play" class="on"><span>🎲</span>Play</button>
-    <button data-tab="Mine"><span>🏠</span>My places</button>
-    <button data-tab="Trade"><span>🤝</span>Trade<i class="dot hidden" id="tradeDot"></i></button>
+    <button data-tab="Play" class="on"><span>🎲</span><b data-i="ph.tabPlay">Play</b></button>
+    <button data-tab="Mine"><span>🏠</span><b data-i="ph.tabMine">My places</b></button>
+    <button data-tab="Trade"><span>🤝</span><b data-i="ph.tabTrade">Trade</b><i class="dot hidden" id="tradeDot"></i></button>
   </nav>
 </div>
 
@@ -107,6 +108,7 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="shared/board.js"></script>
+<script src="shared/i18n.js"></script>
 <script src="common.js"></script>
 <script src="play.js"></script>
 </body>

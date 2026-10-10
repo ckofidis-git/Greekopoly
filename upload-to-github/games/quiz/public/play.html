@@ -7,7 +7,7 @@
 <title>Maths Superstars — Player</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
   body { font-size: 17px; min-height: 100vh; }
@@ -50,18 +50,18 @@
 </head>
 <body>
 <div id="joinScreen" class="screen hidden">
-  <h1 class="logo">Maths <span>Superstars</span> 🌟</h1>
-  <div class="sub">The times tables quiz show!</div>
+  <h1 class="logo" data-ih="title">Maths <span>Superstars</span> 🌟</h1>
+  <div class="sub" data-i="subtitle">The times tables quiz show!</div>
   <div class="panel" style="display:flex;flex-direction:column;gap:10px">
     <div id="codeBox" class="hidden">
-      <div class="label">Game code (on the big screen)</div>
+      <div class="label" data-i="gameCode">Game code (on the big screen)</div>
       <input type="text" id="codeIn" maxlength="4" autocapitalize="characters" autocomplete="off" placeholder="ABCD" style="text-transform:uppercase;letter-spacing:8px;text-align:center">
     </div>
-    <div class="label">What's your name?</div>
-    <input type="text" id="nameIn" maxlength="14" autocomplete="off" placeholder="Your name">
-    <div class="label">Pick your avatar</div>
+    <div class="label" data-i="name">What's your name?</div>
+    <input type="text" id="nameIn" maxlength="14" autocomplete="off" placeholder="Your name" data-ip="namePh">
+    <div class="label" data-i="pickAvatar">Pick your avatar</div>
     <div class="avs" id="avs"></div>
-    <button class="btn-pink huge" id="joinBtn" style="margin-top:8px">Join the show! 🎤</button>
+    <button class="btn-pink huge" id="joinBtn" style="margin-top:8px" data-i="join">Join the show! 🎤</button>
   </div>
 </div>
 
@@ -72,6 +72,7 @@
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
+<script src="i18n.js"></script>
 <script src="common.js"></script>
 <script src="play.js"></script>
 </body>

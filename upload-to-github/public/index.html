@@ -6,12 +6,12 @@
 <title>Game Hub</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
   :root { --ink: #33236e; --soft: #6d5fa3; --shadow: 0 14px 36px rgba(60, 30, 120, .22); }
   * { box-sizing: border-box; }
   body {
-    margin: 0; min-height: 100vh; font-family: 'Fredoka', system-ui, sans-serif; color: var(--ink);
+    margin: 0; min-height: 100vh; font-family: 'Fredoka', 'M PLUS Rounded 1c', system-ui, sans-serif; color: var(--ink);
     background: linear-gradient(150deg, #c9ecff 0%, #e9e1ff 45%, #ffe0ef 100%) fixed; background-color: #e9e1ff;
     display: flex; flex-direction: column; align-items: center; padding: 5vh 16px 40px;
   }
@@ -37,39 +37,75 @@
   .play { margin-top: 12px; align-self: flex-start; font-weight: 700; font-size: 1.3rem; color: #fff; padding: 12px 22px; border-radius: 18px; background: linear-gradient(180deg, #ff86b3, #ff4f8b); box-shadow: 0 5px 0 #c42a63; }
   .soon-card { opacity: .8; pointer-events: none; }
   .foot { margin-top: 5vh; color: var(--soft); text-align: center; font-size: 1.05rem; }
+  .langs { position: absolute; top: 16px; right: 16px; display: flex; gap: 6px; }
+  .langs button { font: inherit; font-size: 1.05rem; border: 3px solid transparent; border-radius: 14px; padding: 8px 14px; background: #fff; color: var(--ink); cursor: pointer; box-shadow: 0 3px 0 rgba(60,30,120,.15); }
+  .langs button.sel { border-color: #ff4f8b; background: #fff0f7; font-weight: 700; }
   @media (max-width: 420px) { .art { height: 150px; font-size: 4.2rem; } }
 </style>
 </head>
 <body>
-  <h1><span class="grad">Game Hub</span> 🎲</h1>
-  <div class="tag">Pick a game for the big screen — everyone joins on their phone by scanning the QR code! 📱</div>
+  <div class="langs" id="langs"><button data-lang="en">🇬🇧 English</button><button data-lang="el">🇬🇷 Ελληνικά</button></div>
+  <h1><span class="grad" data-i="hub">Game Hub</span> 🎲</h1>
+  <div class="tag" data-i="tag">Pick a game for the big screen — everyone joins on their phone by scanning the QR code! 📱</div>
   <div class="games">
     <a class="game" href="/monopoly/">
       <div class="art mono"><span class="float">🏛️</span></div>
       <div class="info">
-        <h2>Monopoly</h2>
-        <p>Buy places, build houses and become the richest! Two worlds to choose from: 🇬🇷 <b>Greekopoly</b> and 🌍 <b>Worldopoly</b>.</p>
-        <div class="chips"><span class="chip">👫 2–8 players</span><span class="chip">⏱️ 45+ min</span><span class="chip">🎲 Board game</span></div>
-        <span class="play">Play Monopoly ▶</span>
+        <h2 data-i="mono">Monopoly</h2>
+        <p data-ih="monoP">Buy places, build houses and become the richest! Two worlds to choose from: 🇬🇷 <b>Greekopoly</b> and 🌍 <b>Worldopoly</b>.</p>
+        <div class="chips"><span class="chip" data-i="monoC1">👫 2–8 players</span><span class="chip" data-i="monoC2">⏱️ 45+ min</span><span class="chip" data-i="monoC3">🎲 Board game</span></div>
+        <span class="play" data-i="monoGo">Play Monopoly ▶</span>
       </div>
     </a>
     <a class="game" href="/quiz/">
       <div class="art quiz"><span class="float">🌟</span></div>
       <div class="info">
-        <h2>Maths Superstars</h2>
-        <p>The times tables quiz show! Answer fast, build a 🔥 streak and become the Superstar. ✖️ ➗</p>
-        <div class="chips"><span class="chip">👫 1–40 players</span><span class="chip">⏱️ 5–15 min</span><span class="chip">🧠 Year 5 maths</span></div>
-        <span class="play">Play the quiz ▶</span>
+        <h2 data-i="quiz">Maths Superstars</h2>
+        <p data-i="quizP">The times tables quiz show! Answer fast, build a 🔥 streak and become the Superstar. ✖️ ➗</p>
+        <div class="chips"><span class="chip" data-i="quizC1">👫 1–40 players</span><span class="chip" data-i="quizC2">⏱️ 5–15 min</span><span class="chip" data-i="quizC3">🧠 Year 5 maths</span></div>
+        <span class="play" data-i="quizGo">Play the quiz ▶</span>
       </div>
     </a>
     <a class="game soon-card" aria-disabled="true" tabindex="-1">
       <div class="art soon">✨</div>
       <div class="info">
-        <h2>More games coming soon…</h2>
-        <p>What should we make next?</p>
+        <h2 data-i="soon">More games coming soon…</h2>
+        <p data-i="soonP">What should we make next?</p>
       </div>
     </a>
   </div>
-  <div class="foot">Open this page on the TV or laptop. Players don't need to come here — they scan the code shown in the game.</div>
+  <div class="foot" data-i="foot">Open this page on the TV or laptop. Players don't need to come here — they scan the code shown in the game.</div>
+<script>
+  // Home page language. The choice is remembered and each game starts in it (and can still be changed in its lobby).
+  const HUB = {
+    en: { title: 'Game Hub', hub: 'Game Hub', tag: 'Pick a game for the big screen — everyone joins on their phone by scanning the QR code! 📱',
+      mono: 'Monopoly', monoP: 'Buy places, build houses and become the richest! Two worlds to choose from: 🇬🇷 <b>Greekopoly</b> and 🌍 <b>Worldopoly</b>.',
+      monoC1: '👫 2–8 players', monoC2: '⏱️ 45+ min', monoC3: '🎲 Board game', monoGo: 'Play Monopoly ▶',
+      quiz: 'Maths Superstars', quizP: 'The times tables quiz show! Answer fast, build a 🔥 streak and become the Superstar. ✖️ ➗',
+      quizC1: '👫 1–40 players', quizC2: '⏱️ 5–15 min', quizC3: '🧠 Year 5 maths', quizGo: 'Play the quiz ▶',
+      soon: 'More games coming soon…', soonP: 'What should we make next?',
+      foot: "Open this page on the TV or laptop. Players don't need to come here — they scan the code shown in the game." },
+    el: { title: 'Γωνιά Παιχνιδιών', hub: 'Γωνιά Παιχνιδιών', tag: 'Διάλεξε παιχνίδι για τη μεγάλη οθόνη — όλοι μπαίνουν από το κινητό τους σκανάροντας τον κωδικό QR! 📱',
+      mono: 'Μονόπολη', monoP: 'Αγόρασε θέσεις, χτίσε σπίτια και γίνε ο πιο πλούσιος! Δύο κόσμοι για να διαλέξεις: 🇬🇷 <b>Ελλαδόπολη</b> και 🌍 <b>Κοσμόπολη</b>.',
+      monoC1: '👫 2–8 παίκτες', monoC2: '⏱️ 45+ λεπτά', monoC3: '🎲 Επιτραπέζιο', monoGo: 'Παίξε Μονόπολη ▶',
+      quiz: 'Αστέρια των Μαθηματικών', quizP: 'Το κουίζ της προπαίδειας! Απάντα γρήγορα, κάνε 🔥 σερί και γίνε το Αστέρι. ✖️ ➗',
+      quizC1: '👫 1–40 παίκτες', quizC2: '⏱️ 5–15 λεπτά', quizC3: '🧠 Μαθηματικά Ε΄ τάξης', quizGo: 'Παίξε το κουίζ ▶',
+      soon: 'Έρχονται κι άλλα παιχνίδια…', soonP: 'Τι να φτιάξουμε μετά;',
+      foot: 'Άνοιξε αυτή τη σελίδα στην τηλεόραση ή στο laptop. Οι παίκτες δεν χρειάζεται να έρθουν εδώ — σκανάρουν τον κωδικό που δείχνει το παιχνίδι.' },
+  };
+  function setLang(lang) {
+    const d = HUB[lang] || HUB.en;
+    try { localStorage.setItem('hub_lang', lang); } catch (e) {}
+    document.documentElement.lang = lang === 'el' ? 'el' : 'en-GB';
+    document.title = d.title;
+    document.querySelectorAll('[data-i]').forEach((el) => { el.textContent = d[el.dataset.i]; });
+    document.querySelectorAll('[data-ih]').forEach((el) => { el.innerHTML = d[el.dataset.ih]; });
+    for (const b of document.querySelectorAll('#langs button')) b.classList.toggle('sel', b.dataset.lang === lang);
+  }
+  let start = 'en';
+  try { start = localStorage.getItem('hub_lang') || ((navigator.language || '').toLowerCase().startsWith('el') ? 'el' : 'en'); } catch (e) {}
+  setLang(start);
+  document.getElementById('langs').onclick = (e) => { const b = e.target.closest('button'); if (b) setLang(b.dataset.lang); };
+</script>
 </body>
 </html>

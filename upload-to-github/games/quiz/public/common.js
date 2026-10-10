@@ -1,10 +1,27 @@
 // Helpers shared by the big screen and the phones.
 const $ = (s, el = document) => el.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const num = (n) => Number(n).toLocaleString('en-GB');
+let LANG = 'en', tr = null;
+function guessLang() {
+  try { const l = localStorage.getItem('hub_lang'); if (l === 'el' || l === 'en') return l; } catch (e) {}
+  return (navigator.language || '').toLowerCase().startsWith('el') ? 'el' : 'en';
+}
+// Switch language; returns true when it changed. Fills every data-i / data-ih / data-ip element.
+function useLang(lang) {
+  lang = lang === 'el' ? 'el' : 'en';
+  const changed = lang !== LANG || !tr;
+  LANG = lang; tr = window.QI18N.makeT(lang);
+  document.documentElement.lang = lang === 'el' ? 'el' : 'en-GB';
+  document.querySelectorAll('[data-i]').forEach((el) => { el.textContent = t(el.dataset.i); });
+  document.querySelectorAll('[data-ih]').forEach((el) => { el.innerHTML = t(el.dataset.ih); });
+  document.querySelectorAll('[data-ip]').forEach((el) => { el.placeholder = t(el.dataset.ip); });
+  return changed;
+}
+const t = (key, p) => tr(key, p);
+const num = (n) => Number(n).toLocaleString(LANG === 'el' ? 'el-GR' : 'en-GB');
 const FRUITS = ['🍓', '🫐', '🍋', '🥝'];
 const AVATARS = ['🦄', '🐱', '🐶', '🐼', '🐨', '🦊', '🐰', '🐸', '🐵', '🦁', '🐯', '🐧', '🐢', '🐬', '🦋', '🐝', '🐞', '🦉', '🐙', '🦖', '🐹', '🐻', '🦩', '🐳'];
-const ordinal = (n) => n + (n % 100 >= 11 && n % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][n % 10] || 'th');
+const ordinal = (n) => window.QI18N.ORD[LANG](n);
 
 // The server sends "ms remaining"; turn it into a local end time so clocks never need to agree.
 let phaseEndAt = 0, phaseTotal = 1;
@@ -71,7 +88,7 @@ function askConfirm(text, yesLabel, onYes) {
   el.className = 'overlay';
   el.innerHTML = `<div class="panel center" style="max-width:440px;display:flex;flex-direction:column;gap:14px">
     <div style="font-size:1.25rem;font-weight:600">${esc(text)}</div>
-    <div class="row" style="justify-content:center"><button class="btn-soft big" data-no>Cancel</button><button class="btn-pink big" data-yes>${esc(yesLabel)}</button></div></div>`;
+    <div class="row" style="justify-content:center"><button class="btn-soft big" data-no>${esc(t('cancel'))}</button><button class="btn-pink big" data-yes>${esc(yesLabel)}</button></div></div>`;
   el.onclick = (e) => {
     if (e.target === el || e.target.closest('[data-no]')) el.remove();
     else if (e.target.closest('[data-yes]')) { el.remove(); onYes(); }

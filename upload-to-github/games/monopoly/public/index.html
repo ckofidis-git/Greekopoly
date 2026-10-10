@@ -6,7 +6,7 @@
 <title>Greekopoly — Big Screen</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
   body { overflow: hidden; }
@@ -32,6 +32,9 @@
   .themes .ti { font-size: 2.6rem; }
   .themes b { font-size: 1.35rem; display: block; }
   .themes small { color: var(--ink-soft); font-size: .9rem; }
+  .langs { display: flex; gap: 6px; }
+  .langs button { padding: 8px 14px; font-size: 1.05rem; border: 3px solid transparent; box-shadow: 0 3px 0 rgba(59,42,122,.15); }
+  .langs button.sel { border-color: var(--pink); background: #fff0f7; font-weight: 700; }
   .toggle { display: flex; gap: 12px; align-items: center; font-size: 1.1rem; cursor: pointer; }
   .toggle input { width: 26px; height: 26px; accent-color: var(--pink); }
 
@@ -130,9 +133,9 @@
 <body>
 <div id="lobby" class="hidden">
   <div class="panel qr-card">
-    <div style="font-size:1.7rem;font-weight:700">📱 Scan to join!</div>
+    <div style="font-size:1.7rem;font-weight:700" data-i="ui.scan">📱 Scan to join!</div>
     <img id="qr" alt="QR code to join the game">
-    <div class="muted">or open the link and type the code</div>
+    <div class="muted" data-i="ui.orLink">or open the link and type the code</div>
     <div class="code" id="code">····</div>
     <div class="url muted" id="url"></div>
   </div>
@@ -142,13 +145,14 @@
     <div id="playerCount"></div>
     <div class="lobby-players" id="lobbyPlayers"></div>
     <div class="panel" style="display:flex;flex-direction:column;gap:14px">
-      <div style="font-weight:700;font-size:1.2rem">🎨 Choose a theme</div>
+      <div class="row wrap" style="justify-content:space-between"><div style="font-weight:700;font-size:1.2rem" data-i="ui.chooseTheme">🎨 Choose a theme</div>
+        <div class="langs" id="langPick"><button data-lang="en">🇬🇧 English</button><button data-lang="el">🇬🇷 Ελληνικά</button></div></div>
       <div class="themes" id="themePick"></div>
       <label class="toggle"><input type="checkbox" id="jackpot"> <span id="jackpotLabel"></span></label>
       <div class="row wrap">
-        <button class="btn-pink huge" id="startBtn" style="width:auto;flex:1">✨ Start the game!</button>
-        <button class="btn-soft" id="newBtn">🔄 New game</button>
-        <a class="btn-soft" href="/" style="text-decoration:none;padding:12px 18px;border-radius:18px;background:#f1ecff;color:var(--ink);font-weight:500">🏠 All games</a>
+        <button class="btn-pink huge" id="startBtn" style="width:auto;flex:1" data-i="ui.start">✨ Start the game!</button>
+        <button class="btn-soft" id="newBtn" data-i="ui.newGame">🔄 New game</button>
+        <a class="btn-soft" href="/" style="text-decoration:none;padding:12px 18px;border-radius:18px;background:#f1ecff;color:var(--ink);font-weight:500" data-i="ui.allGames">🏠 All games</a>
       </div>
       <div class="muted" id="startHint">Waiting for at least 2 players…</div>
     </div>
@@ -177,30 +181,32 @@
   <aside id="side">
     <div class="head panel" style="padding:10px">
       <img id="qrSmall" alt="QR code to rejoin">
-      <div class="grow"><div class="muted">Game code</div><div style="font-size:1.9rem;font-weight:700;letter-spacing:4px;color:var(--pink)" id="codeSmall"></div>
-        <div class="muted" style="font-size:.85rem">Lost your phone? Scan again to come back.</div></div>
+      <div class="grow"><div class="muted" data-i="ui.gameCode">Game code</div><div style="font-size:1.9rem;font-weight:700;letter-spacing:4px;color:var(--pink)" id="codeSmall"></div>
+        <div class="muted" style="font-size:.85rem" data-i="ui.lostPhone">Lost your phone? Scan again to come back.</div></div>
     </div>
     <div id="potBox" class="chip hidden" style="font-size:1.1rem;align-self:flex-start"></div>
     <div id="players"></div>
     <div id="log"></div>
     <div class="tools">
-      <button class="btn-soft" id="fsBtn">⛶ Full screen</button>
+      <button class="btn-soft" id="fsBtn" data-i="ui.fullScreen">⛶ Full screen</button>
+      <button class="btn-soft" id="langBtn"></button>
       <button class="btn-soft" id="soundBtn">🔊 Sound on</button>
-      <button class="btn-gold" id="endAuctionBtn">🔨 Close auction</button>
-      <button class="btn-red" id="endGameBtn">🏁 Finish game</button>
+      <button class="btn-gold" id="endAuctionBtn" data-i="ui.closeAuction">🔨 Close auction</button>
+      <button class="btn-red" id="endGameBtn" data-i="ui.finish">🏁 Finish game</button>
     </div>
   </aside>
 </div>
 
 <div id="over" class="overlay hidden"><div class="panel">
-  <div style="font-size:4rem">👑</div><div class="logo" style="font-size:2.6rem">Game over!</div>
+  <div style="font-size:4rem">👑</div><div class="logo" style="font-size:2.6rem" data-i="ui.gameOver">Game over!</div>
   <div id="ranking"></div>
-  <div class="muted" style="margin:6px 0 12px">Everyone stays joined — pick a theme and play again!</div>
-  <button class="btn-pink big" id="againBtn">🏠 Home screen</button>
+  <div class="muted" style="margin:6px 0 12px" data-i="ui.staysJoined">Everyone stays joined — pick a theme and play again!</div>
+  <button class="btn-pink big" id="againBtn" data-i="ui.home">🏠 Home screen</button>
 </div></div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="shared/board.js"></script>
+<script src="shared/i18n.js"></script>
 <script src="common.js"></script>
 <script src="admin.js"></script>
 </body>
