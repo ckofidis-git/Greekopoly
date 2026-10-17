@@ -1,0 +1,4352 @@
+[
+  {
+    "cat": "geo",
+    "q": {
+      "en": "What is the capital city of Italy?",
+      "el": "Ποια είναι η πρωτεύουσα της Ιταλίας;"
+    },
+    "a": [
+      {
+        "en": "Rome",
+        "el": "Ρώμη"
+      },
+      {
+        "en": "Milan",
+        "el": "Μιλάνο"
+      },
+      {
+        "en": "Venice",
+        "el": "Βενετία"
+      },
+      {
+        "en": "Naples",
+        "el": "Νάπολη"
+      }
+    ],
+    "fact": {
+      "en": "Vatican City, the smallest country in the world, is inside Rome.",
+      "el": "Το Βατικανό, η μικρότερη χώρα του κόσμου, βρίσκεται μέσα στη Ρώμη."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "What is the capital city of Portugal?",
+      "el": "Ποια είναι η πρωτεύουσα της Πορτογαλίας;"
+    },
+    "a": [
+      {
+        "en": "Lisbon",
+        "el": "Λισαβόνα"
+      },
+      {
+        "en": "Porto",
+        "el": "Πόρτο"
+      },
+      {
+        "en": "Madrid",
+        "el": "Μαδρίτη"
+      },
+      {
+        "en": "Seville",
+        "el": "Σεβίλλη"
+      }
+    ],
+    "fact": {
+      "en": "Lisbon is famous for its little yellow trams that climb up steep hills.",
+      "el": "Η Λισαβόνα είναι διάσημη για τα μικρά κίτρινα τραμ που ανεβαίνουν απότομους λόφους."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "What is the capital city of Russia?",
+      "el": "Ποια είναι η πρωτεύουσα της Ρωσίας;"
+    },
+    "a": [
+      {
+        "en": "Moscow",
+        "el": "Μόσχα"
+      },
+      {
+        "en": "Saint Petersburg",
+        "el": "Αγία Πετρούπολη"
+      },
+      {
+        "en": "Kyiv",
+        "el": "Κίεβο"
+      },
+      {
+        "en": "Warsaw",
+        "el": "Βαρσοβία"
+      }
+    ],
+    "fact": {
+      "en": "In the centre of Moscow stands the Kremlin, a huge old fortress with red walls.",
+      "el": "Στο κέντρο της Μόσχας βρίσκεται το Κρεμλίνο, ένα τεράστιο παλιό φρούριο με κόκκινα τείχη."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "What is the capital city of the USA?",
+      "el": "Ποια είναι η πρωτεύουσα των ΗΠΑ;"
+    },
+    "a": [
+      {
+        "en": "Washington, D.C.",
+        "el": "Ουάσινγκτον"
+      },
+      {
+        "en": "New York",
+        "el": "Νέα Υόρκη"
+      },
+      {
+        "en": "Los Angeles",
+        "el": "Λος Άντζελες"
+      },
+      {
+        "en": "Chicago",
+        "el": "Σικάγο"
+      }
+    ],
+    "fact": {
+      "en": "The President of the USA lives and works in the White House in Washington, D.C.",
+      "el": "Ο πρόεδρος των ΗΠΑ ζει και δουλεύει στον Λευκό Οίκο, στην Ουάσινγκτον."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "What is the capital city of China?",
+      "el": "Ποια είναι η πρωτεύουσα της Κίνας;"
+    },
+    "a": [
+      {
+        "en": "Beijing",
+        "el": "Πεκίνο"
+      },
+      {
+        "en": "Shanghai",
+        "el": "Σανγκάη"
+      },
+      {
+        "en": "Hong Kong",
+        "el": "Χονγκ Κονγκ"
+      },
+      {
+        "en": "Tokyo",
+        "el": "Τόκιο"
+      }
+    ],
+    "fact": {
+      "en": "The Forbidden City in Beijing was the palace of Chinese emperors for about 500 years.",
+      "el": "Η Απαγορευμένη Πόλη στο Πεκίνο ήταν το παλάτι των Κινέζων αυτοκρατόρων για περίπου 500 χρόνια."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "What is the longest river in Africa?",
+      "el": "Ποιο είναι το μεγαλύτερο σε μήκος ποτάμι της Αφρικής;"
+    },
+    "a": [
+      {
+        "en": "The Nile",
+        "el": "Ο Νείλος"
+      },
+      {
+        "en": "The Congo",
+        "el": "Ο Κονγκό"
+      },
+      {
+        "en": "The Zambezi",
+        "el": "Ο Ζαμβέζης"
+      },
+      {
+        "en": "The Niger",
+        "el": "Ο Νίγηρας"
+      }
+    ],
+    "fact": {
+      "en": "The Nile flows north and ends in the Mediterranean Sea.",
+      "el": "Ο Νείλος κυλάει προς τα βόρεια και χύνεται στη Μεσόγειο Θάλασσα."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "In which country is the Sydney Opera House?",
+      "el": "Σε ποια χώρα βρίσκεται η Όπερα του Σίδνεϊ;"
+    },
+    "a": [
+      {
+        "en": "Australia",
+        "el": "Αυστραλία"
+      },
+      {
+        "en": "New Zealand",
+        "el": "Νέα Ζηλανδία"
+      },
+      {
+        "en": "South Africa",
+        "el": "Νότια Αφρική"
+      },
+      {
+        "en": "Canada",
+        "el": "Καναδάς"
+      }
+    ],
+    "fact": {
+      "en": "The roof of the Sydney Opera House looks like the white sails of a ship.",
+      "el": "Η στέγη της Όπερας του Σίδνεϊ μοιάζει με τα άσπρα πανιά ενός πλοίου."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "On which continent is Brazil?",
+      "el": "Σε ποια ήπειρο βρίσκεται η Βραζιλία;"
+    },
+    "a": [
+      {
+        "en": "South America",
+        "el": "Νότια Αμερική"
+      },
+      {
+        "en": "Africa",
+        "el": "Αφρική"
+      },
+      {
+        "en": "Asia",
+        "el": "Ασία"
+      },
+      {
+        "en": "Europe",
+        "el": "Ευρώπη"
+      }
+    ],
+    "fact": {
+      "en": "Brazil is the biggest country in South America.",
+      "el": "Η Βραζιλία είναι η μεγαλύτερη χώρα της Νότιας Αμερικής."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "In which Italian city is the famous Leaning Tower?",
+      "el": "Σε ποια πόλη της Ιταλίας βρίσκεται ο διάσημος Κεκλιμένος Πύργος;"
+    },
+    "a": [
+      {
+        "en": "Pisa",
+        "el": "Πίζα"
+      },
+      {
+        "en": "Rome",
+        "el": "Ρώμη"
+      },
+      {
+        "en": "Florence",
+        "el": "Φλωρεντία"
+      },
+      {
+        "en": "Venice",
+        "el": "Βενετία"
+      }
+    ],
+    "fact": {
+      "en": "The tower leans because the ground underneath it is too soft.",
+      "el": "Ο πύργος γέρνει επειδή το έδαφος από κάτω του είναι πολύ μαλακό."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "Which country has a flag with a red circle on a white background?",
+      "el": "Ποια χώρα έχει σημαία με έναν κόκκινο κύκλο σε άσπρο φόντο;"
+    },
+    "a": [
+      {
+        "en": "Japan",
+        "el": "Ιαπωνία"
+      },
+      {
+        "en": "China",
+        "el": "Κίνα"
+      },
+      {
+        "en": "Canada",
+        "el": "Καναδάς"
+      },
+      {
+        "en": "Turkey",
+        "el": "Τουρκία"
+      }
+    ],
+    "fact": {
+      "en": "Japan is often called 'the Land of the Rising Sun'.",
+      "el": "Η Ιαπωνία συχνά λέγεται «η χώρα του ανατέλλοντος ηλίου»."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "Which country's flag is known as the 'Stars and Stripes'?",
+      "el": "Ποιας χώρας η σημαία είναι γνωστή ως «Αστέρια και Ρίγες»;"
+    },
+    "a": [
+      {
+        "en": "The USA",
+        "el": "Οι ΗΠΑ"
+      },
+      {
+        "en": "The UK",
+        "el": "Το Ηνωμένο Βασίλειο"
+      },
+      {
+        "en": "Australia",
+        "el": "Η Αυστραλία"
+      },
+      {
+        "en": "France",
+        "el": "Η Γαλλία"
+      }
+    ],
+    "fact": {
+      "en": "The flag has 50 stars, one for each state of the USA.",
+      "el": "Η σημαία έχει 50 αστέρια, ένα για κάθε πολιτεία των ΗΠΑ."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "Which country has a square red flag with a white cross in the middle?",
+      "el": "Ποια χώρα έχει τετράγωνη κόκκινη σημαία με έναν άσπρο σταυρό στη μέση;"
+    },
+    "a": [
+      {
+        "en": "Switzerland",
+        "el": "Ελβετία"
+      },
+      {
+        "en": "Austria",
+        "el": "Αυστρία"
+      },
+      {
+        "en": "Poland",
+        "el": "Πολωνία"
+      },
+      {
+        "en": "Turkey",
+        "el": "Τουρκία"
+      }
+    ],
+    "fact": {
+      "en": "Only two countries have square flags: Switzerland and Vatican City.",
+      "el": "Μόνο δύο χώρες έχουν τετράγωνη σημαία: η Ελβετία και το Βατικανό."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "Which country has a red dragon on its flag?",
+      "el": "Ποια χώρα έχει έναν κόκκινο δράκο στη σημαία της;"
+    },
+    "a": [
+      {
+        "en": "Wales",
+        "el": "Ουαλία"
+      },
+      {
+        "en": "Scotland",
+        "el": "Σκωτία"
+      },
+      {
+        "en": "England",
+        "el": "Αγγλία"
+      },
+      {
+        "en": "Ireland",
+        "el": "Ιρλανδία"
+      }
+    ],
+    "fact": {
+      "en": "In Welsh, the red dragon is called 'Y Ddraig Goch'.",
+      "el": "Στα ουαλικά, ο κόκκινος δράκος λέγεται «Ι Δράιγκ Γκοχ»."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "What is the largest island in the world?",
+      "el": "Ποιο είναι το μεγαλύτερο νησί του κόσμου;"
+    },
+    "a": [
+      {
+        "en": "Greenland",
+        "el": "Η Γροιλανδία"
+      },
+      {
+        "en": "Madagascar",
+        "el": "Η Μαδαγασκάρη"
+      },
+      {
+        "en": "Iceland",
+        "el": "Η Ισλανδία"
+      },
+      {
+        "en": "Great Britain",
+        "el": "Η Μεγάλη Βρετανία"
+      }
+    ],
+    "fact": {
+      "en": "Most of Greenland is covered by a thick sheet of ice.",
+      "el": "Το μεγαλύτερο μέρος της Γροιλανδίας σκεπάζεται από ένα χοντρό στρώμα πάγου."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "In which very salty sea can people float easily without swimming?",
+      "el": "Σε ποια πολύ αλμυρή θάλασσα οι άνθρωποι επιπλέουν εύκολα χωρίς να κολυμπούν;"
+    },
+    "a": [
+      {
+        "en": "The Dead Sea",
+        "el": "Η Νεκρά Θάλασσα"
+      },
+      {
+        "en": "The Red Sea",
+        "el": "Η Ερυθρά Θάλασσα"
+      },
+      {
+        "en": "The Black Sea",
+        "el": "Η Μαύρη Θάλασσα"
+      },
+      {
+        "en": "The North Sea",
+        "el": "Η Βόρεια Θάλασσα"
+      }
+    ],
+    "fact": {
+      "en": "The shore of the Dead Sea is the lowest place on land on Earth.",
+      "el": "Η ακτή της Νεκράς Θάλασσας είναι το πιο χαμηλό σημείο της ξηράς σε όλη τη Γη."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "Which famous waterfalls are on the border between the USA and Canada?",
+      "el": "Ποιοι διάσημοι καταρράκτες βρίσκονται στα σύνορα των ΗΠΑ με τον Καναδά;"
+    },
+    "a": [
+      {
+        "en": "Niagara Falls",
+        "el": "Οι καταρράκτες του Νιαγάρα"
+      },
+      {
+        "en": "Victoria Falls",
+        "el": "Οι καταρράκτες Βικτόρια"
+      },
+      {
+        "en": "Angel Falls",
+        "el": "Οι καταρράκτες Άνχελ"
+      },
+      {
+        "en": "Iguazu Falls",
+        "el": "Οι καταρράκτες Ιγκουασού"
+      }
+    ],
+    "fact": {
+      "en": "Niagara Falls is really three waterfalls side by side.",
+      "el": "Οι καταρράκτες του Νιαγάρα είναι στην πραγματικότητα τρεις καταρράκτες δίπλα δίπλα."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "What is the capital city of Ireland?",
+      "el": "Ποια είναι η πρωτεύουσα της Ιρλανδίας;"
+    },
+    "a": [
+      {
+        "en": "Dublin",
+        "el": "Δουβλίνο"
+      },
+      {
+        "en": "Cork",
+        "el": "Κορκ"
+      },
+      {
+        "en": "Belfast",
+        "el": "Μπέλφαστ"
+      },
+      {
+        "en": "Galway",
+        "el": "Γκόλγουεϊ"
+      }
+    ],
+    "fact": {
+      "en": "Ireland is nicknamed 'the Emerald Isle' because of its green fields.",
+      "el": "Η Ιρλανδία λέγεται «Σμαραγδένιο Νησί» εξαιτίας των καταπράσινων λιβαδιών της."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "What is the capital city of Scotland?",
+      "el": "Ποια είναι η πρωτεύουσα της Σκωτίας;"
+    },
+    "a": [
+      {
+        "en": "Edinburgh",
+        "el": "Εδιμβούργο"
+      },
+      {
+        "en": "Glasgow",
+        "el": "Γλασκώβη"
+      },
+      {
+        "en": "Aberdeen",
+        "el": "Αμπερντίν"
+      },
+      {
+        "en": "Inverness",
+        "el": "Ίνβερνες"
+      }
+    ],
+    "fact": {
+      "en": "Edinburgh Castle sits on top of a very old volcano that no longer erupts.",
+      "el": "Το κάστρο του Εδιμβούργου είναι χτισμένο πάνω σε ένα πολύ παλιό ηφαίστειο που δεν εκρήγνυται πια."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "In which country is the ancient stone circle of Stonehenge?",
+      "el": "Σε ποια χώρα βρίσκεται ο αρχαίος πέτρινος κύκλος του Στόουνχεντζ;"
+    },
+    "a": [
+      {
+        "en": "England",
+        "el": "Αγγλία"
+      },
+      {
+        "en": "Scotland",
+        "el": "Σκωτία"
+      },
+      {
+        "en": "Ireland",
+        "el": "Ιρλανδία"
+      },
+      {
+        "en": "France",
+        "el": "Γαλλία"
+      }
+    ],
+    "fact": {
+      "en": "Some of the stones at Stonehenge were brought from Wales, more than 200 km away.",
+      "el": "Μερικές από τις πέτρες του Στόουνχεντζ μεταφέρθηκαν από την Ουαλία, πάνω από 200 χιλιόμετρα μακριά."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "Which ocean lies between Africa and Australia?",
+      "el": "Ποιος ωκεανός βρίσκεται ανάμεσα στην Αφρική και την Αυστραλία;"
+    },
+    "a": [
+      {
+        "en": "The Indian Ocean",
+        "el": "Ο Ινδικός Ωκεανός"
+      },
+      {
+        "en": "The Pacific Ocean",
+        "el": "Ο Ειρηνικός Ωκεανός"
+      },
+      {
+        "en": "The Atlantic Ocean",
+        "el": "Ο Ατλαντικός Ωκεανός"
+      },
+      {
+        "en": "The Arctic Ocean",
+        "el": "Ο Αρκτικός Ωκεανός"
+      }
+    ],
+    "fact": {
+      "en": "The Indian Ocean is named after the country of India.",
+      "el": "Ο Ινδικός Ωκεανός πήρε το όνομά του από την Ινδία."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "What do we call a huge river of ice that moves slowly down a mountain?",
+      "el": "Πώς λέμε ένα τεράστιο «ποτάμι» από πάγο που κατεβαίνει αργά από ένα βουνό;"
+    },
+    "a": [
+      {
+        "en": "A glacier",
+        "el": "Παγετώνας"
+      },
+      {
+        "en": "An iceberg",
+        "el": "Παγόβουνο"
+      },
+      {
+        "en": "An avalanche",
+        "el": "Χιονοστιβάδα"
+      },
+      {
+        "en": "A geyser",
+        "el": "Θερμοπίδακας"
+      }
+    ],
+    "fact": {
+      "en": "Glaciers and ice sheets hold about two-thirds of all the fresh water on Earth.",
+      "el": "Οι παγετώνες και οι πάγοι κρατούν περίπου τα δύο τρίτα από όλο το γλυκό νερό της Γης."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "In which city is the famous red Golden Gate Bridge?",
+      "el": "Σε ποια πόλη βρίσκεται η διάσημη κόκκινη γέφυρα Γκόλντεν Γκέιτ;"
+    },
+    "a": [
+      {
+        "en": "San Francisco",
+        "el": "Σαν Φρανσίσκο"
+      },
+      {
+        "en": "New York",
+        "el": "Νέα Υόρκη"
+      },
+      {
+        "en": "Chicago",
+        "el": "Σικάγο"
+      },
+      {
+        "en": "Los Angeles",
+        "el": "Λος Άντζελες"
+      }
+    ],
+    "fact": {
+      "en": "The bridge's special colour is called 'International Orange'.",
+      "el": "Το ιδιαίτερο χρώμα της γέφυρας λέγεται «Διεθνές Πορτοκαλί»."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "What is the capital city of India?",
+      "el": "Ποια είναι η πρωτεύουσα της Ινδίας;"
+    },
+    "a": [
+      {
+        "en": "New Delhi",
+        "el": "Νέο Δελχί"
+      },
+      {
+        "en": "Mumbai",
+        "el": "Μουμπάι"
+      },
+      {
+        "en": "Kolkata",
+        "el": "Καλκούτα"
+      },
+      {
+        "en": "Chennai",
+        "el": "Τσενάι"
+      }
+    ],
+    "fact": {
+      "en": "In the middle of India's flag there is a blue wheel with 24 spokes.",
+      "el": "Στη μέση της σημαίας της Ινδίας υπάρχει μια μπλε ρόδα με 24 ακτίνες."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "How many countries make up the United Kingdom?",
+      "el": "Από πόσες χώρες αποτελείται το Ηνωμένο Βασίλειο;"
+    },
+    "a": [
+      {
+        "en": "4",
+        "el": "4"
+      },
+      {
+        "en": "2",
+        "el": "2"
+      },
+      {
+        "en": "3",
+        "el": "3"
+      },
+      {
+        "en": "6",
+        "el": "6"
+      }
+    ],
+    "fact": {
+      "en": "The four countries are England, Scotland, Wales and Northern Ireland.",
+      "el": "Οι τέσσερις χώρες είναι η Αγγλία, η Σκωτία, η Ουαλία και η Βόρεια Ιρλανδία."
+    }
+  },
+  {
+    "cat": "geo",
+    "q": {
+      "en": "What is the capital city of Mexico?",
+      "el": "Ποια είναι η πρωτεύουσα του Μεξικού;"
+    },
+    "a": [
+      {
+        "en": "Mexico City",
+        "el": "Πόλη του Μεξικού"
+      },
+      {
+        "en": "Cancún",
+        "el": "Κανκούν"
+      },
+      {
+        "en": "Guadalajara",
+        "el": "Γκουανταλαχάρα"
+      },
+      {
+        "en": "Acapulco",
+        "el": "Ακαπούλκο"
+      }
+    ],
+    "fact": {
+      "en": "Mexico City was built where the Aztecs had a city on an island in a lake.",
+      "el": "Η Πόλη του Μεξικού χτίστηκε εκεί όπου οι Αζτέκοι είχαν μια πόλη πάνω σε ένα νησί μέσα σε λίμνη."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "Who was the first woman to fly a plane alone across the Atlantic Ocean?",
+      "el": "Ποια ήταν η πρώτη γυναίκα που πέταξε μόνη της με αεροπλάνο πάνω από τον Ατλαντικό;"
+    },
+    "a": [
+      {
+        "en": "Amelia Earhart",
+        "el": "Αμέλια Έρχαρτ"
+      },
+      {
+        "en": "Marie Curie",
+        "el": "Μαρί Κιουρί"
+      },
+      {
+        "en": "Rosa Parks",
+        "el": "Ρόζα Παρκς"
+      },
+      {
+        "en": "Jane Goodall",
+        "el": "Τζέιν Γκούντολ"
+      }
+    ],
+    "fact": {
+      "en": "In 1932 she flew from Newfoundland, now part of Canada, and landed in a field in Northern Ireland.",
+      "el": "Το 1932 πέταξε από τη Νέα Γη, που σήμερα ανήκει στον Καναδά, και προσγειώθηκε σε ένα χωράφι στη Βόρεια Ιρλανδία."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "Who was the first woman to travel into space?",
+      "el": "Ποια ήταν η πρώτη γυναίκα που ταξίδεψε στο διάστημα;"
+    },
+    "a": [
+      {
+        "en": "Valentina Tereshkova",
+        "el": "Βαλεντίνα Τερέσκοβα"
+      },
+      {
+        "en": "Sally Ride",
+        "el": "Σάλι Ράιντ"
+      },
+      {
+        "en": "Amelia Earhart",
+        "el": "Αμέλια Έρχαρτ"
+      },
+      {
+        "en": "Helen Sharman",
+        "el": "Έλεν Σάρμαν"
+      }
+    ],
+    "fact": {
+      "en": "In 1963 she flew around the Earth 48 times.",
+      "el": "Το 1963 έκανε τον γύρο της Γης 48 φορές."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "Which famous ship sank in 1912 after hitting an iceberg?",
+      "el": "Ποιο διάσημο πλοίο βυθίστηκε το 1912 αφού χτύπησε σε παγόβουνο;"
+    },
+    "a": [
+      {
+        "en": "The Titanic",
+        "el": "Ο Τιτανικός"
+      },
+      {
+        "en": "The Mayflower",
+        "el": "Το Μέιφλάουερ"
+      },
+      {
+        "en": "The Victory",
+        "el": "Το Βίκτορι"
+      },
+      {
+        "en": "The Santa Maria",
+        "el": "Η Σάντα Μαρία"
+      }
+    ],
+    "fact": {
+      "en": "It happened on the Titanic's very first voyage, from England to New York.",
+      "el": "Συνέβη στο πρώτο κιόλας ταξίδι του Τιτανικού, από την Αγγλία προς τη Νέα Υόρκη."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "Which young pharaoh's tomb was found full of treasure in 1922?",
+      "el": "Ποιου νεαρού φαραώ ο τάφος βρέθηκε γεμάτος θησαυρούς το 1922;"
+    },
+    "a": [
+      {
+        "en": "Tutankhamun",
+        "el": "Του Τουταγχαμών"
+      },
+      {
+        "en": "Ramesses",
+        "el": "Του Ραμσή"
+      },
+      {
+        "en": "Khufu",
+        "el": "Του Χέοπα"
+      },
+      {
+        "en": "Akhenaten",
+        "el": "Του Ακενατών"
+      }
+    ],
+    "fact": {
+      "en": "Inside, the archaeologist Howard Carter found a famous golden mask.",
+      "el": "Μέσα, ο αρχαιολόγος Χάουαρντ Κάρτερ βρήκε μια διάσημη χρυσή μάσκα."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "In Greek myth, what happened to anyone who looked at Medusa?",
+      "el": "Στη μυθολογία, τι πάθαινε όποιος κοίταζε τη Μέδουσα;"
+    },
+    "a": [
+      {
+        "en": "They turned to stone",
+        "el": "Γινόταν πέτρα"
+      },
+      {
+        "en": "They fell asleep",
+        "el": "Αποκοιμιόταν"
+      },
+      {
+        "en": "They became invisible",
+        "el": "Γινόταν αόρατος"
+      },
+      {
+        "en": "They turned into a frog",
+        "el": "Γινόταν βάτραχος"
+      }
+    ],
+    "fact": {
+      "en": "The hero Perseus defeated her by looking at her only in his shiny shield.",
+      "el": "Ο ήρωας Περσέας τη νίκησε κοιτάζοντάς τη μόνο μέσα από τη γυαλιστερή ασπίδα του."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "Which Greek god was the messenger of the gods and wore winged sandals?",
+      "el": "Ποιος θεός ήταν ο αγγελιοφόρος των θεών και φορούσε φτερωτά σανδάλια;"
+    },
+    "a": [
+      {
+        "en": "Hermes",
+        "el": "Ο Ερμής"
+      },
+      {
+        "en": "Ares",
+        "el": "Ο Άρης"
+      },
+      {
+        "en": "Apollo",
+        "el": "Ο Απόλλωνας"
+      },
+      {
+        "en": "Hephaestus",
+        "el": "Ο Ήφαιστος"
+      }
+    ],
+    "fact": {
+      "en": "Hermes was also the god of travellers.",
+      "el": "Ο Ερμής ήταν επίσης ο θεός των ταξιδιωτών."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "Who was the Greek god of the underworld?",
+      "el": "Ποιος ήταν ο θεός του Κάτω Κόσμου στην ελληνική μυθολογία;"
+    },
+    "a": [
+      {
+        "en": "Hades",
+        "el": "Ο Άδης"
+      },
+      {
+        "en": "Hermes",
+        "el": "Ο Ερμής"
+      },
+      {
+        "en": "Dionysus",
+        "el": "Ο Διόνυσος"
+      },
+      {
+        "en": "Apollo",
+        "el": "Ο Απόλλωνας"
+      }
+    ],
+    "fact": {
+      "en": "His underworld was guarded by Cerberus, a dog with three heads.",
+      "el": "Τον Κάτω Κόσμο τον φύλαγε ο Κέρβερος, ένας σκύλος με τρία κεφάλια."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "What were Jason and the Argonauts searching for?",
+      "el": "Τι έψαχναν ο Ιάσονας και οι Αργοναύτες;"
+    },
+    "a": [
+      {
+        "en": "The Golden Fleece",
+        "el": "Το χρυσόμαλλο δέρας"
+      },
+      {
+        "en": "A golden apple",
+        "el": "Ένα χρυσό μήλο"
+      },
+      {
+        "en": "A magic sword",
+        "el": "Ένα μαγικό σπαθί"
+      },
+      {
+        "en": "A lost crown",
+        "el": "Ένα χαμένο στέμμα"
+      }
+    ],
+    "fact": {
+      "en": "They sailed on a ship called the Argo, which gave them their name.",
+      "el": "Ταξίδεψαν με ένα πλοίο που λεγόταν Αργώ, και από αυτό πήραν το όνομά τους."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "Which part of the hero Achilles' body was his only weak spot?",
+      "el": "Ποιο σημείο του σώματος του Αχιλλέα ήταν το μόνο τρωτό του σημείο;"
+    },
+    "a": [
+      {
+        "en": "His heel",
+        "el": "Η φτέρνα του"
+      },
+      {
+        "en": "His knee",
+        "el": "Το γόνατό του"
+      },
+      {
+        "en": "His elbow",
+        "el": "Ο αγκώνας του"
+      },
+      {
+        "en": "His ear",
+        "el": "Το αυτί του"
+      }
+    ],
+    "fact": {
+      "en": "His mother dipped him in a magic river, holding him by the heel.",
+      "el": "Η μητέρα του τον βούτηξε σε ένα μαγικό ποτάμι κρατώντας τον από τη φτέρνα."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "Which famous Roman leader was killed on the Ides of March in 44 BC?",
+      "el": "Ποιος διάσημος Ρωμαίος ηγέτης δολοφονήθηκε στις Ειδούς του Μαρτίου το 44 π.Χ.;"
+    },
+    "a": [
+      {
+        "en": "Julius Caesar",
+        "el": "Ο Ιούλιος Καίσαρας"
+      },
+      {
+        "en": "Nero",
+        "el": "Ο Νέρωνας"
+      },
+      {
+        "en": "Augustus",
+        "el": "Ο Αύγουστος"
+      },
+      {
+        "en": "Hadrian",
+        "el": "Ο Αδριανός"
+      }
+    ],
+    "fact": {
+      "en": "The Ides of March is another name for the 15th of March.",
+      "el": "Οι Ειδοί του Μαρτίου είναι ένα άλλο όνομα για τις 15 Μαρτίου."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "Which Roman town was buried in ash when Mount Vesuvius erupted?",
+      "el": "Ποια ρωμαϊκή πόλη θάφτηκε στη στάχτη όταν εξερράγη ο Βεζούβιος;"
+    },
+    "a": [
+      {
+        "en": "Pompeii",
+        "el": "Η Πομπηία"
+      },
+      {
+        "en": "Rome",
+        "el": "Η Ρώμη"
+      },
+      {
+        "en": "Venice",
+        "el": "Η Βενετία"
+      },
+      {
+        "en": "Florence",
+        "el": "Η Φλωρεντία"
+      }
+    ],
+    "fact": {
+      "en": "The eruption happened in AD 79, and the ash kept the town almost as it was.",
+      "el": "Η έκρηξη έγινε το 79 μ.Χ. και η στάχτη διατήρησε την πόλη σχεδόν όπως ήταν."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "Which general from Carthage crossed the Alps with elephants to attack Rome?",
+      "el": "Ποιος στρατηγός από την Καρχηδόνα πέρασε τις Άλπεις με ελέφαντες για να επιτεθεί στη Ρώμη;"
+    },
+    "a": [
+      {
+        "en": "Hannibal",
+        "el": "Ο Αννίβας"
+      },
+      {
+        "en": "Alexander the Great",
+        "el": "Ο Μέγας Αλέξανδρος"
+      },
+      {
+        "en": "Spartacus",
+        "el": "Ο Σπάρτακος"
+      },
+      {
+        "en": "Attila",
+        "el": "Ο Αττίλας"
+      }
+    ],
+    "fact": {
+      "en": "Carthage was a powerful city in North Africa, in today's Tunisia.",
+      "el": "Η Καρχηδόνα ήταν μια ισχυρή πόλη στη Βόρεια Αφρική, στη σημερινή Τυνησία."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "Who is famous for inventing the telephone in 1876?",
+      "el": "Ποιος είναι διάσημος επειδή εφηύρε το τηλέφωνο το 1876;"
+    },
+    "a": [
+      {
+        "en": "Alexander Graham Bell",
+        "el": "Ο Αλεξάντερ Γκράχαμ Μπελ"
+      },
+      {
+        "en": "Thomas Edison",
+        "el": "Ο Τόμας Έντισον"
+      },
+      {
+        "en": "Isaac Newton",
+        "el": "Ο Ισαάκ Νεύτωνας"
+      },
+      {
+        "en": "Albert Einstein",
+        "el": "Ο Άλμπερτ Αϊνστάιν"
+      }
+    ],
+    "fact": {
+      "en": "His first words on the telephone were to his helper: 'Mr Watson, come here.'",
+      "el": "Τα πρώτα του λόγια στο τηλέφωνο ήταν προς τον βοηθό του: «Κύριε Γουότσον, ελάτε εδώ»."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "Which city was split in two by a wall until 1989?",
+      "el": "Ποια πόλη ήταν χωρισμένη στα δύο από ένα τείχος μέχρι το 1989;"
+    },
+    "a": [
+      {
+        "en": "Berlin",
+        "el": "Το Βερολίνο"
+      },
+      {
+        "en": "Vienna",
+        "el": "Η Βιέννη"
+      },
+      {
+        "en": "Paris",
+        "el": "Το Παρίσι"
+      },
+      {
+        "en": "Rome",
+        "el": "Η Ρώμη"
+      }
+    ],
+    "fact": {
+      "en": "Pieces of the Berlin Wall are now in museums all around the world.",
+      "el": "Κομμάτια από το Τείχος του Βερολίνου βρίσκονται σήμερα σε μουσεία σε όλο τον κόσμο."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "Which leader helped India become free using only peaceful protests?",
+      "el": "Ποιος ηγέτης βοήθησε την Ινδία να γίνει ανεξάρτητη μόνο με ειρηνικές διαμαρτυρίες;"
+    },
+    "a": [
+      {
+        "en": "Mahatma Gandhi",
+        "el": "Ο Μαχάτμα Γκάντι"
+      },
+      {
+        "en": "Winston Churchill",
+        "el": "Ο Ουίνστον Τσόρτσιλ"
+      },
+      {
+        "en": "Napoleon",
+        "el": "Ο Ναπολέων"
+      },
+      {
+        "en": "Genghis Khan",
+        "el": "Ο Τζένγκις Χαν"
+      }
+    ],
+    "fact": {
+      "en": "His birthday, 2 October, is now the International Day of Non-Violence.",
+      "el": "Τα γενέθλιά του, στις 2 Οκτωβρίου, είναι σήμερα η Διεθνής Ημέρα Μη Βίας."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "Nelson Mandela became the first Black president of which country?",
+      "el": "Ο Νέλσον Μαντέλα έγινε ο πρώτος μαύρος πρόεδρος ποιας χώρας;"
+    },
+    "a": [
+      {
+        "en": "South Africa",
+        "el": "Της Νότιας Αφρικής"
+      },
+      {
+        "en": "Kenya",
+        "el": "Της Κένυας"
+      },
+      {
+        "en": "Nigeria",
+        "el": "Της Νιγηρίας"
+      },
+      {
+        "en": "Egypt",
+        "el": "Της Αιγύπτου"
+      }
+    ],
+    "fact": {
+      "en": "Before that, he spent 27 years in prison for fighting for equal rights.",
+      "el": "Πριν από αυτό, πέρασε 27 χρόνια στη φυλακή επειδή αγωνίστηκε για ίσα δικαιώματα."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "Martin Luther King Jr. gave a famous speech that begins 'I have a...'?",
+      "el": "Ο Μάρτιν Λούθερ Κινγκ έδωσε έναν διάσημο λόγο που ξεκινά με τις λέξεις «Έχω ένα...»;"
+    },
+    "a": [
+      {
+        "en": "Dream",
+        "el": "Όνειρο"
+      },
+      {
+        "en": "Plan",
+        "el": "Σχέδιο"
+      },
+      {
+        "en": "Song",
+        "el": "Τραγούδι"
+      },
+      {
+        "en": "Secret",
+        "el": "Μυστικό"
+      }
+    ],
+    "fact": {
+      "en": "He gave the speech in Washington, D.C. in 1963, in front of about 250,000 people.",
+      "el": "Έδωσε τον λόγο στην Ουάσινγκτον το 1963, μπροστά σε περίπου 250.000 ανθρώπους."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "How many wives did King Henry VIII of England have?",
+      "el": "Πόσες συζύγους είχε ο βασιλιάς Ερρίκος Η΄ της Αγγλίας;"
+    },
+    "a": [
+      {
+        "en": "6",
+        "el": "6"
+      },
+      {
+        "en": "2",
+        "el": "2"
+      },
+      {
+        "en": "4",
+        "el": "4"
+      },
+      {
+        "en": "8",
+        "el": "8"
+      }
+    ],
+    "fact": {
+      "en": "A rhyme helps people remember: 'Divorced, beheaded, died; divorced, beheaded, survived.'",
+      "el": "Ένα ποιηματάκι βοηθά να θυμόμαστε τι τους συνέβη: «διαζύγιο, αποκεφαλισμός, θάνατος· διαζύγιο, αποκεφαλισμός, επιβίωση»."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "In which year did the Great Fire of London happen?",
+      "el": "Ποια χρονιά έγινε η Μεγάλη Πυρκαγιά του Λονδίνου;"
+    },
+    "a": [
+      {
+        "en": "1666",
+        "el": "1666"
+      },
+      {
+        "en": "1066",
+        "el": "1066"
+      },
+      {
+        "en": "1766",
+        "el": "1766"
+      },
+      {
+        "en": "1966",
+        "el": "1966"
+      }
+    ],
+    "fact": {
+      "en": "The fire started in a bakery on Pudding Lane.",
+      "el": "Η φωτιά ξεκίνησε από έναν φούρνο στην οδό Πάντινγκ Λέιν."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "Who won the Battle of Hastings in 1066?",
+      "el": "Ποιος νίκησε στη μάχη του Χέιστινγκς το 1066;"
+    },
+    "a": [
+      {
+        "en": "William the Conqueror",
+        "el": "Ο Γουλιέλμος ο Κατακτητής"
+      },
+      {
+        "en": "Richard the Lionheart",
+        "el": "Ο Ριχάρδος ο Λεοντόκαρδος"
+      },
+      {
+        "en": "Alfred the Great",
+        "el": "Ο Άλφρεντ ο Μέγας"
+      },
+      {
+        "en": "King Arthur",
+        "el": "Ο βασιλιάς Αρθούρος"
+      }
+    ],
+    "fact": {
+      "en": "The battle is shown on the Bayeux Tapestry, which is about 70 metres long.",
+      "el": "Η μάχη απεικονίζεται στο Κέντημα της Μπαγιέ, που έχει μήκος περίπου 70 μέτρα."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "What were the long wooden boats of the Vikings called?",
+      "el": "Πώς λέγονταν τα μακριά ξύλινα πλοία των Βίκινγκ;"
+    },
+    "a": [
+      {
+        "en": "Longships",
+        "el": "Δρακάρ"
+      },
+      {
+        "en": "Galleons",
+        "el": "Γαλιόνια"
+      },
+      {
+        "en": "Gondolas",
+        "el": "Γόνδολες"
+      },
+      {
+        "en": "Canoes",
+        "el": "Κανό"
+      }
+    ],
+    "fact": {
+      "en": "Some Viking ships had a carved dragon head at the front.",
+      "el": "Μερικά πλοία των Βίκινγκ είχαν ένα σκαλιστό κεφάλι δράκου στην πλώρη."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "What were the famous warriors of old Japan called?",
+      "el": "Πώς λέγονταν οι διάσημοι πολεμιστές της παλιάς Ιαπωνίας;"
+    },
+    "a": [
+      {
+        "en": "Samurai",
+        "el": "Σαμουράι"
+      },
+      {
+        "en": "Vikings",
+        "el": "Βίκινγκ"
+      },
+      {
+        "en": "Gladiators",
+        "el": "Μονομάχοι"
+      },
+      {
+        "en": "Knights",
+        "el": "Ιππότες"
+      }
+    ],
+    "fact": {
+      "en": "Samurai carried a curved sword called a katana.",
+      "el": "Οι σαμουράι κρατούσαν ένα κυρτό σπαθί που λεγόταν κατάνα."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "Who led the first team to reach the South Pole, in 1911?",
+      "el": "Ποιος οδήγησε την πρώτη ομάδα που έφτασε στον Νότιο Πόλο, το 1911;"
+    },
+    "a": [
+      {
+        "en": "Roald Amundsen",
+        "el": "Ο Ρόαλντ Άμουντσεν"
+      },
+      {
+        "en": "Robert Scott",
+        "el": "Ο Ρόμπερτ Σκοτ"
+      },
+      {
+        "en": "Christopher Columbus",
+        "el": "Ο Χριστόφορος Κολόμβος"
+      },
+      {
+        "en": "James Cook",
+        "el": "Ο Τζέιμς Κουκ"
+      }
+    ],
+    "fact": {
+      "en": "Amundsen came from Norway and used dogs to pull his sledges.",
+      "el": "Ο Άμουντσεν ήταν από τη Νορβηγία και χρησιμοποίησε σκυλιά για να τραβούν τα έλκηθρά του."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "Which ancient Greek scientist shouted 'Eureka!' in his bath?",
+      "el": "Ποιος αρχαίος Έλληνας επιστήμονας φώναξε «Εύρηκα!» μέσα στο λουτρό του;"
+    },
+    "a": [
+      {
+        "en": "Archimedes",
+        "el": "Ο Αρχιμήδης"
+      },
+      {
+        "en": "Pythagoras",
+        "el": "Ο Πυθαγόρας"
+      },
+      {
+        "en": "Aristotle",
+        "el": "Ο Αριστοτέλης"
+      },
+      {
+        "en": "Plato",
+        "el": "Ο Πλάτωνας"
+      }
+    ],
+    "fact": {
+      "en": "'Eureka' means 'I have found it!' in Greek.",
+      "el": "Η λέξη «Εύρηκα» σημαίνει «Το βρήκα!»."
+    }
+  },
+  {
+    "cat": "hist",
+    "q": {
+      "en": "Which Roman emperor built a long wall across the north of England?",
+      "el": "Ποιος Ρωμαίος αυτοκράτορας έχτισε ένα μακρύ τείχος στον βορρά της Αγγλίας;"
+    },
+    "a": [
+      {
+        "en": "Hadrian",
+        "el": "Ο Αδριανός"
+      },
+      {
+        "en": "Nero",
+        "el": "Ο Νέρωνας"
+      },
+      {
+        "en": "Augustus",
+        "el": "Ο Αύγουστος"
+      },
+      {
+        "en": "Caligula",
+        "el": "Ο Καλιγούλας"
+      }
+    ],
+    "fact": {
+      "en": "Hadrian's Wall is about 117 kilometres long, and parts of it still stand today.",
+      "el": "Το Τείχος του Αδριανού έχει μήκος περίπου 117 χιλιόμετρα και κομμάτια του σώζονται ακόμα."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "Which is the hottest planet in our Solar System?",
+      "el": "Ποιος είναι ο πιο ζεστός πλανήτης του ηλιακού μας συστήματος;"
+    },
+    "a": [
+      {
+        "en": "Venus",
+        "el": "Η Αφροδίτη"
+      },
+      {
+        "en": "Mercury",
+        "el": "Ο Ερμής"
+      },
+      {
+        "en": "Mars",
+        "el": "Ο Άρης"
+      },
+      {
+        "en": "Jupiter",
+        "el": "Ο Δίας"
+      }
+    ],
+    "fact": {
+      "en": "Venus is hotter than Mercury because its thick clouds trap the heat.",
+      "el": "Η Αφροδίτη είναι πιο ζεστή από τον Ερμή γιατί τα πυκνά της σύννεφα παγιδεύουν τη ζέστη."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "How many planets are there in our Solar System?",
+      "el": "Πόσοι πλανήτες υπάρχουν στο ηλιακό μας σύστημα;"
+    },
+    "a": [
+      {
+        "en": "8",
+        "el": "8"
+      },
+      {
+        "en": "7",
+        "el": "7"
+      },
+      {
+        "en": "9",
+        "el": "9"
+      },
+      {
+        "en": "10",
+        "el": "10"
+      }
+    ],
+    "fact": {
+      "en": "Pluto used to be called a planet, but since 2006 it has been called a dwarf planet.",
+      "el": "Ο Πλούτωνας παλιά λεγόταν πλανήτης, αλλά από το 2006 λέγεται πλανήτης νάνος."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "What is the name of the galaxy we live in?",
+      "el": "Πώς λέγεται ο γαλαξίας στον οποίο ζούμε;"
+    },
+    "a": [
+      {
+        "en": "The Milky Way",
+        "el": "Ο Γαλαξίας μας (Γαλακτικός Δρόμος)"
+      },
+      {
+        "en": "Andromeda",
+        "el": "Η Ανδρομέδα"
+      },
+      {
+        "en": "The Big Dipper",
+        "el": "Η Μεγάλη Άρκτος"
+      },
+      {
+        "en": "Orion",
+        "el": "Ο Ωρίωνας"
+      }
+    ],
+    "fact": {
+      "en": "The Milky Way has more than 100 billion stars.",
+      "el": "Ο Γαλαξίας μας έχει πάνω από 100 δισεκατομμύρια αστέρια."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "What do we call a scientist who studies dinosaur fossils?",
+      "el": "Πώς λέμε τον επιστήμονα που μελετά απολιθώματα δεινοσαύρων;"
+    },
+    "a": [
+      {
+        "en": "A palaeontologist",
+        "el": "Παλαιοντολόγος"
+      },
+      {
+        "en": "An astronaut",
+        "el": "Αστροναύτης"
+      },
+      {
+        "en": "A vet",
+        "el": "Κτηνίατρος"
+      },
+      {
+        "en": "A chemist",
+        "el": "Χημικός"
+      }
+    ],
+    "fact": {
+      "en": "Fossils are the remains of plants and animals that slowly turned to stone over millions of years.",
+      "el": "Τα απολιθώματα είναι υπολείμματα φυτών και ζώων που έγιναν σιγά σιγά πέτρα μέσα σε εκατομμύρια χρόνια."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "Which gas do we need to breathe in to stay alive?",
+      "el": "Ποιο αέριο χρειάζεται να αναπνέουμε για να ζήσουμε;"
+    },
+    "a": [
+      {
+        "en": "Oxygen",
+        "el": "Οξυγόνο"
+      },
+      {
+        "en": "Helium",
+        "el": "Ήλιο"
+      },
+      {
+        "en": "Carbon dioxide",
+        "el": "Διοξείδιο του άνθρακα"
+      },
+      {
+        "en": "Steam",
+        "el": "Ατμός"
+      }
+    ],
+    "fact": {
+      "en": "Trees and other plants release oxygen into the air.",
+      "el": "Τα δέντρα και τα άλλα φυτά βγάζουν οξυγόνο στον αέρα."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "Which gas do plants take in from the air to make their food?",
+      "el": "Ποιο αέριο παίρνουν τα φυτά από τον αέρα για να φτιάξουν την τροφή τους;"
+    },
+    "a": [
+      {
+        "en": "Carbon dioxide",
+        "el": "Διοξείδιο του άνθρακα"
+      },
+      {
+        "en": "Oxygen",
+        "el": "Οξυγόνο"
+      },
+      {
+        "en": "Helium",
+        "el": "Ήλιο"
+      },
+      {
+        "en": "Hydrogen",
+        "el": "Υδρογόνο"
+      }
+    ],
+    "fact": {
+      "en": "We breathe out carbon dioxide, and plants use it.",
+      "el": "Εμείς εκπνέουμε διοξείδιο του άνθρακα και τα φυτά το χρησιμοποιούν."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "Which organ do you use to think?",
+      "el": "Με ποιο όργανο σκεφτόμαστε;"
+    },
+    "a": [
+      {
+        "en": "The brain",
+        "el": "Τον εγκέφαλο"
+      },
+      {
+        "en": "The heart",
+        "el": "Την καρδιά"
+      },
+      {
+        "en": "The stomach",
+        "el": "Το στομάχι"
+      },
+      {
+        "en": "The lungs",
+        "el": "Τους πνεύμονες"
+      }
+    ],
+    "fact": {
+      "en": "Your brain is about three-quarters water.",
+      "el": "Ο εγκέφαλός μας είναι περίπου κατά τρία τέταρτα νερό."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "Which organs fill up with air when you breathe in?",
+      "el": "Ποια όργανα γεμίζουν αέρα όταν εισπνέουμε;"
+    },
+    "a": [
+      {
+        "en": "The lungs",
+        "el": "Οι πνεύμονες"
+      },
+      {
+        "en": "The kidneys",
+        "el": "Τα νεφρά"
+      },
+      {
+        "en": "The stomach and liver",
+        "el": "Το στομάχι και το συκώτι"
+      },
+      {
+        "en": "The ears",
+        "el": "Τα αυτιά"
+      }
+    ],
+    "fact": {
+      "en": "Your left lung is a little smaller than your right, to make room for your heart.",
+      "el": "Ο αριστερός πνεύμονας είναι λίγο μικρότερος από τον δεξί, για να χωράει η καρδιά."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "How many baby (milk) teeth do most children have?",
+      "el": "Πόσα νεογιλά δόντια (παιδικά δόντια) έχουν τα περισσότερα παιδιά;"
+    },
+    "a": [
+      {
+        "en": "20",
+        "el": "20"
+      },
+      {
+        "en": "10",
+        "el": "10"
+      },
+      {
+        "en": "32",
+        "el": "32"
+      },
+      {
+        "en": "50",
+        "el": "50"
+      }
+    ],
+    "fact": {
+      "en": "Most adults have 32 teeth, including wisdom teeth.",
+      "el": "Οι περισσότεροι ενήλικες έχουν 32 δόντια, μαζί με τους φρονιμίτες."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "What is the longest bone in the human body?",
+      "el": "Ποιο είναι το μακρύτερο κόκαλο του ανθρώπινου σώματος;"
+    },
+    "a": [
+      {
+        "en": "The thigh bone (femur)",
+        "el": "Το μηριαίο οστό (του μηρού)"
+      },
+      {
+        "en": "The shin bone",
+        "el": "Η κνήμη"
+      },
+      {
+        "en": "A rib",
+        "el": "Ένα πλευρό"
+      },
+      {
+        "en": "The upper arm bone",
+        "el": "Το κόκαλο του μπράτσου"
+      }
+    ],
+    "fact": {
+      "en": "The thigh bone is also one of the strongest bones in your body.",
+      "el": "Το μηριαίο οστό είναι επίσης από τα πιο γερά κόκαλα του σώματός μας."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "What do we call animals that are awake at night and sleep during the day?",
+      "el": "Πώς λέμε τα ζώα που είναι ξύπνια τη νύχτα και κοιμούνται τη μέρα;"
+    },
+    "a": [
+      {
+        "en": "Nocturnal",
+        "el": "Νυκτόβια"
+      },
+      {
+        "en": "Hibernating",
+        "el": "Σε χειμερία νάρκη"
+      },
+      {
+        "en": "Migrating",
+        "el": "Αποδημητικά"
+      },
+      {
+        "en": "Carnivorous",
+        "el": "Σαρκοφάγα"
+      }
+    ],
+    "fact": {
+      "en": "Owls are nocturnal and have amazing eyesight in the dark.",
+      "el": "Οι κουκουβάγιες είναι νυκτόβιες και βλέπουν καταπληκτικά στο σκοτάδι."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "Which is the tallest animal in the world?",
+      "el": "Ποιο είναι το ψηλότερο ζώο του κόσμου;"
+    },
+    "a": [
+      {
+        "en": "The giraffe",
+        "el": "Η καμηλοπάρδαλη"
+      },
+      {
+        "en": "The elephant",
+        "el": "Ο ελέφαντας"
+      },
+      {
+        "en": "The camel",
+        "el": "Η καμήλα"
+      },
+      {
+        "en": "The ostrich",
+        "el": "Η στρουθοκάμηλος"
+      }
+    ],
+    "fact": {
+      "en": "A giraffe has seven bones in its neck, the same number as you.",
+      "el": "Η καμηλοπάρδαλη έχει επτά κόκαλα στον λαιμό της, όσα έχουμε κι εμείς."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "Which is the largest bird in the world?",
+      "el": "Ποιο είναι το μεγαλύτερο πουλί του κόσμου;"
+    },
+    "a": [
+      {
+        "en": "The ostrich",
+        "el": "Η στρουθοκάμηλος"
+      },
+      {
+        "en": "The eagle",
+        "el": "Ο αετός"
+      },
+      {
+        "en": "The swan",
+        "el": "Ο κύκνος"
+      },
+      {
+        "en": "The flamingo",
+        "el": "Το φλαμίνγκο"
+      }
+    ],
+    "fact": {
+      "en": "Ostriches lay the biggest eggs of any bird alive today.",
+      "el": "Οι στρουθοκάμηλοι γεννούν τα μεγαλύτερα αυγά από όλα τα πουλιά που ζουν σήμερα."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "How many legs does an insect have?",
+      "el": "Πόσα πόδια έχει ένα έντομο;"
+    },
+    "a": [
+      {
+        "en": "6",
+        "el": "6"
+      },
+      {
+        "en": "4",
+        "el": "4"
+      },
+      {
+        "en": "8",
+        "el": "8"
+      },
+      {
+        "en": "10",
+        "el": "10"
+      }
+    ],
+    "fact": {
+      "en": "Spiders have 8 legs, so they are not insects.",
+      "el": "Οι αράχνες έχουν 8 πόδια, άρα δεν είναι έντομα."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "What makes day and night happen?",
+      "el": "Τι προκαλεί τη μέρα και τη νύχτα;"
+    },
+    "a": [
+      {
+        "en": "The Earth spinning around",
+        "el": "Η Γη που γυρίζει γύρω από τον εαυτό της"
+      },
+      {
+        "en": "The Moon covering the Sun",
+        "el": "Η Σελήνη που σκεπάζει τον Ήλιο"
+      },
+      {
+        "en": "The Sun switching off",
+        "el": "Ο Ήλιος που σβήνει"
+      },
+      {
+        "en": "Clouds blocking the light",
+        "el": "Τα σύννεφα που κρύβουν το φως"
+      }
+    ],
+    "fact": {
+      "en": "The Earth spins around once about every 24 hours.",
+      "el": "Η Γη κάνει μια πλήρη περιστροφή περίπου κάθε 24 ώρες."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "Where does the Moon's light come from?",
+      "el": "Από πού έρχεται το φως της Σελήνης;"
+    },
+    "a": [
+      {
+        "en": "Sunlight bouncing off it",
+        "el": "Από το φως του Ήλιου που ανακλάται πάνω της"
+      },
+      {
+        "en": "Fires on the Moon",
+        "el": "Από φωτιές πάνω στη Σελήνη"
+      },
+      {
+        "en": "Lights from the Earth",
+        "el": "Από τα φώτα της Γης"
+      },
+      {
+        "en": "Glowing rocks inside it",
+        "el": "Από πέτρες που λάμπουν μέσα της"
+      }
+    ],
+    "fact": {
+      "en": "Moonlight takes just over one second to reach the Earth.",
+      "el": "Το φως της Σελήνης χρειάζεται λίγο παραπάνω από ένα δευτερόλεπτο για να φτάσει στη Γη."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "What is H₂O the chemical formula for?",
+      "el": "Τι είναι το H₂O, σύμφωνα με τη χημεία;"
+    },
+    "a": [
+      {
+        "en": "Water",
+        "el": "Νερό"
+      },
+      {
+        "en": "Salt",
+        "el": "Αλάτι"
+      },
+      {
+        "en": "Sugar",
+        "el": "Ζάχαρη"
+      },
+      {
+        "en": "Air",
+        "el": "Αέρας"
+      }
+    ],
+    "fact": {
+      "en": "Each tiny bit of water is made of two hydrogen atoms and one oxygen atom.",
+      "el": "Κάθε μικροσκοπικό κομματάκι νερού αποτελείται από δύο άτομα υδρογόνου και ένα άτομο οξυγόνου."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "Which metal is a liquid at room temperature?",
+      "el": "Ποιο μέταλλο είναι υγρό σε θερμοκρασία δωματίου;"
+    },
+    "a": [
+      {
+        "en": "Mercury",
+        "el": "Ο υδράργυρος"
+      },
+      {
+        "en": "Iron",
+        "el": "Ο σίδηρος"
+      },
+      {
+        "en": "Gold",
+        "el": "Ο χρυσός"
+      },
+      {
+        "en": "Copper",
+        "el": "Ο χαλκός"
+      }
+    ],
+    "fact": {
+      "en": "Mercury used to be put inside thermometers.",
+      "el": "Παλιά έβαζαν υδράργυρο μέσα στα θερμόμετρα."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "What is the very centre of the Earth called?",
+      "el": "Πώς λέγεται το κέντρο της Γης;"
+    },
+    "a": [
+      {
+        "en": "The core",
+        "el": "Ο πυρήνας"
+      },
+      {
+        "en": "The crust",
+        "el": "Ο φλοιός"
+      },
+      {
+        "en": "The mantle",
+        "el": "Ο μανδύας"
+      },
+      {
+        "en": "The equator",
+        "el": "Ο ισημερινός"
+      }
+    ],
+    "fact": {
+      "en": "The Earth's inner core is about as hot as the surface of the Sun.",
+      "el": "Ο εσωτερικός πυρήνας της Γης είναι περίπου τόσο ζεστός όσο η επιφάνεια του Ήλιου."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "Which of these animals is a reptile?",
+      "el": "Ποιο από αυτά τα ζώα είναι ερπετό;"
+    },
+    "a": [
+      {
+        "en": "Crocodile",
+        "el": "Κροκόδειλος"
+      },
+      {
+        "en": "Dolphin",
+        "el": "Δελφίνι"
+      },
+      {
+        "en": "Frog",
+        "el": "Βάτραχος"
+      },
+      {
+        "en": "Salmon",
+        "el": "Σολομός"
+      }
+    ],
+    "fact": {
+      "en": "Reptiles have dry skin covered in scales.",
+      "el": "Τα ερπετά έχουν ξηρό δέρμα σκεπασμένο με λέπια."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "What do we call the natural home where an animal or plant lives?",
+      "el": "Πώς λέμε το φυσικό σπίτι όπου ζει ένα ζώο ή φυτό;"
+    },
+    "a": [
+      {
+        "en": "Its habitat",
+        "el": "Βιότοπος"
+      },
+      {
+        "en": "Its skeleton",
+        "el": "Σκελετός"
+      },
+      {
+        "en": "Its migration",
+        "el": "Μετανάστευση"
+      },
+      {
+        "en": "Its hibernation",
+        "el": "Χειμερία νάρκη"
+      }
+    ],
+    "fact": {
+      "en": "A coral reef is a habitat for thousands of kinds of sea creatures.",
+      "el": "Ένας κοραλλιογενής ύφαλος είναι βιότοπος για χιλιάδες είδη θαλάσσιων πλασμάτων."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "Which direction does a compass needle point to?",
+      "el": "Προς ποια κατεύθυνση δείχνει η βελόνα της πυξίδας;"
+    },
+    "a": [
+      {
+        "en": "North",
+        "el": "Βορράς"
+      },
+      {
+        "en": "South",
+        "el": "Νότος"
+      },
+      {
+        "en": "East",
+        "el": "Ανατολή"
+      },
+      {
+        "en": "West",
+        "el": "Δύση"
+      }
+    ],
+    "fact": {
+      "en": "A compass needle is a tiny magnet.",
+      "el": "Η βελόνα της πυξίδας είναι ένας μικροσκοπικός μαγνήτης."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "Which dinosaur's name means 'tyrant lizard king'?",
+      "el": "Ποιου δεινόσαυρου το όνομα σημαίνει «βασιλιάς τύραννος σαύρα»;"
+    },
+    "a": [
+      {
+        "en": "Tyrannosaurus rex",
+        "el": "Τυραννόσαυρος Ρεξ"
+      },
+      {
+        "en": "Velociraptor",
+        "el": "Βελοσιράπτορας"
+      },
+      {
+        "en": "Stegosaurus",
+        "el": "Στεγόσαυρος"
+      },
+      {
+        "en": "Brachiosaurus",
+        "el": "Βραχιόσαυρος"
+      }
+    ],
+    "fact": {
+      "en": "Some T. rex teeth were as long as a banana.",
+      "el": "Μερικά δόντια του Τυραννόσαυρου ήταν μακριά σαν μπανάνα."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "Which planet spins on its side, like a rolling ball?",
+      "el": "Ποιος πλανήτης γυρίζει πλαγιαστός, σαν μπάλα που κυλάει;"
+    },
+    "a": [
+      {
+        "en": "Uranus",
+        "el": "Ο Ουρανός"
+      },
+      {
+        "en": "Venus",
+        "el": "Η Αφροδίτη"
+      },
+      {
+        "en": "Mars",
+        "el": "Ο Άρης"
+      },
+      {
+        "en": "Neptune",
+        "el": "Ο Ποσειδώνας"
+      }
+    ],
+    "fact": {
+      "en": "Uranus looks blue-green because of a gas called methane.",
+      "el": "Ο Ουρανός φαίνεται γαλαζοπράσινος εξαιτίας ενός αερίου που λέγεται μεθάνιο."
+    }
+  },
+  {
+    "cat": "sci",
+    "q": {
+      "en": "What is a 'shooting star' really?",
+      "el": "Τι είναι στην πραγματικότητα ένα «πεφταστέρι»;"
+    },
+    "a": [
+      {
+        "en": "A small space rock burning up in the air",
+        "el": "Ένα μικρό διαστημικό πετραδάκι που καίγεται στον αέρα"
+      },
+      {
+        "en": "A star falling to Earth",
+        "el": "Ένα αστέρι που πέφτει στη Γη"
+      },
+      {
+        "en": "A light from an aeroplane",
+        "el": "Το φως ενός αεροπλάνου"
+      },
+      {
+        "en": "A tiny new planet",
+        "el": "Ένας μικροσκοπικός νέος πλανήτης"
+      }
+    ],
+    "fact": {
+      "en": "Most shooting stars come from bits no bigger than a grain of sand.",
+      "el": "Τα περισσότερα πεφταστέρια προέρχονται από κομματάκια όχι μεγαλύτερα από έναν κόκκο άμμου."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "Who wrote 'The Gruffalo'?",
+      "el": "Ποια έγραψε το «Γκρούφαλο»;"
+    },
+    "a": [
+      {
+        "en": "Julia Donaldson",
+        "el": "Η Τζούλια Ντόναλντσον"
+      },
+      {
+        "en": "Jacqueline Wilson",
+        "el": "Η Τζάκλιν Γουίλσον"
+      },
+      {
+        "en": "Beatrix Potter",
+        "el": "Η Μπεατρίξ Πότερ"
+      },
+      {
+        "en": "Enid Blyton",
+        "el": "Η Ίνιντ Μπλάιτον"
+      }
+    ],
+    "fact": {
+      "en": "In the story, a clever little mouse tricks the hungry animals in the wood.",
+      "el": "Στην ιστορία, ένα έξυπνο ποντικάκι ξεγελά τα πεινασμένα ζώα του δάσους."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "Who wrote 'The Tale of Peter Rabbit'?",
+      "el": "Ποια έγραψε την «Ιστορία του Πίτερ Ράμπιτ»;"
+    },
+    "a": [
+      {
+        "en": "Beatrix Potter",
+        "el": "Η Μπεατρίξ Πότερ"
+      },
+      {
+        "en": "Enid Blyton",
+        "el": "Η Ίνιντ Μπλάιτον"
+      },
+      {
+        "en": "J.K. Rowling",
+        "el": "Η Τζ. Κ. Ρόουλινγκ"
+      },
+      {
+        "en": "Astrid Lindgren",
+        "el": "Η Άστριντ Λίντγκρεν"
+      }
+    ],
+    "fact": {
+      "en": "Beatrix Potter painted all the pictures in her books herself.",
+      "el": "Η Μπεατρίξ Πότερ ζωγράφισε μόνη της όλες τις εικόνες στα βιβλία της."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "In Roald Dahl's book 'The BFG', what do the letters BFG stand for?",
+      "el": "Στο βιβλίο του Ρόαλντ Νταλ «Ο ΜΦΓ», τι σημαίνουν τα γράμματα ΜΦΓ;"
+    },
+    "a": [
+      {
+        "en": "Big Friendly Giant",
+        "el": "Μεγάλος Φιλικός Γίγαντας"
+      },
+      {
+        "en": "Big Funny Goblin",
+        "el": "Μεγάλος Φλύαρος Γνώμος"
+      },
+      {
+        "en": "Brave Flying Giant",
+        "el": "Μικρός Φτερωτός Γίγαντας"
+      },
+      {
+        "en": "Big Fierce Gorilla",
+        "el": "Μεγάλος Φοβερός Γορίλας"
+      }
+    ],
+    "fact": {
+      "en": "The BFG catches dreams and keeps them in jars.",
+      "el": "Ο ΜΦΓ πιάνει όνειρα και τα φυλάει μέσα σε βάζα."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "Who wrote the 'Diary of a Wimpy Kid' books?",
+      "el": "Ποιος έγραψε τα βιβλία «Το ημερολόγιο ενός σπασίκλα»;"
+    },
+    "a": [
+      {
+        "en": "Jeff Kinney",
+        "el": "Ο Τζεφ Κίνι"
+      },
+      {
+        "en": "David Walliams",
+        "el": "Ο Ντέιβιντ Γουάλιαμς"
+      },
+      {
+        "en": "Roald Dahl",
+        "el": "Ο Ρόαλντ Νταλ"
+      },
+      {
+        "en": "Dav Pilkey",
+        "el": "Ο Νταβ Πίλκι"
+      }
+    ],
+    "fact": {
+      "en": "The main character of the books is a boy called Greg Heffley.",
+      "el": "Ο ήρωας των βιβλίων είναι ένα αγόρι που λέγεται Γκρεγκ Χέφλι."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "In 'Harry Potter', what is the name of Harry's owl?",
+      "el": "Στον «Χάρι Πότερ», πώς λένε την κουκουβάγια του Χάρι;"
+    },
+    "a": [
+      {
+        "en": "Hedwig",
+        "el": "Χέντβιχ"
+      },
+      {
+        "en": "Scabbers",
+        "el": "Σκάμπερς"
+      },
+      {
+        "en": "Fluffy",
+        "el": "Φλάφι"
+      },
+      {
+        "en": "Buckbeak",
+        "el": "Μπάκμπικ"
+      }
+    ],
+    "fact": {
+      "en": "Hedwig is a snowy owl, with beautiful white feathers.",
+      "el": "Η Χέντβιχ είναι χιονόγλαυκα, με πανέμορφα άσπρα φτερά."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "Hans Christian Andersen, who wrote 'The Little Mermaid', came from which country?",
+      "el": "Ο Χανς Κρίστιαν Άντερσεν, που έγραψε τη «Μικρή Γοργόνα», από ποια χώρα ήταν;"
+    },
+    "a": [
+      {
+        "en": "Denmark",
+        "el": "Δανία"
+      },
+      {
+        "en": "Germany",
+        "el": "Γερμανία"
+      },
+      {
+        "en": "France",
+        "el": "Γαλλία"
+      },
+      {
+        "en": "Russia",
+        "el": "Ρωσία"
+      }
+    ],
+    "fact": {
+      "en": "A statue of the Little Mermaid sits by the sea in Copenhagen.",
+      "el": "Ένα άγαλμα της Μικρής Γοργόνας κάθεται δίπλα στη θάλασσα στην Κοπεγχάγη."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "In Aesop's fable, who wins the race between the tortoise and the hare?",
+      "el": "Στον μύθο του Αισώπου, ποιος κερδίζει τον αγώνα ανάμεσα στη χελώνα και τον λαγό;"
+    },
+    "a": [
+      {
+        "en": "The tortoise",
+        "el": "Η χελώνα"
+      },
+      {
+        "en": "The hare",
+        "el": "Ο λαγός"
+      },
+      {
+        "en": "It's a draw",
+        "el": "Έρχονται ισόπαλοι"
+      },
+      {
+        "en": "The fox",
+        "el": "Η αλεπού"
+      }
+    ],
+    "fact": {
+      "en": "The hare stopped for a nap, and the slow tortoise kept going.",
+      "el": "Ο λαγός σταμάτησε για να πάρει έναν υπνάκο, ενώ η αργή χελώνα συνέχισε να προχωρά."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "In 'Little Red Riding Hood', who is the girl going to visit?",
+      "el": "Στην «Κοκκινοσκουφίτσα», ποιον πηγαίνει να επισκεφτεί το κορίτσι;"
+    },
+    "a": [
+      {
+        "en": "Her grandmother",
+        "el": "Τη γιαγιά της"
+      },
+      {
+        "en": "Her aunt",
+        "el": "Τη θεία της"
+      },
+      {
+        "en": "Her best friend",
+        "el": "Την καλύτερή της φίλη"
+      },
+      {
+        "en": "Her teacher",
+        "el": "Τη δασκάλα της"
+      }
+    ],
+    "fact": {
+      "en": "In the Brothers Grimm version, a huntsman saves the girl and her grandmother.",
+      "el": "Στην εκδοχή των αδελφών Γκριμ, ένας κυνηγός σώζει το κορίτσι και τη γιαγιά του."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "In 'Jack and the Beanstalk', what does Jack swap for the magic beans?",
+      "el": "Στον «Τζακ και η φασολιά», τι δίνει ο Τζακ για να πάρει τα μαγικά φασόλια;"
+    },
+    "a": [
+      {
+        "en": "A cow",
+        "el": "Μια αγελάδα"
+      },
+      {
+        "en": "A horse",
+        "el": "Ένα άλογο"
+      },
+      {
+        "en": "A goose",
+        "el": "Μια χήνα"
+      },
+      {
+        "en": "His shoes",
+        "el": "Τα παπούτσια του"
+      }
+    ],
+    "fact": {
+      "en": "At the top of the beanstalk lives a giant.",
+      "el": "Στην κορυφή της φασολιάς ζει ένας γίγαντας."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "Which famous band from Liverpool sang 'Yellow Submarine'?",
+      "el": "Ποιο διάσημο συγκρότημα από το Λίβερπουλ τραγούδησε το «Yellow Submarine»;"
+    },
+    "a": [
+      {
+        "en": "The Beatles",
+        "el": "Οι Beatles"
+      },
+      {
+        "en": "ABBA",
+        "el": "Οι ABBA"
+      },
+      {
+        "en": "Queen",
+        "el": "Οι Queen"
+      },
+      {
+        "en": "The Rolling Stones",
+        "el": "Οι Rolling Stones"
+      }
+    ],
+    "fact": {
+      "en": "The Beatles had four members: John, Paul, George and Ringo.",
+      "el": "Οι Beatles ήταν τέσσερα μέλη: ο Τζον, ο Πολ, ο Τζορτζ και ο Ρίνγκο."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "Which singer was known as 'the King of Rock and Roll'?",
+      "el": "Ποιος τραγουδιστής ήταν γνωστός ως «ο Βασιλιάς του Ροκ εν Ρολ»;"
+    },
+    "a": [
+      {
+        "en": "Elvis Presley",
+        "el": "Ο Έλβις Πρίσλεϊ"
+      },
+      {
+        "en": "Michael Jackson",
+        "el": "Ο Μάικλ Τζάκσον"
+      },
+      {
+        "en": "Freddie Mercury",
+        "el": "Ο Φρέντι Μέρκιουρι"
+      },
+      {
+        "en": "John Lennon",
+        "el": "Ο Τζον Λένον"
+      }
+    ],
+    "fact": {
+      "en": "Elvis lived in a house called Graceland in Memphis, USA.",
+      "el": "Ο Έλβις ζούσε σε ένα σπίτι που λεγόταν Γκρέισλαντ, στο Μέμφις των ΗΠΑ."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "Which woodwind instrument do you hold sideways when you play it?",
+      "el": "Ποιο πνευστό όργανο κρατάμε στο πλάι όταν το παίζουμε;"
+    },
+    "a": [
+      {
+        "en": "The flute",
+        "el": "Το φλάουτο"
+      },
+      {
+        "en": "The clarinet",
+        "el": "Το κλαρίνο"
+      },
+      {
+        "en": "The recorder",
+        "el": "Η φλογέρα"
+      },
+      {
+        "en": "The oboe",
+        "el": "Το όμποε"
+      }
+    ],
+    "fact": {
+      "en": "Some of the oldest flutes ever found were made from bird bones about 40,000 years ago.",
+      "el": "Μερικά από τα αρχαιότερα φλάουτα που βρέθηκαν ποτέ φτιάχτηκαν από κόκαλα πουλιών πριν από περίπου 40.000 χρόνια."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "Who wrote the music for the ballet 'The Nutcracker'?",
+      "el": "Ποιος έγραψε τη μουσική για το μπαλέτο «Ο Καρυοθραύστης»;"
+    },
+    "a": [
+      {
+        "en": "Tchaikovsky",
+        "el": "Ο Τσαϊκόφσκι"
+      },
+      {
+        "en": "Mozart",
+        "el": "Ο Μότσαρτ"
+      },
+      {
+        "en": "Vivaldi",
+        "el": "Ο Βιβάλντι"
+      },
+      {
+        "en": "Bach",
+        "el": "Ο Μπαχ"
+      }
+    ],
+    "fact": {
+      "en": "'The Nutcracker' takes place on Christmas Eve.",
+      "el": "Ο «Καρυοθραύστης» διαδραματίζεται την παραμονή των Χριστουγέννων."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "Which artist painted 'The Scream'?",
+      "el": "Ποιος ζωγράφος ζωγράφισε την «Κραυγή»;"
+    },
+    "a": [
+      {
+        "en": "Edvard Munch",
+        "el": "Ο Έντβαρντ Μουνκ"
+      },
+      {
+        "en": "Pablo Picasso",
+        "el": "Ο Πάμπλο Πικάσο"
+      },
+      {
+        "en": "Claude Monet",
+        "el": "Ο Κλοντ Μονέ"
+      },
+      {
+        "en": "Leonardo da Vinci",
+        "el": "Ο Λεονάρντο ντα Βίντσι"
+      }
+    ],
+    "fact": {
+      "en": "Edvard Munch came from Norway.",
+      "el": "Ο Έντβαρντ Μουνκ ήταν από τη Νορβηγία."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "Which of these is a primary colour in painting?",
+      "el": "Ποιο από αυτά είναι βασικό χρώμα στη ζωγραφική;"
+    },
+    "a": [
+      {
+        "en": "Red",
+        "el": "Κόκκινο"
+      },
+      {
+        "en": "Green",
+        "el": "Πράσινο"
+      },
+      {
+        "en": "Orange",
+        "el": "Πορτοκαλί"
+      },
+      {
+        "en": "Purple",
+        "el": "Μωβ"
+      }
+    ],
+    "fact": {
+      "en": "The three primary colours in painting are red, yellow and blue.",
+      "el": "Τα τρία βασικά χρώματα στη ζωγραφική είναι το κόκκινο, το κίτρινο και το μπλε."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "In which city is the Louvre, the museum where the Mona Lisa hangs?",
+      "el": "Σε ποια πόλη βρίσκεται το Λούβρο, το μουσείο όπου κρέμεται η Μόνα Λίζα;"
+    },
+    "a": [
+      {
+        "en": "Paris",
+        "el": "Στο Παρίσι"
+      },
+      {
+        "en": "Rome",
+        "el": "Στη Ρώμη"
+      },
+      {
+        "en": "London",
+        "el": "Στο Λονδίνο"
+      },
+      {
+        "en": "Madrid",
+        "el": "Στη Μαδρίτη"
+      }
+    ],
+    "fact": {
+      "en": "In front of the Louvre there is a big pyramid made of glass.",
+      "el": "Μπροστά στο Λούβρο υπάρχει μια μεγάλη γυάλινη πυραμίδα."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "In 'Beauty and the Beast', which magic flower does the Beast keep?",
+      "el": "Στην «Πεντάμορφη και το Τέρας», ποιο μαγικό λουλούδι φυλάει το Τέρας;"
+    },
+    "a": [
+      {
+        "en": "A rose",
+        "el": "Ένα τριαντάφυλλο"
+      },
+      {
+        "en": "A tulip",
+        "el": "Μια τουλίπα"
+      },
+      {
+        "en": "A sunflower",
+        "el": "Ένα ηλιοτρόπιο"
+      },
+      {
+        "en": "A daisy",
+        "el": "Μια μαργαρίτα"
+      }
+    ],
+    "fact": {
+      "en": "In the Disney film, the spell must be broken before the last petal falls.",
+      "el": "Στην ταινία της Disney, τα μάγια πρέπει να λυθούν πριν πέσει το τελευταίο πέταλο."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "In which film did the yellow Minions first appear?",
+      "el": "Σε ποια ταινία εμφανίστηκαν για πρώτη φορά τα κίτρινα Μίνιονς;"
+    },
+    "a": [
+      {
+        "en": "Despicable Me",
+        "el": "Εγώ, ο Απαισιότατος"
+      },
+      {
+        "en": "Shrek",
+        "el": "Σρεκ"
+      },
+      {
+        "en": "Madagascar",
+        "el": "Μαδαγασκάρη"
+      },
+      {
+        "en": "Ice Age",
+        "el": "Η Εποχή των Παγετώνων"
+      }
+    ],
+    "fact": {
+      "en": "The Minions are crazy about bananas.",
+      "el": "Τα Μίνιονς τρελαίνονται για μπανάνες."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "In the Disney film 'Moana', what is the name of the demigod?",
+      "el": "Στην ταινία της Disney «Βαϊάνα» (Moana), πώς λένε τον ημίθεο;"
+    },
+    "a": [
+      {
+        "en": "Maui",
+        "el": "Μάουι"
+      },
+      {
+        "en": "Simba",
+        "el": "Σίμπα"
+      },
+      {
+        "en": "Kristoff",
+        "el": "Κρίστοφ"
+      },
+      {
+        "en": "Aladdin",
+        "el": "Αλαντίν"
+      }
+    ],
+    "fact": {
+      "en": "Maui has magic tattoos that move on his skin.",
+      "el": "Ο Μάουι έχει μαγικά τατουάζ που κινούνται πάνω στο δέρμα του."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "Who wrote 'The Lion, the Witch and the Wardrobe'?",
+      "el": "Ποιος έγραψε το «Το λιοντάρι, η μάγισσα και η ντουλάπα»;"
+    },
+    "a": [
+      {
+        "en": "C.S. Lewis",
+        "el": "Ο Κ. Σ. Λιούις"
+      },
+      {
+        "en": "J.R.R. Tolkien",
+        "el": "Ο Τζ. Ρ. Ρ. Τόλκιν"
+      },
+      {
+        "en": "Roald Dahl",
+        "el": "Ο Ρόαλντ Νταλ"
+      },
+      {
+        "en": "Lewis Carroll",
+        "el": "Ο Λιούις Κάρολ"
+      }
+    ],
+    "fact": {
+      "en": "In the book, four children reach the land of Narnia through a wardrobe.",
+      "el": "Στο βιβλίο, τέσσερα παιδιά φτάνουν στη χώρα της Νάρνια μέσα από μια ντουλάπα."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "What is the Japanese art of folding paper into shapes called?",
+      "el": "Πώς λέγεται η ιαπωνική τέχνη να διπλώνουμε χαρτί και να φτιάχνουμε σχήματα;"
+    },
+    "a": [
+      {
+        "en": "Origami",
+        "el": "Οριγκάμι"
+      },
+      {
+        "en": "Karaoke",
+        "el": "Καραόκε"
+      },
+      {
+        "en": "Sushi",
+        "el": "Σούσι"
+      },
+      {
+        "en": "Karate",
+        "el": "Καράτε"
+      }
+    ],
+    "fact": {
+      "en": "One of the most famous origami shapes is the paper crane, a kind of bird.",
+      "el": "Ένα από τα πιο γνωστά σχήματα οριγκάμι είναι ο χάρτινος γερανός, ένα είδος πουλιού."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "Who wrote the play 'Romeo and Juliet'?",
+      "el": "Ποιος έγραψε το θεατρικό έργο «Ρωμαίος και Ιουλιέτα»;"
+    },
+    "a": [
+      {
+        "en": "William Shakespeare",
+        "el": "Ο Ουίλιαμ Σαίξπηρ"
+      },
+      {
+        "en": "Charles Dickens",
+        "el": "Ο Κάρολος Ντίκενς"
+      },
+      {
+        "en": "Jane Austen",
+        "el": "Η Τζέιν Όστιν"
+      },
+      {
+        "en": "Homer",
+        "el": "Ο Όμηρος"
+      }
+    ],
+    "fact": {
+      "en": "The story takes place in the Italian city of Verona.",
+      "el": "Η ιστορία διαδραματίζεται στην ιταλική πόλη Βερόνα."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "How many musicians play in a quartet?",
+      "el": "Πόσοι μουσικοί παίζουν σε ένα κουαρτέτο;"
+    },
+    "a": [
+      {
+        "en": "4",
+        "el": "4"
+      },
+      {
+        "en": "2",
+        "el": "2"
+      },
+      {
+        "en": "3",
+        "el": "3"
+      },
+      {
+        "en": "5",
+        "el": "5"
+      }
+    ],
+    "fact": {
+      "en": "A group of two musicians is called a duet, and a group of three is a trio.",
+      "el": "Δύο μουσικοί μαζί λέγονται ντουέτο και τρεις λέγονται τρίο."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "Who is the famous friend and helper of the detective Sherlock Holmes?",
+      "el": "Ποιος είναι ο διάσημος φίλος και βοηθός του ντετέκτιβ Σέρλοκ Χολμς;"
+    },
+    "a": [
+      {
+        "en": "Dr Watson",
+        "el": "Ο δόκτωρ Γουότσον"
+      },
+      {
+        "en": "Dr Jekyll",
+        "el": "Ο δόκτωρ Τζέκιλ"
+      },
+      {
+        "en": "Dr Dolittle",
+        "el": "Ο δόκτωρ Ντουλιτλ"
+      },
+      {
+        "en": "Dr Frankenstein",
+        "el": "Ο δόκτωρ Φρανκενστάιν"
+      }
+    ],
+    "fact": {
+      "en": "In the stories, Sherlock Holmes lives at 221B Baker Street in London.",
+      "el": "Στις ιστορίες, ο Σέρλοκ Χολμς μένει στην οδό Μπέικερ 221Β, στο Λονδίνο."
+    }
+  },
+  {
+    "cat": "arts",
+    "q": {
+      "en": "Who wrote and drew 'The Very Hungry Caterpillar'?",
+      "el": "Ποιος έγραψε και εικονογράφησε το βιβλίο «Η πολύ πεινασμένη κάμπια»;"
+    },
+    "a": [
+      {
+        "en": "Eric Carle",
+        "el": "Ο Έρικ Καρλ"
+      },
+      {
+        "en": "Dr. Seuss",
+        "el": "Ο Δρ Σους"
+      },
+      {
+        "en": "Michael Bond",
+        "el": "Ο Μάικλ Μποντ"
+      },
+      {
+        "en": "A.A. Milne",
+        "el": "Ο Α. Α. Μιλν"
+      }
+    ],
+    "fact": {
+      "en": "The book has little holes in the pages where the caterpillar has eaten through.",
+      "el": "Το βιβλίο έχει μικρές τρυπούλες στις σελίδες, εκεί που τις έφαγε η κάμπια."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "How many players does each rugby union team have on the pitch?",
+      "el": "Πόσους παίκτες έχει κάθε ομάδα ράγκμπι (ράγκμπι γιούνιον) μέσα στο γήπεδο;"
+    },
+    "a": [
+      {
+        "en": "15",
+        "el": "15"
+      },
+      {
+        "en": "11",
+        "el": "11"
+      },
+      {
+        "en": "13",
+        "el": "13"
+      },
+      {
+        "en": "9",
+        "el": "9"
+      }
+    ],
+    "fact": {
+      "en": "Rugby is named after Rugby School in England.",
+      "el": "Το ράγκμπι πήρε το όνομά του από το σχολείο Ράγκμπι στην Αγγλία."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "Which sport is played with a bat, a ball and wickets?",
+      "el": "Ποιο άθλημα παίζεται με ρόπαλο, μπάλα και «ουίκετ» (ξύλινα παλουκάκια);"
+    },
+    "a": [
+      {
+        "en": "Cricket",
+        "el": "Κρίκετ"
+      },
+      {
+        "en": "Baseball",
+        "el": "Μπέιζμπολ"
+      },
+      {
+        "en": "Golf",
+        "el": "Γκολφ"
+      },
+      {
+        "en": "Tennis",
+        "el": "Τένις"
+      }
+    ],
+    "fact": {
+      "en": "A top-level cricket match called a Test match can last up to five days.",
+      "el": "Ένας μεγάλος αγώνας κρίκετ, το λεγόμενο «Τεστ», μπορεί να κρατήσει έως και πέντε μέρες."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "In which sport do skaters perform jumps and spins to music on the ice?",
+      "el": "Σε ποιο άθλημα οι αθλητές κάνουν άλματα και περιστροφές με μουσική πάνω στον πάγο;"
+    },
+    "a": [
+      {
+        "en": "Figure skating",
+        "el": "Καλλιτεχνικό πατινάζ"
+      },
+      {
+        "en": "Ice hockey",
+        "el": "Χόκεϊ επί πάγου"
+      },
+      {
+        "en": "Curling",
+        "el": "Κέρλινγκ"
+      },
+      {
+        "en": "Skiing",
+        "el": "Σκι"
+      }
+    ],
+    "fact": {
+      "en": "Figure skating was first held at the Olympics in London in 1908.",
+      "el": "Το καλλιτεχνικό πατινάζ μπήκε για πρώτη φορά στους Ολυμπιακούς Αγώνες στο Λονδίνο το 1908."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "In which sport do athletes perform on a balance beam?",
+      "el": "Σε ποιο άθλημα οι αθλητές κάνουν ασκήσεις πάνω στη δοκό ισορροπίας;"
+    },
+    "a": [
+      {
+        "en": "Gymnastics",
+        "el": "Ενόργανη γυμναστική"
+      },
+      {
+        "en": "Diving",
+        "el": "Καταδύσεις"
+      },
+      {
+        "en": "Judo",
+        "el": "Τζούντο"
+      },
+      {
+        "en": "Athletics",
+        "el": "Στίβος"
+      }
+    ],
+    "fact": {
+      "en": "The balance beam is only about 10 centimetres wide.",
+      "el": "Η δοκός ισορροπίας έχει πλάτος μόλις 10 εκατοστά περίπου."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "In chess, which piece can only move diagonally?",
+      "el": "Στο σκάκι, ποιο κομμάτι μπορεί να κινηθεί μόνο διαγώνια;"
+    },
+    "a": [
+      {
+        "en": "The bishop",
+        "el": "Ο αξιωματικός"
+      },
+      {
+        "en": "The rook",
+        "el": "Ο πύργος"
+      },
+      {
+        "en": "The knight",
+        "el": "Ο ίππος"
+      },
+      {
+        "en": "The queen",
+        "el": "Η βασίλισσα"
+      }
+    ],
+    "fact": {
+      "en": "Each player starts the game with two bishops.",
+      "el": "Κάθε παίκτης ξεκινά το παιχνίδι με δύο αξιωματικούς."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "If you add up all the dots on a normal dice, what do you get?",
+      "el": "Αν προσθέσουμε όλες τις τελείες ενός κανονικού ζαριού, πόσο βγαίνει;"
+    },
+    "a": [
+      {
+        "en": "21",
+        "el": "21"
+      },
+      {
+        "en": "6",
+        "el": "6"
+      },
+      {
+        "en": "18",
+        "el": "18"
+      },
+      {
+        "en": "36",
+        "el": "36"
+      }
+    ],
+    "fact": {
+      "en": "The opposite sides of a dice always add up to 7.",
+      "el": "Οι απέναντι πλευρές ενός ζαριού κάνουν πάντα άθροισμα 7."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "How many cards are in a standard pack, without the jokers?",
+      "el": "Πόσα χαρτιά έχει μια κανονική τράπουλα, χωρίς τους τζόκερ;"
+    },
+    "a": [
+      {
+        "en": "52",
+        "el": "52"
+      },
+      {
+        "en": "40",
+        "el": "40"
+      },
+      {
+        "en": "48",
+        "el": "48"
+      },
+      {
+        "en": "54",
+        "el": "54"
+      }
+    ],
+    "fact": {
+      "en": "The four suits are hearts, diamonds, clubs and spades.",
+      "el": "Τα τέσσερα χρώματα της τράπουλας είναι κούπα, καρό, σπαθί και μπαστούνι."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "In the card game UNO, when do you have to shout 'UNO'?",
+      "el": "Στο παιχνίδι με κάρτες UNO, πότε πρέπει να φωνάξεις «ΟΥΝΟ»;"
+    },
+    "a": [
+      {
+        "en": "When you have one card left",
+        "el": "Όταν σου μένει μία κάρτα"
+      },
+      {
+        "en": "When you win a round",
+        "el": "Όταν κερδίζεις έναν γύρο"
+      },
+      {
+        "en": "When you pick up a card",
+        "el": "Όταν τραβάς μια κάρτα"
+      },
+      {
+        "en": "When the game starts",
+        "el": "Όταν ξεκινά το παιχνίδι"
+      }
+    ],
+    "fact": {
+      "en": "'Uno' means 'one' in Spanish and Italian.",
+      "el": "Η λέξη «uno» σημαίνει «ένα» στα ισπανικά και στα ιταλικά."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "In which sport do people use swords called a foil, an épée and a sabre?",
+      "el": "Σε ποιο άθλημα χρησιμοποιούνται σπαθιά που λέγονται ξίφος ασκήσεως, ξίφος μονομαχίας και σπάθη;"
+    },
+    "a": [
+      {
+        "en": "Fencing",
+        "el": "Ξιφασκία"
+      },
+      {
+        "en": "Archery",
+        "el": "Τοξοβολία"
+      },
+      {
+        "en": "Judo",
+        "el": "Τζούντο"
+      },
+      {
+        "en": "Boxing",
+        "el": "Πυγμαχία"
+      }
+    ],
+    "fact": {
+      "en": "Fencers wear a mesh mask and a white suit to stay safe.",
+      "el": "Οι ξιφομάχοι φορούν μάσκα με πλέγμα και άσπρη στολή για να προστατεύονται."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "Which three sports make up a triathlon?",
+      "el": "Ποια τρία αθλήματα αποτελούν το τρίαθλο;"
+    },
+    "a": [
+      {
+        "en": "Swimming, cycling and running",
+        "el": "Κολύμβηση, ποδηλασία και τρέξιμο"
+      },
+      {
+        "en": "Running, jumping and throwing",
+        "el": "Τρέξιμο, άλμα και ρίψη"
+      },
+      {
+        "en": "Swimming, rowing and diving",
+        "el": "Κολύμβηση, κωπηλασία και καταδύσεις"
+      },
+      {
+        "en": "Cycling, skating and skiing",
+        "el": "Ποδηλασία, πατινάζ και σκι"
+      }
+    ],
+    "fact": {
+      "en": "The triathlon first became an Olympic sport at the Sydney Games in 2000.",
+      "el": "Το τρίαθλο έγινε ολυμπιακό άθλημα για πρώτη φορά στους Αγώνες του Σίδνεϊ το 2000."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "How many players does each netball team have on the court?",
+      "el": "Πόσους παίκτες έχει κάθε ομάδα νέτμπολ μέσα στο γήπεδο;"
+    },
+    "a": [
+      {
+        "en": "7",
+        "el": "7"
+      },
+      {
+        "en": "5",
+        "el": "5"
+      },
+      {
+        "en": "9",
+        "el": "9"
+      },
+      {
+        "en": "11",
+        "el": "11"
+      }
+    ],
+    "fact": {
+      "en": "In netball, you are not allowed to run while holding the ball.",
+      "el": "Στο νέτμπολ δεν επιτρέπεται να τρέχεις κρατώντας τη μπάλα."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "In golf, what is it called when you finish a hole in one shot fewer than par?",
+      "el": "Στο γκολφ, πώς λέγεται όταν τελειώνεις μια τρύπα με ένα χτύπημα λιγότερο από το «παρ»;"
+    },
+    "a": [
+      {
+        "en": "A birdie",
+        "el": "Μπέρντι"
+      },
+      {
+        "en": "An eagle",
+        "el": "Ιγκλ"
+      },
+      {
+        "en": "A bogey",
+        "el": "Μπόγκι"
+      },
+      {
+        "en": "A hat-trick",
+        "el": "Χατ τρικ"
+      }
+    ],
+    "fact": {
+      "en": "Two shots fewer than par is called an eagle.",
+      "el": "Δύο χτυπήματα λιγότερα από το «παρ» λέγονται «ιγκλ», δηλαδή «αετός»."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "In which sport can a player hit a 'home run'?",
+      "el": "Σε ποιο άθλημα ένας παίκτης μπορεί να κάνει «χόουμ ραν»;"
+    },
+    "a": [
+      {
+        "en": "Baseball",
+        "el": "Μπέιζμπολ"
+      },
+      {
+        "en": "Basketball",
+        "el": "Μπάσκετ"
+      },
+      {
+        "en": "Rugby",
+        "el": "Ράγκμπι"
+      },
+      {
+        "en": "Volleyball",
+        "el": "Βόλεϊ"
+      }
+    ],
+    "fact": {
+      "en": "A baseball field has four bases and is often called a 'diamond'.",
+      "el": "Ένα γήπεδο μπέιζμπολ έχει τέσσερις βάσεις και συχνά λέγεται «διαμάντι»."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "What is another name for table tennis?",
+      "el": "Ποιο είναι ένα άλλο όνομα για την επιτραπέζια αντισφαίριση;"
+    },
+    "a": [
+      {
+        "en": "Ping-pong",
+        "el": "Πινγκ πονγκ"
+      },
+      {
+        "en": "Squash",
+        "el": "Σκουός"
+      },
+      {
+        "en": "Badminton",
+        "el": "Μπάντμιντον"
+      },
+      {
+        "en": "Mini-golf",
+        "el": "Μίνι γκολφ"
+      }
+    ],
+    "fact": {
+      "en": "A table tennis ball is very light: it weighs only 2.7 grams.",
+      "el": "Το μπαλάκι του πινγκ πονγκ είναι πολύ ελαφρύ: ζυγίζει μόνο 2,7 γραμμάρια."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "In which sport do players ride horses and hit a ball with long mallets?",
+      "el": "Σε ποιο άθλημα οι παίκτες καβαλούν άλογα και χτυπούν μια μπάλα με μακριά σφυριά;"
+    },
+    "a": [
+      {
+        "en": "Polo",
+        "el": "Πόλο"
+      },
+      {
+        "en": "Croquet",
+        "el": "Κροκέ"
+      },
+      {
+        "en": "Hockey",
+        "el": "Χόκεϊ"
+      },
+      {
+        "en": "Cricket",
+        "el": "Κρίκετ"
+      }
+    ],
+    "fact": {
+      "en": "Polo is one of the oldest team sports and was first played in ancient Persia.",
+      "el": "Το πόλο είναι από τα αρχαιότερα ομαδικά αθλήματα και παίχτηκε πρώτα στην αρχαία Περσία."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "In football, what is it called when one player scores three goals in a match?",
+      "el": "Στο ποδόσφαιρο, πώς λέγεται όταν ένας παίκτης βάζει τρία γκολ στον ίδιο αγώνα;"
+    },
+    "a": [
+      {
+        "en": "A hat-trick",
+        "el": "Χατ τρικ"
+      },
+      {
+        "en": "A triple jump",
+        "el": "Τριπλούν"
+      },
+      {
+        "en": "A free kick",
+        "el": "Φάουλ"
+      },
+      {
+        "en": "A penalty",
+        "el": "Πέναλτι"
+      }
+    ],
+    "fact": {
+      "en": "The name comes from cricket, where a bowler who took three wickets in a row was given a hat.",
+      "el": "Το όνομα προέρχεται από το κρίκετ, όπου ένας παίκτης που έβγαζε τρεις αντιπάλους στη σειρά έπαιρνε δώρο ένα καπέλο."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "In which game do you drop coloured discs into a grid to get four in a row?",
+      "el": "Σε ποιο παιχνίδι ρίχνεις χρωματιστά πουλάκια σε ένα πλέγμα για να βάλεις τέσσερα στη σειρά;"
+    },
+    "a": [
+      {
+        "en": "Connect 4",
+        "el": "Connect 4"
+      },
+      {
+        "en": "Draughts",
+        "el": "Ντάμα"
+      },
+      {
+        "en": "Battleship",
+        "el": "Ναυμαχία"
+      },
+      {
+        "en": "Ludo",
+        "el": "Γκρινιάρης"
+      }
+    ],
+    "fact": {
+      "en": "The Connect 4 grid has 7 columns and 6 rows.",
+      "el": "Το πλέγμα του Connect 4 έχει 7 στήλες και 6 σειρές."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "In darts, what is the highest score you can get with three darts?",
+      "el": "Στα βελάκια, ποιο είναι το μεγαλύτερο σκορ που μπορείς να κάνεις με τρία βελάκια;"
+    },
+    "a": [
+      {
+        "en": "180",
+        "el": "180"
+      },
+      {
+        "en": "100",
+        "el": "100"
+      },
+      {
+        "en": "150",
+        "el": "150"
+      },
+      {
+        "en": "300",
+        "el": "300"
+      }
+    ],
+    "fact": {
+      "en": "You get 180 by hitting the 'triple 20' with all three darts.",
+      "el": "Κάνεις 180 αν πετύχεις το «τριπλό 20» και με τα τρία βελάκια."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "In which sport do you ride on waves using a board?",
+      "el": "Σε ποιο άθλημα «καβαλάς» τα κύματα πάνω σε μια σανίδα;"
+    },
+    "a": [
+      {
+        "en": "Surfing",
+        "el": "Σερφ"
+      },
+      {
+        "en": "Rowing",
+        "el": "Κωπηλασία"
+      },
+      {
+        "en": "Water polo",
+        "el": "Υδατοσφαίριση (πόλο)"
+      },
+      {
+        "en": "Diving",
+        "el": "Καταδύσεις"
+      }
+    ],
+    "fact": {
+      "en": "Surfing became an Olympic sport at the Tokyo 2020 Games.",
+      "el": "Το σερφ έγινε ολυμπιακό άθλημα στους Αγώνες του Τόκιο 2020."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "What are the big international games for athletes with disabilities called?",
+      "el": "Πώς λέγονται οι μεγάλοι διεθνείς αγώνες για αθλητές με αναπηρία;"
+    },
+    "a": [
+      {
+        "en": "The Paralympic Games",
+        "el": "Παραολυμπιακοί Αγώνες"
+      },
+      {
+        "en": "The Commonwealth Games",
+        "el": "Αγώνες της Κοινοπολιτείας"
+      },
+      {
+        "en": "The World Cup",
+        "el": "Παγκόσμιο Κύπελλο"
+      },
+      {
+        "en": "The Youth Games",
+        "el": "Αγώνες Νέων"
+      }
+    ],
+    "fact": {
+      "en": "The first Paralympic Games were held in Rome in 1960.",
+      "el": "Οι πρώτοι Παραολυμπιακοί Αγώνες έγιναν στη Ρώμη το 1960."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "Which game is played on a green table with a cue and coloured balls?",
+      "el": "Ποιο παιχνίδι παίζεται σε πράσινο τραπέζι με στέκα και χρωματιστές μπάλες;"
+    },
+    "a": [
+      {
+        "en": "Snooker",
+        "el": "Σνούκερ"
+      },
+      {
+        "en": "Golf",
+        "el": "Γκολφ"
+      },
+      {
+        "en": "Croquet",
+        "el": "Κροκέ"
+      },
+      {
+        "en": "Bowling",
+        "el": "Μπόουλινγκ"
+      }
+    ],
+    "fact": {
+      "en": "In snooker, the black ball is worth the most points: 7.",
+      "el": "Στο σνούκερ, η μαύρη μπάλα δίνει τους περισσότερους πόντους: 7."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "Which athletics event involves throwing a long spear as far as you can?",
+      "el": "Σε ποιο αγώνισμα του στίβου ρίχνεις ένα μακρύ δόρυ όσο πιο μακριά μπορείς;"
+    },
+    "a": [
+      {
+        "en": "Javelin",
+        "el": "Ακοντισμός"
+      },
+      {
+        "en": "Discus",
+        "el": "Δισκοβολία"
+      },
+      {
+        "en": "Shot put",
+        "el": "Σφαιροβολία"
+      },
+      {
+        "en": "Long jump",
+        "el": "Άλμα εις μήκος"
+      }
+    ],
+    "fact": {
+      "en": "The javelin throw was part of the pentathlon at the ancient Olympic Games.",
+      "el": "Ο ακοντισμός ήταν μέρος του πεντάθλου στους αρχαίους Ολυμπιακούς Αγώνες."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "In karate and judo, what does the colour of your belt show?",
+      "el": "Στο καράτε και στο τζούντο, τι δείχνει το χρώμα της ζώνης σου;"
+    },
+    "a": [
+      {
+        "en": "How skilled you are",
+        "el": "Πόσο έμπειρος/η είσαι"
+      },
+      {
+        "en": "Which team you are on",
+        "el": "Σε ποια ομάδα είσαι"
+      },
+      {
+        "en": "How old you are",
+        "el": "Πόσο χρονών είσαι"
+      },
+      {
+        "en": "Your favourite colour",
+        "el": "Το αγαπημένο σου χρώμα"
+      }
+    ],
+    "fact": {
+      "en": "It usually takes many years of training to earn a black belt.",
+      "el": "Συνήθως χρειάζονται πολλά χρόνια προπόνησης για να πάρει κανείς μαύρη ζώνη."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "Which winter sport means sliding down the snow standing on one wide board?",
+      "el": "Ποιο χειμερινό άθλημα είναι να κατεβαίνεις στο χιόνι όρθιος/α πάνω σε μία φαρδιά σανίδα;"
+    },
+    "a": [
+      {
+        "en": "Snowboarding",
+        "el": "Σνόουμπορντ"
+      },
+      {
+        "en": "Skiing",
+        "el": "Σκι"
+      },
+      {
+        "en": "Sledging",
+        "el": "Έλκηθρο"
+      },
+      {
+        "en": "Ice skating",
+        "el": "Πατινάζ"
+      }
+    ],
+    "fact": {
+      "en": "Snowboarding joined the Winter Olympics in 1998.",
+      "el": "Το σνόουμπορντ μπήκε στους Χειμερινούς Ολυμπιακούς Αγώνες το 1998."
+    }
+  },
+  {
+    "cat": "sport",
+    "q": {
+      "en": "In 'Rock, Paper, Scissors', what beats rock?",
+      "el": "Στο «πέτρα, ψαλίδι, χαρτί», τι νικάει την πέτρα;"
+    },
+    "a": [
+      {
+        "en": "Paper",
+        "el": "Το χαρτί"
+      },
+      {
+        "en": "Scissors",
+        "el": "Το ψαλίδι"
+      },
+      {
+        "en": "Another rock",
+        "el": "Μια άλλη πέτρα"
+      },
+      {
+        "en": "Nothing",
+        "el": "Τίποτα"
+      }
+    ],
+    "fact": {
+      "en": "Paper wraps rock, scissors cut paper, and rock blunts scissors.",
+      "el": "Το χαρτί τυλίγει την πέτρα, το ψαλίδι κόβει το χαρτί και η πέτρα στομώνει το ψαλίδι."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "Where does a baby kangaroo live for its first few months?",
+      "el": "Πού ζει ένα μωρό καγκουρό τους πρώτους μήνες της ζωής του;"
+    },
+    "a": [
+      {
+        "en": "In its mother's pouch",
+        "el": "Στο μάρσιπο (την κοιλιακή τσέπη) της μαμάς του"
+      },
+      {
+        "en": "In a nest",
+        "el": "Σε μια φωλιά"
+      },
+      {
+        "en": "In an underground burrow",
+        "el": "Σε ένα λαγούμι κάτω από τη γη"
+      },
+      {
+        "en": "Up in a tree",
+        "el": "Πάνω σε ένα δέντρο"
+      }
+    ],
+    "fact": {
+      "en": "A newborn kangaroo, called a joey, is about the size of a jelly bean.",
+      "el": "Ένα νεογέννητο καγκουρό είναι περίπου όσο ένα ζελεδάκι."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "What is a baby goat called?",
+      "el": "Πώς λέγεται το μωρό της κατσίκας;"
+    },
+    "a": [
+      {
+        "en": "A kid",
+        "el": "Κατσικάκι (ρίφι)"
+      },
+      {
+        "en": "A lamb",
+        "el": "Αρνάκι"
+      },
+      {
+        "en": "A calf",
+        "el": "Μοσχαράκι"
+      },
+      {
+        "en": "A foal",
+        "el": "Πουλάρι"
+      }
+    ],
+    "fact": {
+      "en": "Goats are great climbers, and some even climb trees.",
+      "el": "Οι κατσίκες είναι εξαιρετικές στο σκαρφάλωμα και μερικές ανεβαίνουν ακόμα και σε δέντρα."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "Which bird can learn to copy the words people say?",
+      "el": "Ποιο πουλί μπορεί να μάθει να μιμείται τις λέξεις των ανθρώπων;"
+    },
+    "a": [
+      {
+        "en": "The parrot",
+        "el": "Ο παπαγάλος"
+      },
+      {
+        "en": "The owl",
+        "el": "Η κουκουβάγια"
+      },
+      {
+        "en": "The eagle",
+        "el": "Ο αετός"
+      },
+      {
+        "en": "The swan",
+        "el": "Ο κύκνος"
+      }
+    ],
+    "fact": {
+      "en": "Some African grey parrots have learned more than 100 words.",
+      "el": "Μερικοί γκρίζοι παπαγάλοι της Αφρικής έχουν μάθει πάνω από 100 λέξεις."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "How many legs does a crab have, counting its two claws?",
+      "el": "Πόσα πόδια έχει ένας κάβουρας, μαζί με τις δύο δαγκάνες του;"
+    },
+    "a": [
+      {
+        "en": "10",
+        "el": "10"
+      },
+      {
+        "en": "6",
+        "el": "6"
+      },
+      {
+        "en": "8",
+        "el": "8"
+      },
+      {
+        "en": "12",
+        "el": "12"
+      }
+    ],
+    "fact": {
+      "en": "Most crabs walk sideways.",
+      "el": "Οι περισσότεροι κάβουρες περπατούν στο πλάι."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "Which lizard is famous for changing the colour of its skin?",
+      "el": "Ποια σαύρα είναι διάσημη επειδή αλλάζει το χρώμα του δέρματός της;"
+    },
+    "a": [
+      {
+        "en": "The chameleon",
+        "el": "Ο χαμαιλέοντας"
+      },
+      {
+        "en": "The iguana",
+        "el": "Το ιγκουάνα"
+      },
+      {
+        "en": "The gecko",
+        "el": "Το σαμιαμίδι"
+      },
+      {
+        "en": "The Komodo dragon",
+        "el": "Ο δράκος του Κόμοντο"
+      }
+    ],
+    "fact": {
+      "en": "A chameleon can move each of its eyes in a different direction.",
+      "el": "Ο χαμαιλέοντας μπορεί να κουνάει το κάθε μάτι του προς διαφορετική κατεύθυνση."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "How many hours are there in one week?",
+      "el": "Πόσες ώρες έχει μία εβδομάδα;"
+    },
+    "a": [
+      {
+        "en": "168",
+        "el": "168"
+      },
+      {
+        "en": "100",
+        "el": "100"
+      },
+      {
+        "en": "144",
+        "el": "144"
+      },
+      {
+        "en": "240",
+        "el": "240"
+      }
+    ],
+    "fact": {
+      "en": "That is 7 days times 24 hours.",
+      "el": "Δηλαδή 7 μέρες επί 24 ώρες."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "How many sides does an octagon have?",
+      "el": "Πόσες πλευρές έχει ένα οκτάγωνο;"
+    },
+    "a": [
+      {
+        "en": "8",
+        "el": "8"
+      },
+      {
+        "en": "6",
+        "el": "6"
+      },
+      {
+        "en": "7",
+        "el": "7"
+      },
+      {
+        "en": "10",
+        "el": "10"
+      }
+    ],
+    "fact": {
+      "en": "In many countries, the red STOP sign is an octagon.",
+      "el": "Σε πολλές χώρες, η κόκκινη πινακίδα STOP είναι οκτάγωνη."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "What do we call baby frogs that live in water and have tails?",
+      "el": "Πώς λέμε τα μωρά βατραχάκια που ζουν στο νερό και έχουν ουρά;"
+    },
+    "a": [
+      {
+        "en": "Tadpoles",
+        "el": "Γυρίνοι"
+      },
+      {
+        "en": "Caterpillars",
+        "el": "Κάμπιες"
+      },
+      {
+        "en": "Ducklings",
+        "el": "Παπάκια"
+      },
+      {
+        "en": "Kittens",
+        "el": "Γατάκια"
+      }
+    ],
+    "fact": {
+      "en": "Tadpoles breathe through gills, just like fish.",
+      "el": "Οι γυρίνοι αναπνέουν με βράγχια, όπως τα ψάρια."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "Which is the biggest kind of cat in the world?",
+      "el": "Ποιο είναι το μεγαλύτερο αιλουροειδές (είδος γάτας) του κόσμου;"
+    },
+    "a": [
+      {
+        "en": "The tiger",
+        "el": "Η τίγρη"
+      },
+      {
+        "en": "The leopard",
+        "el": "Η λεοπάρδαλη"
+      },
+      {
+        "en": "The cheetah",
+        "el": "Ο γατόπαρδος (τσίτα)"
+      },
+      {
+        "en": "The lynx",
+        "el": "Ο λύγκας"
+      }
+    ],
+    "fact": {
+      "en": "No two tigers have exactly the same stripes.",
+      "el": "Δεν υπάρχουν δύο τίγρεις με ακριβώς τις ίδιες ρίγες."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "What is an elephant's long nose called?",
+      "el": "Πώς λέγεται η μακριά μύτη του ελέφαντα;"
+    },
+    "a": [
+      {
+        "en": "A trunk",
+        "el": "Προβοσκίδα"
+      },
+      {
+        "en": "A tusk",
+        "el": "Χαυλιόδοντας"
+      },
+      {
+        "en": "A snout",
+        "el": "Μουσούδα"
+      },
+      {
+        "en": "A beak",
+        "el": "Ράμφος"
+      }
+    ],
+    "fact": {
+      "en": "Elephants use their trunks to smell, drink, grab food and even say hello.",
+      "el": "Οι ελέφαντες χρησιμοποιούν την προβοσκίδα τους για να μυρίζουν, να πίνουν, να πιάνουν φαγητό και ακόμα και για να χαιρετούν."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "Which animal moves so slowly that tiny green plants (algae) grow in its fur?",
+      "el": "Ποιο ζώο κινείται τόσο αργά που φυτρώνουν μικροσκοπικά πράσινα φυτά (φύκια) στη γούνα του;"
+    },
+    "a": [
+      {
+        "en": "The sloth",
+        "el": "Ο βραδύποδας"
+      },
+      {
+        "en": "The tortoise",
+        "el": "Η χελώνα"
+      },
+      {
+        "en": "The koala",
+        "el": "Το κοάλα"
+      },
+      {
+        "en": "The snail",
+        "el": "Το σαλιγκάρι"
+      }
+    ],
+    "fact": {
+      "en": "Sloths come down from their trees only about once a week to go to the toilet.",
+      "el": "Οι βραδύποδες κατεβαίνουν από τα δέντρα μόνο περίπου μία φορά την εβδομάδα για να πάνε τουαλέτα."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "Which month has the fewest days?",
+      "el": "Ποιος μήνας έχει τις λιγότερες μέρες;"
+    },
+    "a": [
+      {
+        "en": "February",
+        "el": "Ο Φεβρουάριος"
+      },
+      {
+        "en": "April",
+        "el": "Ο Απρίλιος"
+      },
+      {
+        "en": "June",
+        "el": "Ο Ιούνιος"
+      },
+      {
+        "en": "November",
+        "el": "Ο Νοέμβριος"
+      }
+    ],
+    "fact": {
+      "en": "February has 28 days, or 29 in a leap year.",
+      "el": "Ο Φεβρουάριος έχει 28 μέρες, ή 29 στα δίσεκτα χρόνια."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "How many years are there in a century?",
+      "el": "Πόσα χρόνια έχει ένας αιώνας;"
+    },
+    "a": [
+      {
+        "en": "100",
+        "el": "100"
+      },
+      {
+        "en": "10",
+        "el": "10"
+      },
+      {
+        "en": "50",
+        "el": "50"
+      },
+      {
+        "en": "1,000",
+        "el": "1.000"
+      }
+    ],
+    "fact": {
+      "en": "Ten years make a decade, and 1,000 years make a millennium.",
+      "el": "Δέκα χρόνια κάνουν μια δεκαετία και 1.000 χρόνια μια χιλιετία."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "What do we call a word that reads the same forwards and backwards, like 'level'?",
+      "el": "Πώς λέμε μια λέξη ή φράση που διαβάζεται ίδια από την αρχή και από το τέλος;"
+    },
+    "a": [
+      {
+        "en": "A palindrome",
+        "el": "Καρκινική (παλίνδρομη)"
+      },
+      {
+        "en": "A rhyme",
+        "el": "Ομοιοκαταληξία"
+      },
+      {
+        "en": "A riddle",
+        "el": "Αίνιγμα"
+      },
+      {
+        "en": "A tongue twister",
+        "el": "Γλωσσοδέτης"
+      }
+    ],
+    "fact": {
+      "en": "Numbers can be palindromes too, like 1221.",
+      "el": "Και οι αριθμοί μπορεί να είναι καρκινικοί, όπως το 1221."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "How many zeros are there in one million?",
+      "el": "Πόσα μηδενικά έχει το ένα εκατομμύριο;"
+    },
+    "a": [
+      {
+        "en": "6",
+        "el": "6"
+      },
+      {
+        "en": "3",
+        "el": "3"
+      },
+      {
+        "en": "9",
+        "el": "9"
+      },
+      {
+        "en": "12",
+        "el": "12"
+      }
+    ],
+    "fact": {
+      "en": "One million is written 1,000,000.",
+      "el": "Το ένα εκατομμύριο γράφεται 1.000.000."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "Which sea animal has no bones and no brain, and looks like a see-through umbrella?",
+      "el": "Ποιο θαλάσσιο ζώο δεν έχει κόκαλα ούτε εγκέφαλο και μοιάζει με διάφανη ομπρέλα;"
+    },
+    "a": [
+      {
+        "en": "The jellyfish",
+        "el": "Η μέδουσα (τσούχτρα)"
+      },
+      {
+        "en": "The octopus",
+        "el": "Το χταπόδι"
+      },
+      {
+        "en": "The seahorse",
+        "el": "Ο ιππόκαμπος"
+      },
+      {
+        "en": "The crab",
+        "el": "Ο κάβουρας"
+      }
+    ],
+    "fact": {
+      "en": "Jellyfish have lived in the oceans for longer than the dinosaurs.",
+      "el": "Οι μέδουσες ζουν στους ωκεανούς από πολύ πριν εμφανιστούν οι δεινόσαυροι."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "Which bird is the fastest animal on Earth when it dives?",
+      "el": "Ποιο πουλί είναι το πιο γρήγορο ζώο της Γης όταν βουτάει προς τα κάτω;"
+    },
+    "a": [
+      {
+        "en": "The peregrine falcon",
+        "el": "Ο πετρίτης"
+      },
+      {
+        "en": "The ostrich",
+        "el": "Η στρουθοκάμηλος"
+      },
+      {
+        "en": "The pigeon",
+        "el": "Το περιστέρι"
+      },
+      {
+        "en": "The parrot",
+        "el": "Ο παπαγάλος"
+      }
+    ],
+    "fact": {
+      "en": "A diving peregrine falcon can go faster than 300 km per hour.",
+      "el": "Ο πετρίτης, όταν βουτάει, μπορεί να ξεπεράσει τα 300 χιλιόμετρα την ώρα."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "Which white bird is a symbol of peace?",
+      "el": "Ποιο άσπρο πουλί είναι σύμβολο της ειρήνης;"
+    },
+    "a": [
+      {
+        "en": "The dove",
+        "el": "Το περιστέρι"
+      },
+      {
+        "en": "The swan",
+        "el": "Ο κύκνος"
+      },
+      {
+        "en": "The seagull",
+        "el": "Ο γλάρος"
+      },
+      {
+        "en": "The stork",
+        "el": "Ο πελαργός"
+      }
+    ],
+    "fact": {
+      "en": "The dove of peace is often shown carrying an olive branch.",
+      "el": "Το περιστέρι της ειρήνης συχνά απεικονίζεται να κρατά ένα κλαδί ελιάς."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "Which magical creature is the national animal of Scotland?",
+      "el": "Ποιο μαγικό πλάσμα είναι το εθνικό ζώο της Σκωτίας;"
+    },
+    "a": [
+      {
+        "en": "The unicorn",
+        "el": "Ο μονόκερος"
+      },
+      {
+        "en": "The dragon",
+        "el": "Ο δράκος"
+      },
+      {
+        "en": "The phoenix",
+        "el": "Ο φοίνικας"
+      },
+      {
+        "en": "The griffin",
+        "el": "Ο γρύπας"
+      }
+    ],
+    "fact": {
+      "en": "The unicorn has been a symbol of Scotland for hundreds of years.",
+      "el": "Ο μονόκερος είναι σύμβολο της Σκωτίας εδώ και εκατοντάδες χρόνια."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "What colour is a polar bear's skin under its fur?",
+      "el": "Τι χρώμα έχει το δέρμα της πολικής αρκούδας κάτω από τη γούνα της;"
+    },
+    "a": [
+      {
+        "en": "Black",
+        "el": "Μαύρο"
+      },
+      {
+        "en": "White",
+        "el": "Άσπρο"
+      },
+      {
+        "en": "Pink",
+        "el": "Ροζ"
+      },
+      {
+        "en": "Blue",
+        "el": "Μπλε"
+      }
+    ],
+    "fact": {
+      "en": "Dark skin helps the polar bear soak up warmth from the Sun.",
+      "el": "Το σκούρο δέρμα βοηθά την πολική αρκούδα να απορροφά τη ζέστη του Ήλιου."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "What is the home of a colony of honeybees called?",
+      "el": "Πώς λέγεται το σπίτι μιας κοινότητας από μέλισσες;"
+    },
+    "a": [
+      {
+        "en": "A hive",
+        "el": "Κυψέλη"
+      },
+      {
+        "en": "A den",
+        "el": "Φωλιά αλεπούς"
+      },
+      {
+        "en": "A stable",
+        "el": "Στάβλος"
+      },
+      {
+        "en": "A burrow",
+        "el": "Λαγούμι"
+      }
+    ],
+    "fact": {
+      "en": "A single hive can be home to tens of thousands of bees.",
+      "el": "Μία μόνο κυψέλη μπορεί να φιλοξενεί δεκάδες χιλιάδες μέλισσες."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "What is a male chicken called?",
+      "el": "Πώς λέγεται το αρσενικό της κότας;"
+    },
+    "a": [
+      {
+        "en": "A rooster",
+        "el": "Κόκορας"
+      },
+      {
+        "en": "A hen",
+        "el": "Κότα"
+      },
+      {
+        "en": "A chick",
+        "el": "Κοτοπουλάκι"
+      },
+      {
+        "en": "A turkey",
+        "el": "Γαλοπούλα"
+      }
+    ],
+    "fact": {
+      "en": "Roosters often crow early in the morning, but they can crow at any time of day.",
+      "el": "Οι κόκορες λαλούν συνήθως νωρίς το πρωί, αλλά μπορούν να λαλήσουν οποιαδήποτε ώρα της μέρας."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "Which toy goes up and down on a string?",
+      "el": "Ποιο παιχνίδι ανεβοκατεβαίνει σε ένα σκοινάκι;"
+    },
+    "a": [
+      {
+        "en": "A yo-yo",
+        "el": "Το γιο-γιο"
+      },
+      {
+        "en": "A kite",
+        "el": "Ο χαρταετός"
+      },
+      {
+        "en": "A spinning top",
+        "el": "Η σβούρα"
+      },
+      {
+        "en": "A skipping rope",
+        "el": "Το σκοινάκι"
+      }
+    ],
+    "fact": {
+      "en": "In 1985, a yo-yo was taken into space on the Space Shuttle.",
+      "el": "Το 1985 ένα γιο-γιο ταξίδεψε στο διάστημα με το διαστημικό λεωφορείο."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "How many arms do most starfish have?",
+      "el": "Πόσα χέρια έχουν οι περισσότεροι αστερίες;"
+    },
+    "a": [
+      {
+        "en": "5",
+        "el": "5"
+      },
+      {
+        "en": "4",
+        "el": "4"
+      },
+      {
+        "en": "6",
+        "el": "6"
+      },
+      {
+        "en": "8",
+        "el": "8"
+      }
+    ],
+    "fact": {
+      "en": "If a starfish loses an arm, it can grow a new one.",
+      "el": "Αν ένας αστερίας χάσει ένα χέρι, μπορεί να του φυτρώσει καινούργιο."
+    }
+  },
+  {
+    "cat": "fun",
+    "q": {
+      "en": "Which animal is called 'the ship of the desert'?",
+      "el": "Ποιο ζώο λέγεται «το πλοίο της ερήμου»;"
+    },
+    "a": [
+      {
+        "en": "The camel",
+        "el": "Η καμήλα"
+      },
+      {
+        "en": "The horse",
+        "el": "Το άλογο"
+      },
+      {
+        "en": "The elephant",
+        "el": "Ο ελέφαντας"
+      },
+      {
+        "en": "The donkey",
+        "el": "Το γαϊδούρι"
+      }
+    ],
+    "fact": {
+      "en": "A camel's hump stores fat, not water.",
+      "el": "Η καμπούρα της καμήλας αποθηκεύει λίπος, όχι νερό."
+    }
+  }
+]

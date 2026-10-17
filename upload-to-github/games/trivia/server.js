@@ -59,14 +59,14 @@ module.exports = function mountTrivia(app, io) {
       reply(cb, { code: g.game.code, state: g.game.view() });
     });
 
-    socket.on('host:do', ({ type, settings, playerId, extra } = {}, cb) => {
+    socket.on('host:do', ({ type, settings, playerId, extra, seen } = {}, cb) => {
       const { code, host } = socket.data;
       const g = games.get(code);
       if (!host || !g) return reply(cb, { error: 'err.nothost' });
       const q = g.game;
       let err = null;
       if (type === 'settings') err = q.setSettings(settings);
-      else if (type === 'start') err = q.setSettings(settings) || q.start();
+      else if (type === 'start') { q.setSeen(seen); err = q.setSettings(settings) || q.start(); }
       else if (type === 'lobby') q.backToLobby();
       else if (type === 'kick') q.removePlayer(playerId);
       else err = q.admin(type, extra || {}); // move, reshuffle, rename, captain, points, wedge, override, skip, extend, pause, end

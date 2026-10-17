@@ -135,6 +135,30 @@ for (let g = 0; g < 200; g++) {
   fixed.setSettings({ mode: 'teams', decide: 'captain' }); fixed.start();
   assert.strictEqual(fixed.setStyle('p0', 'vote'), 'err.notNow', 'players changed style when the host fixed it');
 }
+// the wheel can land on a colour the team already has
+{
+  let owned = 0, spins = 0;
+  for (let g = 0; g < 20; g++) {
+    const tv = new Trivia('W' + g, () => {}, { ...clock, questions: fake });
+    tv.join('a', 'A', '🦄'); tv.setSettings({ mode: 'solo', wedges: 6 }); tv.start();
+    for (let i = 0; i < 200 && tv.phase !== 'final'; i++) {
+      if (tv.phase === 'spin' && tv.spin.result !== 'free') { spins++; if (tv.turnTeam.wedges.includes(tv.spin.result)) owned++; }
+      if (tv.phase === 'choose') tv.choose('a', tv.missing(tv.turnTeam)[0]);
+      if (tv.phase === 'question') tv.finalAnswer('a', tv.question.correct);
+      tick(10000);
+    }
+  }
+  assert(owned > spins * 0.2, `wheel never lands on owned colours (${owned}/${spins})`);
+}
+// a new game prefers questions the big screen has not shown before
+{
+  const geo = fake['greece-kids-geo'].map((q) => ({ ...q, id: 'mem-' + q.id })); // ids no earlier test game has used
+  const tv = new Trivia('S', () => {}, { ...clock, questions: { 'greece-kids-geo': geo } });
+  tv.setSeen(geo.slice(0, 4).map((q, i) => [q.id, i + 1]));
+  for (let i = 0; i < 5; i++) assert.strictEqual(tv.pickQuestion('geo').id, geo[4].id, 'picked a question shown in an earlier game');
+  tv.setSeen(geo.map((q, i) => [q.id, 100 + i])); // all seen: take the oldest
+  for (let i = 0; i < 10; i++) assert([geo[0].id, geo[1].id].includes(tv.pickQuestion('geo').id), 'did not take one of the oldest when all were seen');
+}
 // the real question files: well formed, both languages, 4 distinct answers
 const real = loadBank(path.join(__dirname, '..', 'games', 'trivia', 'questions'));
 let realCount = 0;
@@ -153,4 +177,4 @@ for (const [key, list] of Object.entries(real)) {
     texts.add(key + q.q.en.toLowerCase());
   }
 }
-console.log(`OK — ${games} trivia games (captain, majority-vote and each-team-chooses), ${wedgesWon} wedges won, ${steals} steals, ${overrides} admin overrides, ${moves} player moves; pause/extend/skip work; ${realCount} real questions checked.`);
+console.log(`OK — ${games} trivia games (captain, majority-vote and each-team-chooses), ${wedgesWon} wedges won, ${steals} steals, ${overrides} admin overrides, ${moves} player moves; pause/extend/skip work; wheel lands on any colour; earlier games' questions avoided; ${realCount} real questions checked.`);

@@ -20,7 +20,7 @@ let BANK = null;
 function loadBank(dir = path.join(__dirname, 'questions')) {
   const bank = {};
   for (const f of fs.existsSync(dir) ? fs.readdirSync(dir) : []) {
-    const m = f.match(/^(greece|world)-(kids|adults)-[ab]\.json$/);
+    const m = f.match(/^(greece|world)-(kids|adults)-[a-z]\.json$/);
     if (!m) continue;
     const list = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
     list.forEach((q, i) => {
@@ -31,6 +31,8 @@ function loadBank(dir = path.join(__dirname, 'questions')) {
   }
   return bank;
 }
+// questions asked recently on this server (id -> time), so new games avoid them
+const RECENT = new Map();
 function bank() { if (!BANK) BANK = loadBank(); return BANK; }
 
 class Trivia {
@@ -43,6 +45,7 @@ class Trivia {
     this.settings = { audience: 'greece', level: 'kids', mode: 'teams', teamCount: 2, wedges: 6, timer: 30, steal: true, decide: 'captain', lang: 'en' };
     this.events = []; this.evSeq = 0;
     this.used = new Set();
+    this.seen = new Map(); // id -> time, sent by the big screen from earlier games
     this.history = [];
     this.timer = null; this.phaseEnds = 0; this.paused = null;
     this.voteSeq = 0;
@@ -157,6 +160,11 @@ class Trivia {
     return null;
   }
 
+  setSeen(list) {
+    this.seen = new Map();
+    if (Array.isArray(list)) list.slice(-5000).forEach((x, i) => { if (Array.isArray(x) && typeof x[0] === 'string') this.seen.set(x[0], Number(x[1]) || i); });
+  }
+
   missing(team) { return CATS.filter((c) => !team.wedges.includes(c)); }
 
   beginTurn() {
@@ -168,10 +176,11 @@ class Trivia {
     team.captain = pool[team.capIdx] || team.members[0];
     for (const t of this.teams) { t.votes = {}; t.voteAt = {}; t.final = null; }
     this.turnPick = null; this.stealers = []; this.result = null; this.question = null;
+    // the wheel can land on any colour (one you already have still scores points); a free spin lets you pick a missing one
     const miss = this.missing(team);
     const cats = miss.length ? miss : CATS;
     const free = this.rng() < 1 / 7;
-    this.spin = { result: free ? 'free' : cats[Math.floor(this.rng() * cats.length)], seq: (this.spin ? this.spin.seq : 0) + 1 };
+    this.spin = { result: free ? 'free' : CATS[Math.floor(this.rng() * CATS.length)], seq: (this.spin ? this.spin.seq : 0) + 1 };
     this.setPhase('spin', MS.spin, () => (free ? this.setPhase('choose', MS.choose, () => this.choose(team.captain, cats[Math.floor(this.rng() * cats.length)], true)) : this.ask(this.spin.result)));
   }
 
@@ -191,13 +200,20 @@ class Trivia {
     if (!list.length) list = Object.entries(this.bank).filter(([k]) => k.endsWith('-' + cat)).flatMap(([, v]) => v);
     let fresh = list.filter((q) => !this.used.has(q.id));
     if (!fresh.length) { for (const q of list) this.used.delete(q.id); fresh = list; } // ran out: allow repeats
-    return fresh[Math.floor(this.rng() * fresh.length)];
+    // prefer questions not asked in earlier games (this big screen's history + this server's memory)
+    const never = fresh.filter((q) => !this.seen.has(q.id) && !RECENT.has(q.id));
+    if (never.length) return never[Math.floor(this.rng() * never.length)];
+    const last = (q) => Math.max(this.seen.has(q.id) ? this.seen.get(q.id) : -1, RECENT.has(q.id) ? RECENT.get(q.id) : -1);
+    const oldest = [...fresh].sort((x, y) => last(x) - last(y)).slice(0, Math.max(1, Math.ceil(fresh.length / 4)));
+    return oldest[Math.floor(this.rng() * oldest.length)];
   }
 
   ask(cat) {
     const q = this.pickQuestion(cat);
     if (!q) { this.event('noQuestions'); this.nextTurn(); return; }
     this.used.add(q.id);
+    RECENT.delete(q.id); RECENT.set(q.id, Date.now());
+    if (RECENT.size > 5000) RECENT.delete(RECENT.keys().next().value);
     const order = this.shuffle([0, 1, 2, 3]);
     this.question = { id: q.id, cat, q: q.q, a: order.map((i) => q.a[i]), correct: order.indexOf(0), fact: q.fact };
     for (const t of this.teams) { t.votes = {}; t.voteAt = {}; t.final = null; }
@@ -451,7 +467,7 @@ class Trivia {
       turnTeam: this.turnTeam ? this.turnTeam.id : null,
       spin: this.spin || null,
       chooseCats: this.phase === 'choose' ? this.missing(this.turnTeam) : null,
-      question: q && this.phase !== 'spin' && this.phase !== 'choose' ? { cat: q.cat, q: q.q, a: q.a, correct: showAnswer ? q.correct : undefined, fact: showAnswer ? q.fact : undefined } : null,
+      question: q && this.phase !== 'spin' && this.phase !== 'choose' ? { id: q.id, cat: q.cat, q: q.q, a: q.a, correct: showAnswer ? q.correct : undefined, fact: showAnswer ? q.fact : undefined } : null,
       turnPick: this.phase === 'steal' || showAnswer ? this.turnPick : null,
       stealers: this.phase === 'steal' ? this.stealers : [],
       result: showAnswer ? this.result : null,

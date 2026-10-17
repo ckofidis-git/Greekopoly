@@ -80,7 +80,16 @@ $('#lobby').addEventListener('click', (e) => {
   else if (d.decide) sendSettings({ decide: d.decide });
   else if (d.lang) setLang(d.lang);
 });
-$('#startBtn').onclick = () => { beep([523, 659, 784, 1046], 0.1); socket.emit('host:do', { type: 'start', settings: S.settings }, (r) => r && r.error && toast(t(r.error))); };
+// questions this big screen has already shown, so the next games pick new ones first
+const SEEN_KEY = 'tp_seen';
+function loadSeen() { try { return JSON.parse(localStorage.getItem(SEEN_KEY)) || []; } catch (e) { return []; } }
+function rememberQuestion(id) {
+  if (!id) return;
+  const list = loadSeen().filter((x) => x[0] !== id);
+  list.push([id, Date.now()]);
+  try { localStorage.setItem(SEEN_KEY, JSON.stringify(list.slice(-5000))); } catch (e) {}
+}
+$('#startBtn').onclick = () => { beep([523, 659, 784, 1046], 0.1); socket.emit('host:do', { type: 'start', settings: S.settings, seen: loadSeen() }, (r) => r && r.error && toast(t(r.error))); };
 $('#newBtn').onclick = () => askConfirm(t('newCodeQ'), t('newCodeYes'), () => { localStorage.removeItem('tp_host'); create(); });
 
 // ---------- stage ----------
@@ -130,7 +139,7 @@ function renderStage() {
       if (w) w.style.transform = `rotate(${wheelTurns * 360 - (idx + 0.5) * seg}deg)`;
     }));
     beep([300, 400, 500, 600, 700, 800], 0.18);
-    setTimeout(() => { const l = $('#landed'); if (l && S.phase === 'spin') { l.textContent = t('cat.' + S.spin.result); beep([784, 1046], 0.1); } }, 3700);
+    setTimeout(() => { const l = $('#landed'); if (l && S.phase === 'spin') { l.innerHTML = t('cat.' + S.spin.result) + (tt && tt.wedges.includes(S.spin.result) ? `<div style="font-size:.55em">${t('havePlayPoints')}</div>` : ''); beep([784, 1046], 0.1); } }, 3700);
   } else if (S.phase === 'choose') {
     if (!fresh) return;
     const cap = tt && P(tt.captain);
@@ -138,6 +147,7 @@ function renderStage() {
       <div class="row wrap" style="justify-content:center">${S.chooseCats.map((c) => `<span class="catbadge" style="background:${CAT_COLOR[c]}">${t('cat.' + c)}</span>`).join('')}</div>`;
   } else if (S.phase === 'question' || S.phase === 'steal' || S.phase === 'reveal') {
     const q = S.question;
+    if (fresh && q) rememberQuestion(q.id);
     if (fresh) {
       st.innerHTML = `${turnLine()}<div class="qbox"><span class="catbadge" style="background:${CAT_COLOR[q.cat]}">${t('cat.' + q.cat)}</span>
         <div class="qq">${esc(loc(q.q))}</div>${answersHTML()}<div class="timer" id="bar"><i></i></div></div>
