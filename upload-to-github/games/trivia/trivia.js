@@ -40,11 +40,12 @@ class Trivia {
     this.phase = 'lobby'; // lobby | spin | choose | question | steal | reveal | final
     this.players = [];
     this.teams = [];
-    this.settings = { audience: 'greece', level: 'kids', mode: 'teams', teamCount: 2, wedges: 6, timer: 30, steal: true, lang: 'en' };
+    this.settings = { audience: 'greece', level: 'kids', mode: 'teams', teamCount: 2, wedges: 6, timer: 30, steal: true, decide: 'captain', lang: 'en' };
     this.events = []; this.evSeq = 0;
     this.used = new Set();
     this.history = [];
     this.timer = null; this.phaseEnds = 0; this.paused = null;
+    this.voteSeq = 0;
   }
 
   P(id) { return this.players.find((p) => p.id === id); }
@@ -83,7 +84,9 @@ class Trivia {
       key: soloPlayer ? null : kind.key, emoji: soloPlayer ? soloPlayer.avatar : kind.emoji,
       color: soloPlayer ? SOLO_COLORS[i % SOLO_COLORS.length] : kind.color,
       name: soloPlayer ? soloPlayer.name : null, solo: !!soloPlayer,
-      members, captain: members[0] || null, capIdx: -1, wedges: [], points: 0, votes: {}, final: null,
+      members, captain: members[0] || null, capIdx: -1, wedges: [], points: 0, votes: {}, voteAt: {}, final: null,
+      // how this team settles its answer: 'captain' (rotating captain decides) or 'vote' (most votes wins)
+      style: this.settings.decide === 'vote' ? 'vote' : 'captain',
     };
   }
 
@@ -129,6 +132,7 @@ class Trivia {
     if ([3, 4, 6].includes(Number(s.wedges))) st.wedges = Number(s.wedges);
     if ([20, 30, 45].includes(Number(s.timer))) st.timer = Number(s.timer);
     if (typeof s.steal === 'boolean') st.steal = s.steal;
+    if (['captain', 'vote', 'team'].includes(s.decide)) st.decide = s.decide;
     return null;
   }
 
@@ -162,7 +166,7 @@ class Trivia {
     const pool = here.length ? here : team.members;
     team.capIdx = (team.capIdx + 1) % pool.length;
     team.captain = pool[team.capIdx] || team.members[0];
-    for (const t of this.teams) { t.votes = {}; t.final = null; }
+    for (const t of this.teams) { t.votes = {}; t.voteAt = {}; t.final = null; }
     this.turnPick = null; this.stealers = []; this.result = null; this.question = null;
     const miss = this.missing(team);
     const cats = miss.length ? miss : CATS;
@@ -174,7 +178,8 @@ class Trivia {
   choose(pid, cat, auto = false) {
     if (this.phase !== 'choose') return 'err.notNow';
     const team = this.turnTeam;
-    if (!auto && team.captain !== pid) return 'err.captainOnly';
+    // with a captain only the captain picks; in a voting team anyone in the team may pick
+    if (!auto && (team.style === 'captain' ? team.captain !== pid : !team.members.includes(pid))) return 'err.captainOnly';
     if (!CATS.includes(cat)) return 'err.notNow';
     this.ask(cat);
     return null;
@@ -195,12 +200,13 @@ class Trivia {
     this.used.add(q.id);
     const order = this.shuffle([0, 1, 2, 3]);
     this.question = { id: q.id, cat, q: q.q, a: order.map((i) => q.a[i]), correct: order.indexOf(0), fact: q.fact };
-    for (const t of this.teams) { t.votes = {}; t.final = null; }
+    for (const t of this.teams) { t.votes = {}; t.voteAt = {}; t.final = null; }
     this.setPhase('question', this.settings.timer * 1000, () => this.lockTurn());
   }
 
   // ---------- answering ----------
-  // Team members vote; the captain's "final answer" counts. On timeout: captain's vote, else the most votes.
+  // Team members vote. Captain teams: the captain's "final answer" counts (on timeout: the captain's vote, else the most votes).
+  // Voting teams: the answer locks once everyone here has voted, and the most votes wins (a tie goes to the answer that got there first).
   vote(pid, idx) {
     const t = this.teamOf(pid);
     idx = Number(idx);
@@ -209,7 +215,30 @@ class Trivia {
     if (t.final !== null) return 'err.locked';
     if (this.phase === 'steal' && idx === this.turnPick) return 'err.alreadyWrong';
     t.votes[pid] = idx;
+    t.voteAt = t.voteAt || {};
+    t.voteAt[pid] = ++this.voteSeq;
     if (t.members.length === 1) return this.finalAnswer(pid, idx); // solo: a tap is the answer
+    if (t.style === 'vote') {
+      const here = t.members.filter((m) => { const p = this.P(m); return p && p.connected; });
+      if (here.length && here.every((m) => m in t.votes)) this.settle(t, this.teamChoice(t));
+    }
+    return null;
+  }
+
+  // Lock a team's answer and move the game on.
+  settle(t, idx) {
+    t.final = idx;
+    if (this.phase === 'question') this.lockTurn();
+    else if (this.stealers.every((id) => this.T(id).final !== null)) this.lockSteal();
+  }
+
+  // Each team chooses its style (when the host allowed it), between questions only.
+  setStyle(pid, style, byHost = false) {
+    const t = byHost ? this.T(pid) : this.teamOf(pid);
+    if (!t || !['captain', 'vote'].includes(style) || t.solo) return 'err.notNow';
+    if (!byHost && this.settings.decide !== 'team') return 'err.notNow';
+    if (this.canAnswer(t) && t.final === null) return 'err.styleLocked';
+    t.style = style;
     return null;
   }
 
@@ -223,24 +252,26 @@ class Trivia {
     const t = this.teamOf(pid);
     idx = Number(idx);
     if (!t || !this.canAnswer(t)) return 'err.notYourTeam';
-    if (t.captain !== pid && t.members.length > 1) return 'err.captainOnly';
+    if (t.members.length > 1 && (t.style !== 'captain' || t.captain !== pid)) return 'err.captainOnly';
     if (t.final !== null) return 'err.locked';
     if (!(idx >= 0 && idx < 4)) return 'err.notNow';
     if (this.phase === 'steal' && idx === this.turnPick) return 'err.alreadyWrong';
-    t.final = idx;
     t.votes[pid] = idx;
-    if (this.phase === 'question') this.lockTurn();
-    else if (this.stealers.every((id) => this.T(id).final !== null)) this.lockSteal();
+    this.settle(t, idx);
     return null;
   }
 
   teamChoice(t) {
     if (t.final !== null) return t.final;
-    if (t.captain in t.votes) return t.votes[t.captain];
+    if (t.style === 'captain' && t.captain in t.votes) return t.votes[t.captain];
     const tally = [0, 0, 0, 0];
     for (const v of Object.values(t.votes)) tally[v]++;
     const best = Math.max(...tally);
-    return best ? tally.indexOf(best) : null;
+    if (!best) return null;
+    // tie: the answer whose deciding vote came first
+    const at = t.voteAt || {};
+    const reached = (i) => Object.entries(t.votes).filter(([, v]) => v === i).map(([pid]) => at[pid] || 0).sort((a, b) => a - b)[best - 1];
+    return [0, 1, 2, 3].filter((i) => tally[i] === best).sort((a, b) => reached(a) - reached(b))[0];
   }
 
   lockTurn() {
@@ -252,7 +283,7 @@ class Trivia {
     if (right) this.award(t, q.cat);
     if (!right && this.settings.steal && this.teams.length > 1) {
       this.stealers = this.teams.filter((x) => x !== t).map((x) => x.id);
-      for (const id of this.stealers) { const s = this.T(id); s.votes = {}; s.final = null; }
+      for (const id of this.stealers) { const s = this.T(id); s.votes = {}; s.voteAt = {}; s.final = null; }
       this.setPhase('steal', MS.steal, () => this.lockSteal());
     } else this.reveal();
   }
@@ -337,6 +368,7 @@ class Trivia {
         if (!t) return 'err.notNow';
         t.name = String(a.name || '').trim().slice(0, 18) || null;
         return null;
+      case 'style': return this.setStyle(a.teamId, a.style, true);
       case 'captain':
         if (!t || !t.members.includes(a.playerId)) return 'err.notNow';
         t.captain = a.playerId;
@@ -414,7 +446,7 @@ class Trivia {
       players: this.players.map((p) => ({ id: p.id, name: p.name, avatar: p.avatar, connected: p.connected, team: (this.teamOf(p.id) || {}).id || null })),
       teams: this.teams.map((t) => ({
         id: t.id, key: t.key, emoji: t.emoji, color: t.color, name: t.name, solo: t.solo, members: t.members, captain: t.captain,
-        wedges: t.wedges, points: t.points, answered: t.final !== null && t.final !== undefined, voters: t.votes ? Object.keys(t.votes).length : 0,
+        style: t.style, wedges: t.wedges, points: t.points, answered: t.final !== null && t.final !== undefined, voters: t.votes ? Object.keys(t.votes).length : 0,
       })),
       turnTeam: this.turnTeam ? this.turnTeam.id : null,
       spin: this.spin || null,

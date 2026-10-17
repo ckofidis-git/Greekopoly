@@ -94,7 +94,7 @@ module.exports = function mountTrivia(app, io) {
     });
 
     // Players: vote (any team member), final (the captain), choose (captain picks the category on a free spin)
-    socket.on('act', ({ type, idx, cat } = {}, cb) => {
+    socket.on('act', ({ type, idx, cat, style } = {}, cb) => {
       const { code, playerId } = socket.data;
       const g = games.get(code);
       if (!g || !playerId) return reply(cb, { error: 'err.rejoin' });
@@ -102,6 +102,7 @@ module.exports = function mountTrivia(app, io) {
       const err = type === 'vote' ? tv.vote(playerId, idx)
         : type === 'final' ? tv.finalAnswer(playerId, idx)
         : type === 'choose' ? tv.choose(playerId, cat)
+        : type === 'style' ? tv.setStyle(playerId, style)
         : 'err.notNow';
       reply(cb, { error: err || null });
       broadcast(code);

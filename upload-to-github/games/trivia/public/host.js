@@ -58,6 +58,8 @@ function renderLobby() {
   $('#wedges').innerHTML = [3, 4, 6].map((n) => opt('wedges', n, st.wedges === n, t('w' + n))).join('');
   $('#timer').innerHTML = [20, 30, 45].map((n) => opt('timer', n, st.timer === n, t('secs', { n }))).join('');
   $('#steal').innerHTML = opt('steal', 1, st.steal, t('on')) + opt('steal', 0, !st.steal, t('off'));
+  $('#decideBox').classList.toggle('hidden', st.mode !== 'teams');
+  $('#decide').innerHTML = opt('decide', 'captain', st.decide === 'captain', t('decCaptain')) + opt('decide', 'vote', st.decide === 'vote', t('decVote')) + opt('decide', 'team', st.decide === 'team', t('decTeam'));
   for (const b of $('#langPick').children) b.classList.toggle('sel', b.dataset.lang === LANG);
   $('#startBtn').disabled = !S.players.length;
   $('#startBtn').textContent = S.players.length ? t('start', { n: S.players.length }) : t('waitingPlayers');
@@ -75,6 +77,7 @@ $('#lobby').addEventListener('click', (e) => {
   else if (d.wedges) sendSettings({ wedges: Number(d.wedges) });
   else if (d.timer) sendSettings({ timer: Number(d.timer) });
   else if (d.steal !== undefined) sendSettings({ steal: d.steal === '1' });
+  else if (d.decide) sendSettings({ decide: d.decide });
   else if (d.lang) setLang(d.lang);
 });
 $('#startBtn').onclick = () => { beep([523, 659, 784, 1046], 0.1); socket.emit('host:do', { type: 'start', settings: S.settings }, (r) => r && r.error && toast(t(r.error))); };
@@ -98,7 +101,7 @@ function turnLine() {
   const tt = TM(S.turnTeam);
   if (!tt) return '';
   const cap = P(tt.captain);
-  return `<div class="turnline">${pieHTML(tt, 56)}<span>${t('turnOf', { team: tlabel(tt) })}</span>${!tt.solo && cap ? `<span style="font-size:.7em;opacity:.9">${t('captainIs', { who: `${cap.avatar} ${esc(cap.name)}` })}</span>` : ''}</div>`;
+  return `<div class="turnline">${pieHTML(tt, 56)}<span>${t('turnOf', { team: tlabel(tt) })}</span>${tt.solo ? '' : tt.style === 'vote' ? `<span style="font-size:.7em;opacity:.9">${t('teamVoteTag')}</span>` : cap ? `<span style="font-size:.7em;opacity:.9">${t('captainIs', { who: `${cap.avatar} ${esc(cap.name)}` })}</span>` : ''}</div>`;
 }
 
 function answersHTML() {
@@ -168,7 +171,7 @@ function renderStage() {
 function renderTeams() {
   $('#teams').innerHTML = S.teams.map((tm) => `<div class="tcard ${tm.id === S.turnTeam ? 'turn' : ''}" style="--tc:${tm.color}">${pieHTML(tm, 52)}
     <div style="min-width:0"><div class="nm">${tlabel(tm)}</div>
-      ${tm.solo ? '' : `<div class="mem">${tm.members.map((id) => { const p = P(id); return p ? `<span title="${esc(p.name)}">${tm.captain === id ? '👑' : ''}${p.avatar}</span>` : ''; }).join('')}</div>`}</div>
+      ${tm.solo ? '' : `<div class="mem">${tm.members.map((id) => { const p = P(id); return p ? `<span title="${esc(p.name)}">${tm.style === 'captain' && tm.captain === id ? '👑' : ''}${p.avatar}</span>` : ''; }).join('')}${tm.style === 'vote' ? ' 🗳️' : ''}</div>`}</div>
     <div class="pts">${t('pointsShort', { n: tm.points })}</div></div>`).join('');
   $('#events').innerHTML = S.events.slice().reverse().map((e) => {
     const p = { ...e.p };
@@ -191,8 +194,9 @@ function renderAdmin() {
       <div class="row">${pieHTML(tm, 70, true)}<div class="grow"><b>${tlabel(tm)}</b><br>${t('pointsShort', { n: tm.points })}</div>
         <button class="btn-soft" data-pts="-10" data-team="${tm.id}">−10</button><button class="btn-soft" data-pts="10" data-team="${tm.id}">+10</button>
         <button class="btn-soft" data-rename="${tm.id}">${t('rename')}</button></div>
-      ${tm.members.map((id) => { const p = P(id); if (!p) return ''; return `<div class="pm">${p.avatar} ${esc(p.name)} ${tm.captain === id ? '👑' : ''}<span class="grow"></span>
-        ${!tm.solo && tm.captain !== id ? `<button class="btn-soft" data-cap="${id}" data-team="${tm.id}">${t('makeCaptain')}</button>` : ''}
+      ${tm.solo ? '' : `<div class="row" style="margin:6px 0"><button class="btn-soft ${tm.style === 'captain' ? 'on' : ''}" data-style="captain" data-team="${tm.id}">${t('styleCaptain')}</button><button class="btn-soft ${tm.style === 'vote' ? 'on' : ''}" data-style="vote" data-team="${tm.id}">${t('styleVote')}</button></div>`}
+      ${tm.members.map((id) => { const p = P(id); if (!p) return ''; return `<div class="pm">${p.avatar} ${esc(p.name)} ${tm.style === 'captain' && tm.captain === id ? '👑' : ''}<span class="grow"></span>
+        ${!tm.solo && tm.style === 'captain' && tm.captain !== id ? `<button class="btn-soft" data-cap="${id}" data-team="${tm.id}">${t('makeCaptain')}</button>` : ''}
         ${!tm.solo && others(tm).length ? `<select data-move="${id}"><option value="">${t('moveTo')}</option>${others(tm).map((o) => `<option value="${o.id}">${o.emoji} ${esc(teamName(o))}</option>`).join('')}</select>` : ''}
         <button class="btn-soft" data-kickp="${id}" title="${t('remove')}">✕</button></div>`; }).join('')}
     </div>`).join('')}`;
@@ -207,6 +211,7 @@ $('#adminPanel').addEventListener('click', (e) => {
   else if (d.pts) hostDo('points', { teamId: d.team, delta: Number(d.pts) });
   else if (d.cat) hostDo('wedge', { teamId: d.team, cat: d.cat });
   else if (d.cap) hostDo('captain', { teamId: d.team, playerId: d.cap });
+  else if (d.style) hostDo('style', { teamId: d.team, style: d.style });
   else if (d.kickp) hostDo('kick', {}, d.kickp);
   else if (d.rename) {
     const tm = TM(d.rename);

@@ -116,14 +116,14 @@ function render(state) {
   const turnBanner = tt ? `<div class="banner2 ${myTurn ? 'mine' : ''}">${myTurn ? t('yourTurn') + ' ' : ''}${t('turnOf', { team: tlabel(tt) })}</div>` : '';
 
   if (S.phase === 'spin') {
-    main.innerHTML = `${turnBanner}<div class="card"><div class="big-e">🎡</div><h2>${t('spinning')}</h2></div>`;
+    main.innerHTML = `${turnBanner}<div class="card"><div class="big-e">🎡</div><h2>${t('spinning')}</h2></div>${styleSwitch(mine)}`;
     return;
   }
   if (S.phase === 'choose') {
     const cap = tt && P(tt.captain);
-    main.innerHTML = turnBanner + (m.captain && myTurn
+    main.innerHTML = turnBanner + ((m.captain || (mine && mine.style === 'vote')) && myTurn
       ? `<div class="card"><h2>${t('pickCat')}</h2><div class="catpick">${S.chooseCats.map((c) => `<button data-cat="${c}" style="background:${CAT_COLOR[c]}">${t('cat.' + c)}</button>`).join('')}</div></div>`
-      : `<div class="card"><div class="big-e">🌈</div><h2>${t('cat.free')}</h2><div class="muted">${t('choosing', { who: cap ? `${cap.avatar} ${esc(cap.name)}` : '' })}</div></div>`);
+      : `<div class="card"><div class="big-e">🌈</div><h2>${t('cat.free')}</h2><div class="muted">${t('choosing', { who: tt && tt.style === 'vote' ? tlabel(tt) : cap ? `${cap.avatar} ${esc(cap.name)}` : '' })}</div></div>`);
     return;
   }
   const q = S.question;
@@ -138,6 +138,7 @@ function render(state) {
         <div class="qq">${esc(loc(q.q))}</div>${answersHTML(false)}</div>
       <div class="banner2 ${myRight ? 'mine' : ''}">${r.turnRight ? (r.wedge ? t('rightWedge', { team: tlabel(tt), cat: t('cat.' + r.wedge) }) : t('rightNoWedge', { team: tlabel(tt) })) : t('wrongT')}</div>
       <div class="fact"><b>${t('didYouKnow')}</b> ${esc(loc(q.fact))}</div>`;
+    main.insertAdjacentHTML('beforeend', styleSwitch(mine));
     if (myRight) { confetti(myTurn && r.wedge ? 50 : 20); beep([523, 659, 784, 1046], 0.09); navigator.vibrate && navigator.vibrate([60, 40, 60]); }
     return;
   }
@@ -145,13 +146,14 @@ function render(state) {
   shownReveal = '';
   const canAnswer = m.canAnswer;
   let hint;
-  if (canAnswer) hint = mine.solo ? t('soloHint') : m.captain ? `${t('youCaptain')}<br><span style="font-weight:500">${t('capHint')}</span>` : t('voteHint');
+  const voting = mine && mine.style === 'vote';
+  if (canAnswer) hint = mine.solo ? t('soloHint') : voting ? t('voteMajHint') : m.captain ? `${t('youCaptain')}<br><span style="font-weight:500">${t('capHint')}</span>` : t('voteHint');
   else if (m.teamFinal !== null && ((S.phase === 'question' && myTurn) || (S.phase === 'steal' && S.stealers.includes(m.team)))) hint = t('locked');
   else hint = S.phase === 'steal' ? t('stealTime') : (S.settings.steal ? t('watchingSteal', { team: tlabel(tt) }) : t('watching', { team: tlabel(tt) }));
-  if (S.phase === 'steal' && canAnswer) hint = `${t('stealNow')}<br><span style="font-weight:500">${mine.solo ? '' : m.captain ? t('capHint') : t('voteHint')}</span>`;
+  if (S.phase === 'steal' && canAnswer) hint = `${t('stealNow')}<br><span style="font-weight:500">${mine.solo ? '' : voting ? t('voteMajHint') : m.captain ? t('capHint') : t('voteHint')}</span>`;
   // the captain's final button: their own vote, or the team's favourite
   let finalBtn = '';
-  if (canAnswer && m.captain && !mine.solo) {
+  if (canAnswer && m.captain && !mine.solo && !voting) {
     const tally = [0, 1, 2, 3].map((i) => (m.teamVotes[i] || []).length);
     const pick = m.myVote !== null ? m.myVote : tally.some(Boolean) ? tally.indexOf(Math.max(...tally)) : null;
     if (pick !== null) finalBtn = `<button class="btn-pink huge" data-final="${pick}">${t('finalBtn', { a: `${LETTERS[pick]} — ${esc(loc(q.a[pick]))}` })}</button>`;
@@ -161,9 +163,18 @@ function render(state) {
     <div class="banner2 ${canAnswer ? 'mine' : ''}">${hint}</div>${finalBtn}`;
 }
 
+// When the host lets each team choose, team members can switch between questions.
+function styleSwitch(team) {
+  if (!team || team.solo || S.settings.decide !== 'team') return '';
+  return `<div class="panel center" style="margin-top:4px"><b>${t('teamStyleQ')}</b><div class="row" style="justify-content:center;margin-top:8px">
+    <button class="${team.style === 'captain' ? 'btn-pink' : 'btn-soft'}" data-style="captain">${t('styleCaptain')}</button>
+    <button class="${team.style === 'vote' ? 'btn-pink' : 'btn-soft'}" data-style="vote">${t('styleVote')}</button></div></div>`;
+}
+
 $('#main').addEventListener('click', (e) => {
   const b = e.target.closest('button');
   if (!b || !S) return;
+  if (b.dataset.style) { act('style', { style: b.dataset.style }); return; }
   if (b.dataset.cat) { act('choose', { cat: b.dataset.cat }); return; }
   if (b.dataset.final !== undefined) { act('final', { idx: Number(b.dataset.final) }); beep([523, 784], 0.07); return; }
   if (b.dataset.i !== undefined && !b.disabled) { act('vote', { idx: Number(b.dataset.i) }); beep([700], 0.05); }

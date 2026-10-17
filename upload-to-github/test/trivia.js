@@ -20,7 +20,7 @@ for (let g = 0; g < 200; g++) {
   const tv = new Trivia('T', () => {}, { ...clock, questions: fake });
   const n = 1 + (g % 11);
   for (let i = 0; i < n; i++) assert.strictEqual(tv.join('p' + i, 'Kid' + i, '🦄'), null);
-  tv.setSettings({ mode: g % 3 === 0 ? 'solo' : 'teams', teamCount: 2 + (g % 5), wedges: [3, 4, 6][g % 3], steal: g % 4 !== 0, audience: g % 2 ? 'world' : 'greece', level: g % 5 ? 'kids' : 'adults' });
+  tv.setSettings({ mode: g % 3 === 0 ? 'solo' : 'teams', teamCount: 2 + (g % 5), wedges: [3, 4, 6][g % 3], steal: g % 4 !== 0, audience: g % 2 ? 'world' : 'greece', level: g % 5 ? 'kids' : 'adults', decide: ['captain', 'vote', 'team'][g % 3] });
   assert.strictEqual(tv.start(), null);
   // every player is in exactly one team; team sizes differ by at most one
   const all = tv.teams.flatMap((t) => t.members);
@@ -33,6 +33,7 @@ for (let g = 0; g < 200; g++) {
     if (tv.phase === 'choose') {
       const cap = tv.turnTeam.captain;
       assert.strictEqual(tv.choose('nobody', CATS[0]), 'err.captainOnly');
+      if (tv.phase !== 'choose') continue;
       assert.strictEqual(tv.choose(cap, tv.missing(tv.turnTeam)[0] || CATS[0]), null);
     }
     if (tv.phase === 'question') {
@@ -43,8 +44,8 @@ for (let g = 0; g < 200; g++) {
       for (const m of t.members) if (tv.phase === 'question' && rng() < 0.8) tv.vote(m, rng() < 0.6 ? q.correct : (q.correct + 1) % 4);
       if (tv.phase === 'question' && t.members.length > 1) {
         const notCap = t.members.find((m) => m !== t.captain);
-        if (notCap) assert.strictEqual(tv.finalAnswer(notCap, 0), 'err.captainOnly');
-        if (rng() < 0.7) tv.finalAnswer(t.captain, rng() < 0.6 ? q.correct : (q.correct + 2) % 4);
+        if (notCap && tv.phase === 'question') assert.strictEqual(tv.finalAnswer(notCap, 0), 'err.captainOnly');
+        if (t.style === 'captain' && tv.phase === 'question' && rng() < 0.7) tv.finalAnswer(t.captain, rng() < 0.6 ? q.correct : (q.correct + 2) % 4);
       }
       const wedgesBefore = t.wedges.length, cat = q.cat;
       if (tv.phase === 'question') tick(tv.settings.timer * 1000 + 10);
@@ -56,7 +57,7 @@ for (let g = 0; g < 200; g++) {
       for (const id of tv.stealers) {
         const s = tv.T(id);
         if (tv.turnPick !== null) assert.strictEqual(tv.vote(s.captain, tv.turnPick), 'err.alreadyWrong');
-        if (tv.phase === 'steal' && s.final === null) tv.finalAnswer(s.captain, rng() < 0.5 ? q.correct : [0, 1, 2, 3].find((x) => x !== q.correct && x !== tv.turnPick));
+        if (tv.phase === 'steal' && s.final === null && s.style === 'captain') tv.finalAnswer(s.captain, rng() < 0.5 ? q.correct : [0, 1, 2, 3].find((x) => x !== q.correct && x !== tv.turnPick));
       }
       if (tv.phase === 'steal') tick(16000);
       steals += tv.result.stealRight.length;
@@ -96,6 +97,44 @@ for (let g = 0; g < 200; g++) {
   assert.strictEqual(tv.admin('skip'), null);
   assert.notStrictEqual(tv.question.id, qid, 'skip kept the same question');
 }
+// majority vote: locks when everyone has voted; most votes wins; a tie goes to the answer that got there first
+{
+  const tv = new Trivia('V', () => {}, { ...clock, questions: fake });
+  for (let i = 0; i < 6; i++) tv.join('p' + i, 'K' + i, '🦄');
+  tv.setSettings({ mode: 'teams', teamCount: 2, decide: 'vote', steal: false });
+  tv.start();
+  assert(tv.teams.every((x) => x.style === 'vote'));
+  tick(5000); if (tv.phase === 'choose') { const m = tv.turnTeam.members.find((x) => x !== tv.turnTeam.captain); assert.strictEqual(tv.choose(m, tv.missing(tv.turnTeam)[0]), null, 'any voter may pick the category'); }
+  assert.strictEqual(tv.phase, 'question');
+  const t = tv.turnTeam, [a, b, c] = t.members, q = tv.question;
+  assert.strictEqual(tv.finalAnswer(t.captain, 0), 'err.captainOnly', 'no captain in a voting team');
+  tv.vote(a, (q.correct + 1) % 4); tv.vote(b, q.correct);
+  assert.strictEqual(tv.phase, 'question', 'locked before everyone voted');
+  tv.vote(c, q.correct);
+  assert.strictEqual(tv.phase, 'reveal', 'did not lock when all voted');
+  assert.strictEqual(tv.turnPick, q.correct, 'majority not used');
+  // tie-break
+  const t2 = { style: 'vote', final: null, votes: { x: 2, y: 1 }, voteAt: { x: 5, y: 3 } };
+  assert.strictEqual(tv.teamChoice(t2), 1, 'tie should go to the earlier answer');
+}
+// each team chooses: phones switch their own team's style between questions; the host can too
+{
+  const tv = new Trivia('C', () => {}, { ...clock, questions: fake });
+  for (let i = 0; i < 4; i++) tv.join('p' + i, 'K' + i, '🦄');
+  tv.setSettings({ mode: 'teams', teamCount: 2, decide: 'team' });
+  tv.start();
+  const other = tv.teams.find((x) => x !== tv.turnTeam);
+  assert.strictEqual(tv.setStyle(other.members[0], 'vote'), null);
+  assert.strictEqual(other.style, 'vote');
+  tick(5000); if (tv.phase === 'choose') tv.choose(tv.turnTeam.captain, tv.missing(tv.turnTeam)[0]);
+  assert.strictEqual(tv.setStyle(tv.turnTeam.members[0], 'vote'), 'err.styleLocked', 'changed style mid-question');
+  assert.strictEqual(tv.admin('style', { teamId: other.id, style: 'captain' }), null);
+  assert.strictEqual(other.style, 'captain');
+  const fixed = new Trivia('D', () => {}, { ...clock, questions: fake });
+  for (let i = 0; i < 4; i++) fixed.join('p' + i, 'K' + i, '🦄');
+  fixed.setSettings({ mode: 'teams', decide: 'captain' }); fixed.start();
+  assert.strictEqual(fixed.setStyle('p0', 'vote'), 'err.notNow', 'players changed style when the host fixed it');
+}
 // the real question files: well formed, both languages, 4 distinct answers
 const real = loadBank(path.join(__dirname, '..', 'games', 'trivia', 'questions'));
 let realCount = 0;
@@ -114,4 +153,4 @@ for (const [key, list] of Object.entries(real)) {
     texts.add(key + q.q.en.toLowerCase());
   }
 }
-console.log(`OK — ${games} trivia games, ${wedgesWon} wedges won, ${steals} steals, ${overrides} admin overrides, ${moves} player moves; pause/extend/skip work; ${realCount} real questions checked.`);
+console.log(`OK — ${games} trivia games (captain, majority-vote and each-team-chooses), ${wedgesWon} wedges won, ${steals} steals, ${overrides} admin overrides, ${moves} player moves; pause/extend/skip work; ${realCount} real questions checked.`);

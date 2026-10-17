@@ -72,6 +72,7 @@
   #adminPanel .ateam button { padding: 6px 10px; font-size: .95rem; }
   #adminPanel select { font: inherit; padding: 4px 6px; border-radius: 10px; }
   #adminPanel .pm { display: flex; align-items: center; gap: 6px; padding: 3px 0; }
+  #adminPanel button.on { background: #e0e7ff; outline: 3px solid #6366f1; font-weight: 700; }
   #side { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
   .lb { display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
   .row-p { display: flex; align-items: center; gap: 10px; background: #fff; border-radius: 16px; padding: 7px 12px; box-shadow: var(--shadow); border-left: 10px solid var(--oc); font-size: 1.15rem; font-weight: 600; }
@@ -123,6 +124,7 @@
         <div><h3 data-i="hWedges">🥧 Slices to win</h3><div class="tog" id="wedges"></div></div>
         <div><h3 data-i="hTimer">⏱️ Seconds to answer</h3><div class="tog" id="timer"></div></div>
         <div><h3 data-i="hSteal">🔄 Steals</h3><div class="tog" id="steal"></div></div>
+        <div id="decideBox" class="full"><h3 data-i="hDecide">🗳️ Who decides the team answer?</h3><div class="tog" id="decide"></div></div>
         <div class="full row">
           <button class="btn-pink huge" id="startBtn" style="flex:1"></button>
           <button class="btn-soft" id="newBtn" data-i="newCode">🔄 New game code</button>
