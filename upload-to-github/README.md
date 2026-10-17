@@ -10,6 +10,7 @@ Family party games for the big screen. Open the site on a TV or laptop, pick a g
 | 🐉 Monster Battle | `/monster/` | Team game: every right answer hits the monster (fast answers, streaks and ×2 criticals hit harder); beat as many tougher monsters as you can; most damage wins. 1–40 players. |
 | 🎱 Times Table Bingo | `/bingo/` | The big screen calls questions; children tap the answer on their own card; lines, first BINGO and a full card score big; wrong taps cost points and lock you out of that call. 1–40 players. |
 | 🎴 UNO | `/uno/` | The card game with the official 2022 rules: 108 cards, Skip/Reverse/Draw Two/Wild/Wild Draw Four (with challenges), calling UNO and catching, one round or classic 200/500-point scoring. Private hands on the phones. 2–10 players. |
+| 🥧 Trivia Pie | `/trivia/` | Trivial Pursuit-style quiz: category wheel, team vote + captain's final answer, steals, a pie slice per category. Greek or worldwide questions, kids or adults (840 bilingual questions in `games/trivia/questions/`). Host can move players, rename teams, adjust points/slices, override, pause, skip. |
 
 ## Layout
 - `server.js` — the hub: game picker page (`public/`), QR codes, and mounts each game

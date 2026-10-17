@@ -1,0 +1,84 @@
+:root {
+  --bg1: #1e3a8a;
+  --bg2: #4338ca;
+  --bg3: #db2777;
+  --ink: #2e1065;
+  --ink-soft: #6b5b95;
+  --card: #ffffff;
+  --gold: #ffc531;
+  --green: #22c55e;
+  --red: #f43f5e;
+  --pink: #ff4f8b;
+  --shadow: 0 10px 30px rgba(30, 10, 80, 0.3);
+  --radius: 24px;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  font-family: 'Fredoka', 'M PLUS Rounded 1c', system-ui, sans-serif;
+  color: var(--ink);
+  background: radial-gradient(circle at 20% 10%, #9d4edd 0%, transparent 45%), radial-gradient(circle at 85% 90%, #ff4f8b 0%, transparent 45%), linear-gradient(160deg, var(--bg1), var(--bg2) 55%, var(--bg3));
+  background-color: var(--bg1);
+  background-attachment: fixed;
+}
+/* twinkling stars */
+body::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .55;
+  background-image: radial-gradient(2px 2px at 10% 20%, #fff, transparent), radial-gradient(2px 2px at 30% 70%, #fff, transparent), radial-gradient(1.5px 1.5px at 55% 30%, #fff, transparent), radial-gradient(2px 2px at 75% 15%, #fff, transparent), radial-gradient(1.5px 1.5px at 85% 60%, #fff, transparent), radial-gradient(2px 2px at 45% 88%, #fff, transparent), radial-gradient(1.5px 1.5px at 92% 35%, #fff, transparent), radial-gradient(1.5px 1.5px at 18% 52%, #fff, transparent);
+  animation: twinkle 4s ease-in-out infinite alternate;
+}
+@keyframes twinkle { to { opacity: .25; } }
+body > * { position: relative; z-index: 1; }
+button {
+  font: inherit; border: 0; cursor: pointer; color: inherit; border-radius: 18px; padding: 12px 18px; background: #fff;
+  box-shadow: 0 4px 0 rgba(46, 16, 101, .25); transition: transform .08s, box-shadow .08s, opacity .2s;
+}
+button:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(46, 16, 101, .25); }
+button:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+.btn-pink { background: linear-gradient(180deg, #ff86b3, var(--pink)); color: #fff; box-shadow: 0 5px 0 #c42a63; }
+.btn-gold { background: linear-gradient(180deg, #ffe07a, var(--gold)); color: #5b3a00; box-shadow: 0 5px 0 #c99400; }
+.btn-soft { background: #f1ebff; color: var(--ink); }
+.btn-ghost { background: rgba(255,255,255,.18); color: #fff; box-shadow: none; }
+.big { font-size: 1.3rem; font-weight: 600; padding: 14px 22px; }
+.huge { font-size: 1.8rem; font-weight: 700; padding: 20px 26px; border-radius: 28px; width: 100%; }
+.panel { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; }
+.muted { color: var(--ink-soft); }
+.row { display: flex; gap: 10px; align-items: center; }
+.wrap { flex-wrap: wrap; }
+.grow { flex: 1; }
+.center { text-align: center; }
+.hidden { display: none !important; }
+.logo { font-weight: 700; line-height: 1; color: #fff; text-shadow: 0 4px 0 #c42a63, 0 8px 24px rgba(0,0,0,.25); letter-spacing: .5px; }
+.logo span { color: var(--gold); }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; background: #f1ebff; font-weight: 500; }
+
+/* Fruit answer colours */
+.f0 { --fc: #ff4f8b; --fd: #c42a63; } .f1 { --fc: #4f7bff; --fd: #2a4fc4; }
+.f2 { --fc: #ffbf1f; --fd: #c48f00; } .f3 { --fc: #22c55e; --fd: #15803d; }
+.fruit { background: var(--fc); color: #fff; box-shadow: 0 6px 0 var(--fd); border-radius: 22px; display: flex; align-items: center; gap: 14px; font-weight: 700; text-shadow: 0 2px 0 rgba(0,0,0,.18); }
+.fruit .fe { background: rgba(255,255,255,.9); border-radius: 50%; display: grid; place-items: center; flex: none; text-shadow: none; }
+
+.timer { height: 14px; background: rgba(255,255,255,.25); border-radius: 99px; overflow: hidden; }
+.timer i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, var(--gold), #ff8a3d); border-radius: 99px; transform-origin: left; }
+.timer.low i { background: linear-gradient(90deg, #ff4f4f, #ff8a3d); }
+
+.toast { position: fixed; left: 50%; bottom: 30px; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 16px; z-index: 99; max-width: 90vw; text-align: center; font-weight: 500; box-shadow: var(--shadow); animation: pop .25s ease; }
+@keyframes pop { from { transform: translateX(-50%) scale(.8); opacity: 0; } }
+@keyframes popin { from { transform: scale(.4); opacity: 0; } 70% { transform: scale(1.08); } }
+@keyframes bounce { 50% { transform: translateY(-8px); } }
+.confetti { position: fixed; top: -20px; font-size: 28px; z-index: 200; pointer-events: none; animation: fall linear forwards; }
+@keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
+.overlay { position: fixed; inset: 0; background: rgba(30, 10, 80, .55); display: grid; place-items: center; z-index: 300; padding: 16px; }
+
+/* ---------- Trivia Pie ---------- */
+.pie { border-radius: 50%; position: relative; border: 3px solid rgba(255,255,255,.85); box-shadow: 0 4px 12px rgba(0,0,0,.2); flex: none; }
+.pie .slice { position: absolute; width: 30%; height: 30%; transform: translate(-50%, -50%); border-radius: 50%; padding: 0; background: transparent; box-shadow: none; border: 2px dashed rgba(255,255,255,.6); }
+.catbadge { display: inline-block; padding: 6px 16px; border-radius: 99px; color: #fff; font-weight: 700; box-shadow: 0 4px 0 rgba(0,0,0,.15); }
+.ans4 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.ans4 .opt { background: #fff; color: var(--ink); border-radius: 20px; padding: 14px; font-weight: 700; text-align: left; display: flex; gap: 10px; align-items: center; border: 4px solid transparent; position: relative; }
+.ans4 .opt .L { flex: none; width: 2em; height: 2em; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 800; }
+.ans4 .opt.mine { border-color: #fde047; }
+.ans4 .opt.right { background: #dcfce7; border-color: #22c55e; }
+.ans4 .opt.wrong { background: #ffe4e6; border-color: #f43f5e; opacity: .85; }
+.ans4 .opt.out { opacity: .35; text-decoration: line-through; }
+.ans4 .opt .votes { margin-left: auto; font-size: .9em; }

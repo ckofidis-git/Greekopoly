@@ -30,6 +30,8 @@
   .art.monster { background: radial-gradient(circle at 25% 20%, #7c3aed, transparent 55%), linear-gradient(150deg, #1e0b3d, #4c1d95 55%, #be3a1a); }
   .art.bingo { background: radial-gradient(circle at 25% 20%, #f472b6, transparent 55%), linear-gradient(150deg, #9d174d, #db2777 55%, #f59e0b); }
   .art.uno { background: radial-gradient(ellipse at 50% 45%, #18a06f, transparent 65%), linear-gradient(150deg, #0b3d2e, #11704d); }
+  .art.trivia { background: conic-gradient(#3b82f6 0 60deg, #eab308 0 120deg, #22c55e 0 180deg, #a855f7 0 240deg, #f97316 0 300deg, #ec4899 0); }
+  .art.trivia .float { background: #fff; border-radius: 50%; padding: 10px 14px; }
   .art.soon { background: repeating-linear-gradient(45deg, #f6f2ff, #f6f2ff 14px, #efe8ff 14px, #efe8ff 28px); color: #c8bdf0; }
   .art .float { animation: float 3s ease-in-out infinite; display: inline-block; }
   @keyframes float { 50% { transform: translateY(-10px); } }
@@ -106,6 +108,15 @@
         <span class="play" data-i="unoGo">Play UNO ▶</span>
       </div>
     </a>
+    <a class="game" href="/trivia/">
+      <div class="art trivia"><span class="float">🥧</span></div>
+      <div class="info">
+        <h2 data-i="tri">Trivia Pie</h2>
+        <p data-i="triP">Spin the category wheel, answer with your team and fill your pie! Questions for a Greek or worldwide audience, for kids or adults.</p>
+        <div class="chips"><span class="chip" data-i="triC1">👫 Solo or teams</span><span class="chip" data-i="triC2">⏱️ 20–40 min</span><span class="chip" data-i="triC3">🧠 840+ questions</span></div>
+        <span class="play" data-i="triGo">Play Trivia Pie ▶</span>
+      </div>
+    </a>
     <a class="game soon-card" aria-disabled="true" tabindex="-1">
       <div class="art soon">✨</div>
       <div class="info">
@@ -131,6 +142,8 @@
       binC1: '👫 1–40 players', binC2: '⏱️ 5–10 min', binC3: '🎯 Accuracy wins', binGo: 'Play Bingo ▶',
       uno: 'UNO', unoP: 'The classic card game with the official rules! Match colours and numbers, shout UNO! and be the first to empty your hand. 🌈',
       unoC1: '👫 2–10 players', unoC2: '⏱️ 10–30 min', unoC3: '🃏 Card game', unoGo: 'Play UNO ▶',
+      tri: 'Trivia Pie', triP: 'Spin the category wheel, answer with your team and fill your pie! Questions for a Greek or worldwide audience, for kids or adults.',
+      triC1: '👫 Solo or teams', triC2: '⏱️ 20–40 min', triC3: '🧠 840+ questions', triGo: 'Play Trivia Pie ▶',
       soon: 'More games coming soon…', soonP: 'What should we make next?',
       foot: "Open this page on the TV or laptop. Players don't need to come here — they scan the code shown in the game." },
     el: { title: 'Γωνιά Παιχνιδιών', hub: 'Γωνιά Παιχνιδιών', tag: 'Διάλεξε παιχνίδι για τη μεγάλη οθόνη — όλοι μπαίνουν από το κινητό τους σκανάροντας τον κωδικό QR! 📱',
@@ -146,6 +159,8 @@
       binC1: '👫 1–40 παίκτες', binC2: '⏱️ 5–10 λεπτά', binC3: '🎯 Νικά η προσοχή', binGo: 'Παίξε μπίνγκο ▶',
       uno: 'UNO', unoP: 'Το κλασικό παιχνίδι με κάρτες, με τους επίσημους κανόνες! Ταίριαξε χρώματα και αριθμούς, φώναξε UNO! και άδειασε το χέρι σου πριν από όλους. 🌈',
       unoC1: '👫 2–10 παίκτες', unoC2: '⏱️ 10–30 λεπτά', unoC3: '🃏 Παιχνίδι με κάρτες', unoGo: 'Παίξε UNO ▶',
+      tri: 'Η Πίτα των Γνώσεων', triP: 'Γύρνα τον τροχό των κατηγοριών, απάντησε με την ομάδα σου και γέμισε την πίτα! Ερωτήσεις για κοινό από την Ελλάδα ή όλο τον κόσμο, για παιδιά ή ενήλικες.',
+      triC1: '👫 Μόνοι ή σε ομάδες', triC2: '⏱️ 20–40 λεπτά', triC3: '🧠 840+ ερωτήσεις', triGo: 'Παίξε την Πίτα ▶',
       soon: 'Έρχονται κι άλλα παιχνίδια…', soonP: 'Τι να φτιάξουμε μετά;',
       foot: 'Άνοιξε αυτή τη σελίδα στην τηλεόραση ή στο laptop. Οι παίκτες δεν χρειάζεται να έρθουν εδώ — σκανάρουν τον κωδικό που δείχνει το παιχνίδι.' },
   };

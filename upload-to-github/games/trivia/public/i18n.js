@@ -1,0 +1,100 @@
+// Every word Trivia Pie shows, in English and Greek.
+(function (root) {
+  const pl = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+  const L = {
+    en: {
+      title: 'Trivia <span>Pie</span> 🥧', titlePlain: 'Trivia Pie', bigScreen: 'Big Screen', player: 'Player',
+      tagline: 'Spin the wheel, answer questions, win a slice for each category — first to fill the pie wins! 🥧',
+      subtitle: 'Spin, answer, fill your pie!',
+      rules: '🎡 The wheel picks a category for the team whose turn it is<br>🗳️ Everyone in the team votes on their phone — the captain 👑 taps the final answer<br>🥧 Right answer = a slice for that category (+10 points)<br>🔄 Wrong? The other teams can steal it for +5 points<br>🏆 First to collect all the slices wins!',
+      scan: '📱 Scan to join!', orLink: 'or open the link and type the code', waitingKids: 'Waiting for players to join… 🥧', remove: 'Remove',
+      'cat.geo': '🌍 Geography', 'cat.hist': '🏛️ History & Myths', 'cat.sci': '🔬 Science & Nature', 'cat.arts': '🎨 Arts & Books', 'cat.sport': '⚽ Sport & Games', 'cat.fun': '🎬 Fun & Life', 'cat.free': '🌈 Free choice!',
+      'team.lions': 'Lions', 'team.dolphins': 'Dolphins', 'team.unicorns': 'Unicorns', 'team.owls': 'Owls', 'team.turtles': 'Turtles', 'team.foxes': 'Foxes',
+      hAudience: '🗺️ Questions for', audGreece: '🇬🇷 Greek audience', audWorld: '🌍 Worldwide',
+      hLevel: '🎚️ Who is playing?', kids: '🧒 Kids', adults: '🧑 Adults',
+      hMode: '👫 How to play', solo: '🙋 Everyone on their own', teams: '🤝 In teams', hTeams: '🎲 Number of teams (players are shuffled into teams)',
+      hWedges: '🥧 Slices to win', w3: 'Quick (3)', w4: 'Medium (4)', w6: 'Full pie (6)', hTimer: '⏱️ Seconds to answer', secs: '{n}s',
+      hSteal: '🔄 Steals', on: 'On', off: 'Off',
+      start: (p) => `🎡 Start the game! (${pl(p.n, 'player', 'players')})`, waitingPlayers: '🎡 Waiting for players…',
+      newCode: '🔄 New game code', allGames: '🏠 All games', newCodeQ: 'Make a new game code? Everyone will need to scan again.', newCodeYes: 'Yes, new code', cancel: 'Cancel',
+      lateJoin: 'Code', soundOn: '🔊 Sound on', soundOff: '🔇 Sound off', fullScreen: '⛶ Full screen',
+      turnOf: '{team} to play', captainIs: '👑 Captain: {who}', spinning: '🎡 Spinning…', choosing: '{who} — choosing a category…',
+      votedN: '🗳️ {n} of {m} voted', stealTime: '🔄 Steal! The other teams can answer now', wrongPick: '❌ {team} chose “{ans}”', noAnswer: "⏰ {team} didn't answer",
+      rightWedge: '🎉 Right! {team} wins the {cat} slice!', rightNoWedge: '🎉 Right! +10 points for {team}', wrongT: '❌ Not quite!',
+      answerWas: 'The answer: {a}', stoleBy: '🔄 Stolen by {teams}! +5', didYouKnow: '💡 Did you know?', overridden: '✏️ The host changed this result', paused: '⏸️ Paused',
+      'ev.start': "🎡 Let's play!", 'ev.wedge': '🥧 {team} won the {cat} slice!', 'ev.right': '✅ {team} got it right!', 'ev.stole': '🔄 {team} stole +5!', 'ev.winner': '👑 {team} wins!', 'ev.noQuestions': 'No questions left here — next turn!',
+      adminT: '🛠️ Host tools', skip: '⏭️ Next', extend: '⏱️ +15s', pause: '⏸️ Pause', resume: '▶️ Resume', override: '✅ Count as right', undoRight: '↩️ Count as wrong',
+      reshuffle: '🔀 Reshuffle teams', rename: '✏️ Rename', renameQ: 'New team name', save: 'Save', moveTo: 'Move to…', makeCaptain: '👑 Captain', end: '🏁 End game',
+      endQ: 'End the game now? The team with the most slices (then points) wins.', reshuffleQ: 'Shuffle the players into new teams? Slices and points stay with the team colours.',
+      wedgeTip: 'Tap a slice to give or take it', manage: '🛠️ Teams', close: 'Close', pointsShort: '{n} pts',
+      winnerT: '👑 {team} wins! 👑', everyoneH: '🏅 Final standings', slices: (p) => pl(p.n, 'slice', 'slices'), points: (p) => pl(p.n, 'point', 'points'),
+      recapH: '📜 Questions we played', again: '🔁 Play again (same players)',
+      gameCode: 'Game code (on the big screen)', name: "What's your name?", namePh: 'Your name', pickAvatar: 'Pick your avatar', join: 'Join the game! 🥧',
+      typeCode: 'Type the game code from the big screen.', typeName: 'Type your name first! ✏️', pickAv: 'Pick an avatar! 🦄',
+      youreIn: "You're in! 🎉", lookBig: 'Look at the big screen — the game starts soon!', playersN: (p) => `👫 ${pl(p.n, 'player', 'players')}`,
+      yourTeam: 'Team: {team}', youCaptain: '👑 This turn, you decide!', voteHint: "Tap an answer to vote. The captain decides!", capHint: "See your team's votes, then tap the final answer",
+      finalBtn: '✅ Final answer: {a}', soloHint: 'Tap your answer!', watching: '{team} — answering… 👀', watchingSteal: '{team} — answering… get ready to steal! 🔄',
+      locked: '🔒 Answer locked!', stealNow: '🔄 Steal! Pick the right answer', pickCat: '🌈 Pick a category!', yourTurn: '✨ Your turn!',
+      teamWon: '👑 Your team won!', youWon: '👑 You won!', teamPlace: 'Your team came {ord}', youPlace: 'You came {ord}',
+      'err.full': 'The game is full.', 'err.name': 'Please type your name.', 'err.nameTaken': 'Someone already has that name — add a letter!',
+      'err.running': 'Already running.', 'err.noPlayers': 'Wait for at least one player to join.', 'err.rejoin': 'Please join again.',
+      'err.notYourTeam': 'Wait — another team is answering.', 'err.captainOnly': 'Only the captain can decide.', 'err.locked': 'Your team already answered.',
+      'err.alreadyWrong': 'That answer was already wrong!', 'err.waitTurnEnd': 'Wait until this question is finished.', 'err.notNow': 'Not now.',
+      'err.nothost': 'Not the host.', 'err.nogame': 'No game with that code. Check the big screen!',
+    },
+    el: {
+      title: 'Η Πίτα των <span>Γνώσεων</span> 🥧', titlePlain: 'Η Πίτα των Γνώσεων', bigScreen: 'Μεγάλη Οθόνη', player: 'Παίκτης',
+      tagline: 'Γύρνα τον τροχό, απάντησε σε ερωτήσεις, κέρδισε ένα κομμάτι από κάθε κατηγορία — όποιος γεμίσει πρώτος την πίτα κερδίζει! 🥧',
+      subtitle: 'Γύρνα, απάντησε, γέμισε την πίτα σου!',
+      rules: '🎡 Ο τροχός διαλέγει κατηγορία για την ομάδα που έχει σειρά<br>🗳️ Όλοι στην ομάδα ψηφίζουν από το κινητό — ο αρχηγός 👑 πατά την τελική απάντηση<br>🥧 Σωστή απάντηση = ένα κομμάτι πίτας από την κατηγορία (+10 πόντοι)<br>🔄 Λάθος; Οι άλλες ομάδες μπορούν να την «κλέψουν» για +5 πόντους<br>🏆 Κερδίζει όποιος μαζέψει πρώτος όλα τα κομμάτια!',
+      scan: '📱 Σκάναρε για να μπεις!', orLink: 'ή άνοιξε τον σύνδεσμο και γράψε τον κωδικό', waitingKids: 'Περιμένουμε παίκτες… 🥧', remove: 'Αφαίρεση',
+      'cat.geo': '🌍 Γεωγραφία', 'cat.hist': '🏛️ Ιστορία & Μύθοι', 'cat.sci': '🔬 Επιστήμη & Φύση', 'cat.arts': '🎨 Τέχνες & Βιβλία', 'cat.sport': '⚽ Αθλητισμός & Παιχνίδια', 'cat.fun': '🎬 Διασκέδαση & Καθημερινότητα', 'cat.free': '🌈 Ελεύθερη επιλογή!',
+      'team.lions': 'Λιοντάρια', 'team.dolphins': 'Δελφίνια', 'team.unicorns': 'Μονόκεροι', 'team.owls': 'Κουκουβάγιες', 'team.turtles': 'Χελώνες', 'team.foxes': 'Αλεπούδες',
+      hAudience: '🗺️ Ερωτήσεις για', audGreece: '🇬🇷 Κοινό από την Ελλάδα', audWorld: '🌍 Όλο τον κόσμο',
+      hLevel: '🎚️ Ποιοι παίζουν;', kids: '🧒 Παιδιά', adults: '🧑 Ενήλικες',
+      hMode: '👫 Πώς παίζουμε', solo: '🙋 Ο καθένας μόνος του', teams: '🤝 Σε ομάδες', hTeams: '🎲 Αριθμός ομάδων (οι παίκτες μοιράζονται τυχαία)',
+      hWedges: '🥧 Κομμάτια για τη νίκη', w3: 'Γρήγορο (3)', w4: 'Μεσαίο (4)', w6: 'Ολόκληρη πίτα (6)', hTimer: '⏱️ Δευτερόλεπτα για απάντηση', secs: '{n}″',
+      hSteal: '🔄 Κλέψιμο', on: 'Ναι', off: 'Όχι',
+      start: (p) => `🎡 Ξεκινάμε! (${pl(p.n, 'παίκτης', 'παίκτες')})`, waitingPlayers: '🎡 Περιμένουμε παίκτες…',
+      newCode: '🔄 Νέος κωδικός', allGames: '🏠 Όλα τα παιχνίδια', newCodeQ: 'Νέος κωδικός παιχνιδιού; Όλοι θα πρέπει να σκανάρουν ξανά.', newCodeYes: 'Ναι, νέος κωδικός', cancel: 'Άκυρο',
+      lateJoin: 'Κωδικός', soundOn: '🔊 Ήχος: ναι', soundOff: '🔇 Ήχος: όχι', fullScreen: '⛶ Πλήρης οθόνη',
+      turnOf: 'Σειρά: {team}', captainIs: '👑 Αρχηγός: {who}', spinning: '🎡 Ο τροχός γυρίζει…', choosing: '{who}: διαλέγει κατηγορία…',
+      votedN: '🗳️ Ψήφισαν {n} από {m}', stealTime: '🔄 Κλέψιμο! Οι άλλες ομάδες μπορούν να απαντήσουν τώρα', wrongPick: '❌ {team}: διάλεξε «{ans}»', noAnswer: '⏰ {team}: δεν απάντησε',
+      rightWedge: '🎉 Σωστό! {team}: κερδίζει το κομμάτι «{cat}»!', rightNoWedge: '🎉 Σωστό! +10 πόντοι για {team}', wrongT: '❌ Όχι ακριβώς!',
+      answerWas: 'Η απάντηση: {a}', stoleBy: '🔄 Το έκλεψαν: {teams}! +5', didYouKnow: '💡 Το ήξερες;', overridden: '✏️ Ο οικοδεσπότης άλλαξε το αποτέλεσμα', paused: '⏸️ Παύση',
+      'ev.start': '🎡 Πάμε!', 'ev.wedge': '🥧 {team}: κέρδισε το κομμάτι «{cat}»!', 'ev.right': '✅ {team}: σωστή απάντηση!', 'ev.stole': '🔄 {team}: έκλεψε +5!', 'ev.winner': '👑 Νίκη για: {team}!', 'ev.noQuestions': 'Δεν έμειναν ερωτήσεις εδώ — επόμενη σειρά!',
+      adminT: '🛠️ Εργαλεία οικοδεσπότη', skip: '⏭️ Επόμενο', extend: '⏱️ +15″', pause: '⏸️ Παύση', resume: '▶️ Συνέχεια', override: '✅ Μέτρα το σωστό', undoRight: '↩️ Μέτρα το λάθος',
+      reshuffle: '🔀 Ανακάτεμα ομάδων', rename: '✏️ Μετονομασία', renameQ: 'Νέο όνομα ομάδας', save: 'Αποθήκευση', moveTo: 'Μετακίνηση σε…', makeCaptain: '👑 Αρχηγός', end: '🏁 Τέλος παιχνιδιού',
+      endQ: 'Να τελειώσει τώρα το παιχνίδι; Κερδίζει η ομάδα με τα περισσότερα κομμάτια (και μετά πόντους).', reshuffleQ: 'Να ανακατευτούν οι παίκτες σε νέες ομάδες; Τα κομμάτια και οι πόντοι μένουν στα χρώματα των ομάδων.',
+      wedgeTip: 'Πάτα ένα κομμάτι για να το δώσεις ή να το πάρεις', manage: '🛠️ Ομάδες', close: 'Κλείσιμο', pointsShort: '{n} π.',
+      winnerT: '👑 Νίκη για: {team}! 👑', everyoneH: '🏅 Τελική κατάταξη', slices: (p) => pl(p.n, 'κομμάτι', 'κομμάτια'), points: (p) => pl(p.n, 'πόντος', 'πόντοι'),
+      recapH: '📜 Οι ερωτήσεις του παιχνιδιού', again: '🔁 Ξανά (με τους ίδιους παίκτες)',
+      gameCode: 'Κωδικός παιχνιδιού (στη μεγάλη οθόνη)', name: 'Πώς σε λένε;', namePh: 'Το όνομά σου', pickAvatar: 'Διάλεξε φατσούλα', join: 'Μπαίνω στο παιχνίδι! 🥧',
+      typeCode: 'Γράψε τον κωδικό από τη μεγάλη οθόνη.', typeName: 'Γράψε πρώτα το όνομά σου! ✏️', pickAv: 'Διάλεξε φατσούλα! 🦄',
+      youreIn: 'Είσαι μέσα! 🎉', lookBig: 'Κοίτα τη μεγάλη οθόνη — το παιχνίδι ξεκινά σε λίγο!', playersN: (p) => `👫 ${pl(p.n, 'παίκτης', 'παίκτες')}`,
+      yourTeam: 'Ομάδα: {team}', youCaptain: '👑 Σε αυτόν τον γύρο αποφασίζεις εσύ!', voteHint: 'Πάτα μια απάντηση για να ψηφίσεις. Αποφασίζει ο αρχηγός!', capHint: 'Δες τι ψήφισε η ομάδα και πάτα την τελική απάντηση',
+      finalBtn: '✅ Τελική απάντηση: {a}', soloHint: 'Πάτα την απάντησή σου!', watching: '{team}: απαντάει 👀', watchingSteal: '{team}: απαντάει… ετοιμαστείτε να κλέψετε! 🔄',
+      locked: '🔒 Η απάντηση κλείδωσε!', stealNow: '🔄 Κλέψιμο! Διάλεξε τη σωστή απάντηση', pickCat: '🌈 Διάλεξε κατηγορία!', yourTurn: '✨ Η σειρά σας!',
+      teamWon: '👑 Η ομάδα σου κέρδισε!', youWon: '👑 Κέρδισες!', teamPlace: 'Η ομάδα σου τερμάτισε στην {ord} θέση', youPlace: 'Τερμάτισες στην {ord} θέση',
+      'err.full': 'Το παιχνίδι είναι γεμάτο.', 'err.name': 'Γράψε το όνομά σου.', 'err.nameTaken': 'Κάποιος έχει ήδη αυτό το όνομα — πρόσθεσε ένα γράμμα!',
+      'err.running': 'Το παιχνίδι έχει ήδη ξεκινήσει.', 'err.noPlayers': 'Περίμενε να μπει τουλάχιστον ένας παίκτης.', 'err.rejoin': 'Μπες ξανά στο παιχνίδι.',
+      'err.notYourTeam': 'Περίμενε — απαντάει άλλη ομάδα.', 'err.captainOnly': 'Μόνο ο αρχηγός αποφασίζει.', 'err.locked': 'Η ομάδα σου έχει ήδη απαντήσει.',
+      'err.alreadyWrong': 'Αυτή η απάντηση ήταν ήδη λάθος!', 'err.waitTurnEnd': 'Περίμενε να τελειώσει η ερώτηση.', 'err.notNow': 'Όχι τώρα.',
+      'err.nothost': 'Δεν είσαι ο οικοδεσπότης.', 'err.nogame': 'Δεν υπάρχει παιχνίδι με αυτόν τον κωδικό. Κοίτα στη μεγάλη οθόνη!',
+    },
+  };
+  const ORD = {
+    en: (n) => n + (n % 100 >= 11 && n % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][n % 10] || 'th'),
+    el: (n) => n + 'η',
+  };
+  function makeT(lang) {
+    const dict = L[lang] || L.en;
+    return (key, p = {}) => {
+      const s = key in dict ? dict[key] : L.en[key];
+      if (s === undefined) return key;
+      if (typeof s === 'function') return s(p);
+      return s.replace(/\{(\w+)\}/g, (_, k) => (p[k] !== undefined ? p[k] : ''));
+    };
+  }
+  root.QI18N = { L, ORD, makeT };
+})(window);

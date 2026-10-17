@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node test/monopoly.js && node test/quiz.js && node test/island.js && node test/monster.js && node test/bingo.js && node test/uno.js"
+    "test": "node test/monopoly.js && node test/quiz.js && node test/island.js && node test/monster.js && node test/bingo.js && node test/uno.js && node test/trivia.js"
   },
   "engines": {
     "node": ">=18"

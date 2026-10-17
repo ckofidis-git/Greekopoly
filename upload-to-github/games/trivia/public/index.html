@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trivia Pie — Big Screen</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥧</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  body { overflow: hidden; height: 100vh; }
+  /* ---------- Lobby ---------- */
+  #lobby { height: 100vh; display: grid; grid-template-columns: minmax(300px, 30vw) 1fr; gap: 24px; padding: 24px; }
+  .qr-card { text-align: center; display: flex; flex-direction: column; gap: 8px; align-items: center; justify-content: center; }
+  .qr-card img { width: 100%; max-width: 380px; aspect-ratio: 1; border-radius: 18px; border: 6px solid #e0e7ff; }
+  .qr-card .code { font-size: 3rem; font-weight: 700; letter-spacing: 10px; color: #4338ca; }
+  #lobby .logo { font-size: clamp(2.6rem, 5vw, 4.6rem); }
+  .right { display: flex; flex-direction: column; gap: 14px; min-height: 0; overflow-y: auto; }
+  .kids { display: flex; flex-wrap: wrap; gap: 12px; align-content: flex-start; min-height: 64px; max-height: 24vh; overflow-y: auto; padding: 4px; }
+  .kid { display: inline-flex; align-items: center; gap: 8px; background: #fff; border-radius: 999px; padding: 8px 16px 8px 10px; font-size: 1.4rem; font-weight: 600; box-shadow: var(--shadow); border: 4px solid var(--oc); animation: popin .4s ease; }
+  .kid .a { font-size: 2rem; }
+  .kid .x { padding: 0 8px; box-shadow: none; background: #ffe1e7; color: #c0163a; font-size: .8rem; border-radius: 99px; }
+  .kid.off { opacity: .5; }
+  .waiting { color: #fff; font-size: 1.3rem; opacity: .9; }
+  .rules { color: #fff; background: rgba(255,255,255,.14); border-radius: 18px; padding: 12px 16px; font-size: 1.15rem; line-height: 1.55; }
+  .settings { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 26px; }
+  .settings h3 { margin: 0 0 8px; font-size: 1.25rem; }
+  .settings .full { grid-column: 1 / -1; }
+  .tog { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tog button { padding: 9px 14px; font-size: 1.2rem; border: 3px solid transparent; box-shadow: 0 3px 0 rgba(11,58,83,.15); background: #eef8fc; }
+  .tog button.on { background: #fff4c7; border-color: #f59e0b; color: #8a5a00; font-weight: 700; }
+  .tog .tbl { width: 60px; font-weight: 700; }
+  .tog .quick { background: #e7fff3; }
+  .langs { display: flex; gap: 6px; }
+  .langs button { padding: 8px 14px; font-size: 1.05rem; border: 3px solid transparent; }
+  .langs button.sel { border-color: var(--gold); background: #fff7d6; font-weight: 700; }
+
+  /* ---------- Game ---------- */
+  #show { height: 100vh; display: flex; flex-direction: column; padding: 14px 22px; gap: 10px; }
+  #top { display: flex; align-items: center; gap: 16px; color: #fff; }
+  #top .logo { font-size: 2rem; }
+  #top img { width: 70px; height: 70px; border-radius: 10px; background: #fff; }
+  #clock { font-size: 2.6rem; font-weight: 700; background: rgba(255,255,255,.18); padding: 4px 22px; border-radius: 99px; min-width: 150px; text-align: center; }
+  #clock.low { background: #ff4f6b; animation: pulse 1s ease-in-out infinite; }
+  @keyframes pulse { 50% { transform: scale(1.06); } }
+  #main { flex: 1; min-height: 0; display: flex; gap: 18px; }
+  #stage { flex: 2; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2vh; color: #fff; text-align: center; }
+  .turnline { font-size: 3.6vh; font-weight: 700; display: flex; align-items: center; gap: 12px; justify-content: center; }
+  .wheel { width: 46vh; height: 46vh; border-radius: 50%; position: relative; border: 8px solid #fff; box-shadow: var(--shadow); transition: transform 3.6s cubic-bezier(.17,.67,.21,1); }
+  .wheel .lab { position: absolute; font-size: 5vh; transform: translate(-50%, -50%); }
+  .pointer { font-size: 6vh; margin-bottom: -3vh; z-index: 2; filter: drop-shadow(0 3px 2px rgba(0,0,0,.3)); }
+  .landed { font-size: 5vh; font-weight: 800; min-height: 6vh; }
+  .qbox { background: #fff; color: var(--ink); border-radius: 30px; padding: 3vh 3vw; width: min(1200px, 94%); box-shadow: var(--shadow); }
+  .qbox .qq { font-size: 4.4vh; font-weight: 700; line-height: 1.2; margin: 1.6vh 0 2.4vh; }
+  .qbox .ans4 .opt { font-size: 3vh; background: #f3f4ff; }
+  .qbox .ans4 .opt.right { background: #dcfce7; }
+  .qbox .ans4 .opt.wrong { background: #ffe4e6; }
+  .qbox .timer { margin-top: 2vh; }
+  .status { font-size: 2.8vh; font-weight: 600; min-height: 3.4vh; }
+  .fact { background: rgba(255,255,255,.16); border-radius: 18px; padding: 1.4vh 2vw; font-size: 2.5vh; max-width: 90%; }
+  .teams { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; max-height: 70vh; }
+  .tcard { background: #fff; border-radius: 18px; padding: 8px 12px; display: flex; gap: 10px; align-items: center; border-left: 10px solid var(--tc); box-shadow: var(--shadow); color: var(--ink); }
+  .tcard.turn { outline: 4px solid #fde047; transform: scale(1.03); }
+  .tcard .nm { font-weight: 700; font-size: 1.2rem; }
+  .tcard .mem { font-size: 1.25rem; display: flex; flex-wrap: wrap; gap: 2px 6px; }
+  .tcard .mem span.done::after { content: '✓'; font-size: .7em; color: #16a34a; }
+  .tcard .pts { margin-left: auto; font-weight: 700; font-size: 1.2rem; white-space: nowrap; }
+  #adminPanel { position: fixed; right: 16px; top: 90px; bottom: 70px; width: min(520px, 46vw); overflow-y: auto; z-index: 40; background: #fff; color: var(--ink); border-radius: 22px; box-shadow: var(--shadow); padding: 16px; }
+  #adminPanel .ateam { border: 3px solid var(--tc); border-radius: 16px; padding: 10px; margin-bottom: 10px; }
+  #adminPanel .ateam .row { flex-wrap: wrap; }
+  #adminPanel .ateam button { padding: 6px 10px; font-size: .95rem; }
+  #adminPanel select { font: inherit; padding: 4px 6px; border-radius: 10px; }
+  #adminPanel .pm { display: flex; align-items: center; gap: 6px; padding: 3px 0; }
+  #side { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+  .lb { display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+  .row-p { display: flex; align-items: center; gap: 10px; background: #fff; border-radius: 16px; padding: 7px 12px; box-shadow: var(--shadow); border-left: 10px solid var(--oc); font-size: 1.15rem; font-weight: 600; }
+  .row-p .av { font-size: 1.7rem; }
+  .row-p .nm { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row-p .pts { font-weight: 700; font-size: 1.3rem; }
+  .row-p small { color: var(--ink-soft); font-weight: 500; }
+  .events { flex: 1; min-height: 80px; overflow: hidden; display: flex; flex-direction: column-reverse; gap: 6px; }
+  .events div { background: rgba(255,255,255,.88); border-radius: 14px; padding: 7px 12px; font-size: 1.05rem; animation: popin .35s ease; }
+  .legend { color: #fff; opacity: .9; font-size: 1rem; }
+  #controls { display: flex; gap: 10px; justify-content: flex-end; }
+  #controls button { padding: 8px 14px; font-size: 1rem; }
+  #final { position: fixed; inset: 0; background: rgba(6, 50, 80, .6); display: grid; place-items: center; z-index: 50; }
+  #final .panel { width: min(900px, 92vw); text-align: center; max-height: 92vh; overflow-y: auto; }
+  .podium { display: flex; align-items: flex-end; justify-content: center; gap: 2vw; margin: 10px 0; }
+  .pod { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 150px; animation: popin .7s ease both; }
+  .pod .av { font-size: 4.2rem; animation: bounce 1.6s ease-in-out infinite; }
+  .pod .nm { font-size: 1.4rem; font-weight: 700; }
+  .pod .block { width: 100%; border-radius: 18px 18px 0 0; display: grid; place-items: center; font-size: 2.6rem; font-weight: 700; color: #fff; }
+  .pod.p1 .block { height: 150px; background: linear-gradient(180deg, #ffe07a, #f2a900); }
+  .pod.p2 .block { height: 105px; background: linear-gradient(180deg, #e6e9f2, #a7afc2); }
+  .pod.p3 .block { height: 75px; background: linear-gradient(180deg, #ffc49b, #d9773a); }
+  .rest div { display: flex; gap: 10px; font-size: 1.15rem; padding: 5px 0; border-bottom: 1px dashed #d6ecf5; text-align: left; }
+</style>
+</head>
+<body>
+<div id="lobby" class="hidden">
+  <div class="panel qr-card">
+    <div style="font-size:1.8rem;font-weight:700" data-i="scan">📱 Scan to join!</div>
+    <img id="qr" alt="QR code to join">
+    <div class="muted" data-i="orLink">or open the link and type the code</div>
+    <div class="code" id="code">····</div>
+    <div class="muted" id="url" style="font-size:.9rem;word-break:break-all"></div>
+  </div>
+  <div class="right">
+    <div>
+      <div class="row wrap" style="justify-content:space-between;align-items:flex-start"><div class="logo" data-ih="title">Trivia <span>Pie</span> 🥧</div>
+        <div class="langs" id="langPick"><button data-lang="en">🇬🇧 English</button><button data-lang="el">🇬🇷 Ελληνικά</button></div></div>
+      <div style="color:#fff;font-size:1.35rem;margin-top:8px" data-i="tagline"></div>
+    </div>
+    <div class="rules" data-ih="rules"></div>
+    <div class="kids" id="kids"></div>
+    <div class="panel">
+      <div class="settings">
+        <div><h3 data-i="hAudience">🗺️ Questions for</h3><div class="tog" id="audience"></div></div>
+        <div><h3 data-i="hLevel">🎚️ Who is playing?</h3><div class="tog" id="level"></div></div>
+        <div><h3 data-i="hMode">👫 How to play</h3><div class="tog" id="mode"></div></div>
+        <div id="teamCountBox"><h3 data-i="hTeams">🎲 Number of teams</h3><div class="tog" id="teamCount"></div></div>
+        <div><h3 data-i="hWedges">🥧 Slices to win</h3><div class="tog" id="wedges"></div></div>
+        <div><h3 data-i="hTimer">⏱️ Seconds to answer</h3><div class="tog" id="timer"></div></div>
+        <div><h3 data-i="hSteal">🔄 Steals</h3><div class="tog" id="steal"></div></div>
+        <div class="full row">
+          <button class="btn-pink huge" id="startBtn" style="flex:1"></button>
+          <button class="btn-soft" id="newBtn" data-i="newCode">🔄 New game code</button>
+          <a href="/" style="text-decoration:none;padding:12px 18px;border-radius:18px;background:#e0e7ff;color:var(--ink);font-weight:500" data-i="allGames">🏠 All games</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="show" class="hidden">
+  <div id="top">
+    <div class="logo" data-ih="title">Trivia <span>Pie</span> 🥧</div>
+    <div id="clock" class="hidden"></div>
+    <div class="grow"></div>
+    <div style="text-align:right"><div style="opacity:.85;font-size:.9rem" data-i="lateJoin">Join late? Code</div><div style="font-size:1.6rem;font-weight:700;letter-spacing:4px" id="codeSmall"></div></div>
+    <img id="qrSmall" alt="QR code to join">
+  </div>
+  <div id="main">
+    <div id="stage"></div>
+    <div id="side">
+      <div class="teams" id="teams"></div>
+      <div class="events" id="events"></div>
+    </div>
+  </div>
+  <div id="controls">
+    <button class="btn-ghost" id="soundBtn">🔊 Sound on</button>
+    <button class="btn-ghost" id="langBtn"></button>
+    <button class="btn-ghost" id="fsBtn" data-i="fullScreen">⛶ Full screen</button>
+    <button class="btn-ghost" id="manageBtn" data-i="manage">🛠️ Teams</button>
+    <button class="btn-ghost" id="overrideBtn"></button>
+    <button class="btn-ghost" id="pauseBtn"></button>
+    <button class="btn-ghost" id="extendBtn" data-i="extend">⏱️ +15s</button>
+    <button class="btn-ghost" id="skipBtn" data-i="skip">⏭️ Next</button>
+    <button class="btn-ghost" id="endBtn" data-i="end">🏁 End game</button>
+  </div>
+</div>
+
+<div id="adminPanel" class="hidden"></div>
+<div id="final" class="hidden"><div class="panel" id="finalBox"></div></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="i18n.js"></script>
+<script src="common.js"></script>
+<script src="host.js"></script>
+</body>
+</html>
